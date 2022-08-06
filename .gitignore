@@ -2,6 +2,14 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.DS_Store
+MANIFEST.in
+
+#self settings
+*.yaml
+cookies/
+auto_upload/
+
 
 # C extensions
 *.so
