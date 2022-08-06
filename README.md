@@ -174,10 +174,10 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1'
 ### Chrome未更新至最新  
 
 ## Reference
-[Differential 差速器](https://github.com/LeiShi1313/Differential)
-[Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)
-[mktorrent-win-builds](https://github.com/q3aql/mktorrent-win-builds)
-[MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)
-[linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)
-[windows10 环境变量设置](https://blog.csdn.net/palmer_kai/article/details/80588594)
+[Differential 差速器](https://github.com/LeiShi1313/Differential)  
+[Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)  
+[mktorrent-win-builds](https://github.com/q3aql/mktorrent-win-builds)  
+[MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)  
+[linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)  
+[windows10 环境变量设置](https://blog.csdn.net/palmer_kai/article/details/80588594)  
 
