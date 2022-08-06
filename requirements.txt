@@ -1,0 +1,15 @@
+loguru
+pathlib
+typing
+requests
+bs4
+json
+lxml
+yaml
+time
+datetime
+selenium
+qbittorrentapi
+undetected_chromedriver
+ssl
+function_controler
