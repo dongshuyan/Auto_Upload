@@ -117,13 +117,16 @@ auto_upload -h
 
 ## 配置环境&文件  
 
-### 1.本地新建一个工作目录，例如路径为:/Users/Desktop/auto_upload  
+### 1.本地新建一个工作目录  
+例如路径为:/Users/Desktop/auto_upload  
 
-### 2.在1中工作路径文件夹下，再新建三个文件夹:"cookies_path","screenshot_path","record_path"  
-cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.js。  
+### 2.在1中工作路径文件夹下，再新建三个文件夹  
+"cookies_path","screenshot_path","record_path"  
+
+- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.js。  
 (例如:cookie_lemonhd.json,cookie_pter.json等)  
-screenshot_path将用来存放视频截图，种子等临时文件  
-record_path将用来存放发种记录 
+- screenshot_path将用来存放视频截图，种子等临时文件  
+- record_path将用来存放发种记录 
 
 ### 3.获取cookie并存入文件 工作目录/cookies_path/cookie_站点.js 中  
 js格式的cookie推荐使用插件"EditThisCookie"获取  
@@ -131,14 +134,15 @@ js格式的cookie推荐使用插件"EditThisCookie"获取
 #### EditThisCookie插件官网  
 http://www.editthiscookie.com/  
 
-#### Chrome下EditThisCookie安装网址  
+#### `Chrome`下`EditThisCookie`安装网址  
 https://chrome.google.com/webstore/detail/fngmhnnpilhplaeedifhccceomclgfbg  
 
-#### Edge下EditThisCookie安装网址  
+#### `Edge`下`EditThisCookie`安装网址  
 https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhkbeljdbfdbkfkmolbh?hl=zh-CN  
 
 ### 4.在文件夹中新建配置文件au.yaml
-配置文件可以样例[au.yaml.example](https://github.com/dongshuyan/Auto_Upload/blob/main/au.yaml.example)填写  
+配置文件可以样例[au.yaml.example](https://github.com/dongshuyan/Auto_Upload/blob/main/au.yaml.example)填写 
+详细参数说明参考[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 
 建立完成后在工作目录下应该有三个文件夹以及一个au.yaml位置文件，如下图  
 ![Img_Demo](https://img.picgo.net/2022/08/06/dir.jpg)  
