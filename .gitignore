@@ -4,9 +4,11 @@ __pycache__/
 *$py.class
 .DS_Store
 MANIFEST.in
+setup.py
 
 #self settings
-*.yaml
+au.yaml
+basic.yaml
 cookies/
 auto_upload/
 
