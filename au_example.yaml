@@ -1,0 +1,64 @@
+basic:
+  picture_num: 3 #表示截图的数量
+  workpath: /Users/Desktop/ #工作路径
+  record_path: /Users/Desktop/record_path #用来存放发种记录 
+  cookies_path: /Users/Desktop/cookies_path #用来存放站点cookie文件，文件名需要命名为cookie_站点.js。(例如:cookie_lemonhd.json,cookie_pter.json等)
+  screenshot_path: /Users/Desktop/screenshot_path #用来存放视频截图，种子等临时文件 
+qbinfo:
+  qburl: 127.0.0.1:8080
+  qbwebuiusername: username #你qbittorrent的WEBUI的用户名密码
+  qbwebuipassword: password
+image hosting: #配置图床站点信息
+  seq: #这个有先后顺，如果不指定图床则优先使用编号靠前的图床上传图片
+    1: ptpimg
+    2: picgo
+    3: chd
+    4: femp
+    5: imgbox
+    6: pter
+    7: emp
+    8: smms
+  ptpimg:
+    apikey: apikey
+  smms:
+    apikey: apikey
+  picgo:
+    apikey: apikey
+    url: https://www.picgo.net/api/1/upload
+  pter:
+    cookie: cookie #F12 nerwork中提取的cookie
+    url: https://s3.pterclub.com
+  emp:
+    cookie: cookie #F12 nerwork中提取的cookie
+    url: https://jerking.empornium.ph
+  chd:
+    cookie: cookie #F12 nerwork中提取的cookie
+    url: https://shewang.net/
+site info: #配置站点信息
+  pter:
+    enable: 1 #是否开启此站点自动发种 1为开启，0为关闭
+    uplver: 1 #是否开启匿名发种，1为开启，0为关闭
+    username: username #站点用户名密码与cookie文件原则来说有一个即可。首选cookie，如果cookie过期会自动使用用户名密码登录
+    password: password 
+    loginurl: https://pterclub.com/login.php #站点登录链接
+    uploadurl: https://pterclub.com/upload.php #站点发布链接，如果进入候选页面则不支持此站点，请将enable设置为0
+    tracker: https://tracker.pterclub.com/announce #站点tracker
+    cookiefile: /Users/Desktop/cookies_path/cookie_pter.json #js格式的cookie文件
+path info:
+  path1:
+    path: /动漫/2022年7月番/6-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #资源路径的最后一层文件夹必须保持如下格式"任意内容-资源中文名-资源英文名-发布组" 如果资源不是第一季，在英文名后面加SXX,例如S02
+    type: anime #类型 目前仅支持anime (TV以及MOVIE都在开发ing)
+    collection: 0 #是否以合集发布 0为否 1为是
+    complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
+    enable: 0 #是否开启此路径自动发种 1为开启，0为关闭
+    doubanurl: https://movie.douban.com/subject/35358650 #豆瓣链接  如果不填写则自动抓取
+    imdb_url: null #imdb链接 非必填
+    bgm_url: https://bgm.tv/subject/327606 # bgm链接 动漫类型如果不填写会自动抓取
+    anidb_url: null #anidb链接 非必填
+    from_url: https://mikanani.me/Home/Bangumi/2723 #如果是转载资源 来源地址。转载资源发布柠檬动漫必填，其他非必填
+    transfer: 1 #是否是转载资源 0为否 1为是。不填默认为是
+    pter: 1,2,3,4,5,6,7,8,9,10,11,12,13 #此路径已发布的集数 每新发布一集会自动更新 -1代表已发布合集。未发布过填写 0。如果留空默认为不发。
+    lemonhd: 1,2,3,4,5,6,7,8,9,10,11,12,13 
+    
+
+  
