@@ -11,6 +11,7 @@ au.yaml
 basic.yaml
 cookies/
 auto_upload/
+setup.py
 
 
 # C extensions
