@@ -93,7 +93,7 @@ python3 -m pip install --upgrade auto_upload
 auto_upload -h
 ```
 
-###MacOS
+### MacOS
 1.需要本地安装Chrome且升级到最新正式版本    
 以Mac为例，2020.08.06最新正式版为104.0.5112.79  
   
