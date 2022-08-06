@@ -47,7 +47,7 @@ Upload local resources to PT trackers automatically.
 - 根据自己电脑下载[64位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-64bit-build2.7z)或者[32位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-32bit-build2.7z)  
 - 使用[7-zip](http://www.7-zip.org/) or [Winrar](http://www.rarlab.com/)解压文件.  
 - 将`mktorrent`文件夹移动到一个相对稳定的文件夹,比如`D:\Program Files\`  
-- 将上一步`mktorrent\bin`文件夹路径添加到系统PATH 
+- 将上一步`mktorrent\bin`文件夹路径添加到系统PATH  
 我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`mktorrent\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
 
 5.安装`mediainfo`，并确认安装正确 
@@ -139,6 +139,12 @@ https://chrome.google.com/webstore/detail/fngmhnnpilhplaeedifhccceomclgfbg
 
 #### `Edge`下`EditThisCookie`安装网址  
 https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhkbeljdbfdbkfkmolbh?hl=zh-CN  
+
+- 安装好`EditThisCookie`之后
+- 使用浏览器`成功登录`PT站点
+- 点击右上角`饼干🍪`图案的图标
+- 点击向右的按钮就把js格式的cookie复制的剪贴板了
+- 粘贴进本文并保存到`工作目录/cookies_path/cookie_站点.js`文件即可
 
 ### 4.在文件夹中新建配置文件au.yaml
 配置文件可以样例[au.yaml.example](https://github.com/dongshuyan/Auto_Upload/blob/main/au.yaml.example)填写 
