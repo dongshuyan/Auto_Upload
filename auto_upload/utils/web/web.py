@@ -35,7 +35,7 @@ class web(object):
         if headless:
             options.add_argument('--headless')
         try:
-            self.driver = func_maxtime(func=newweb,args=(options,),limit_time=10,kill=True,allow_log=True)
+            self.driver = func_maxtime(func=newweb,args=(options,),limit_time=20,kill=True,allow_log=True)
             #self.driver = uc.Chrome(use_subprocess=True,options=options)
         except Exception as r:
             logger.warning('新建浏览器发生错误，错误信息: %s' %(r))

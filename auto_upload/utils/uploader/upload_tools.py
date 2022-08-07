@@ -43,7 +43,7 @@ def recordupload(torrent_file,file1,String_url,downloadurl):
     newstr=''
 
     newstr=newstr+file1.chinesename.replace(',',' ')+','
-    if file1.pathinfo.collection==0:
+    if not ('anime' in file1.pathinfo.type.lower() or 'tv' in file1.pathinfo.type.lower()) or file1.pathinfo.collection==0:
         newstr=newstr+file1.episodename.zfill(2)+','
     else:
         newstr=newstr+'第'+str(file1.pathinfo.min).zfill(2)+'-'+str(file1.pathinfo.max).zfill(2)+'集 合集,'

@@ -47,7 +47,7 @@ site info: #配置站点信息
 path info:
   path1:
     path: /动漫/2022年7月番/6-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #资源路径的最后一层文件夹必须保持如下格式"任意内容-资源中文名-资源英文名-发布组" 如果资源不是第一季，在英文名后面加SXX,例如S02
-    type: anime #类型 目前仅支持anime (TV以及MOVIE都在开发ing)
+    type: anime #类型,可选择[anime,tv,movie]中的一个 柠檬站点目前只支持发布动漫
     collection: 0 #是否以合集发布 0为否 1为是
     complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
     enable: 0 #是否开启此路径自动发种 1为开启，0为关闭
