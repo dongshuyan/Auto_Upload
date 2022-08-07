@@ -18,9 +18,8 @@ Upload local resources to PT trackers automatically.
 - 自动获取下载链接并传递给Qbittorrent做种
 - 自动记录发布资源信息生成excel表格(csv文件)
 - 自动统计目前已发布的总量(可以用来统计每月发种数量)
-
-
-
+  
+  
 ## 安装Auto_Upload自动发种机
 
 `Auto_Upload自动发种机`可以在任何具有`Python`环境的系统上使用，下面讲解下在各个系统上的安装步骤

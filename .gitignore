@@ -3,15 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 .DS_Store
-MANIFEST.in
-setup.py
+
+
+
 
 #self settings
 au.yaml
 basic.yaml
 cookies/
-auto_upload/
 setup.py
+MANIFEST.in
 
 
 # C extensions

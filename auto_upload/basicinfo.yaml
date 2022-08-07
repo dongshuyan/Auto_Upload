@@ -1,0 +1,52 @@
+image hosting:
+  picgo:
+    url: https://www.picgo.net/api/1/upload
+  pter:
+    url: https://s3.pterclub.com
+  emp:
+    url: https://jerking.empornium.ph
+  chd:
+    url: https://shewang.net/
+
+site info:
+  pter:  
+    loginurl: https://pterclub.com/login.php
+    uploadurl: https://pterclub.com/upload.php
+    tracker: https://tracker.pterclub.com/announce
+  lemonhd:
+    loginurl: https://lemonhd.org/login.php
+    uploadurl: https://lemonhd.org/upload_animate.php
+    tracker: https://announce.leaguehd.com/announce.php
+  ptnap:
+    loginurl: https://pt.napqaq.top/login.php
+    uploadurl: https://pt.napqaq.top/upload.php
+    tracker: https://pt.napqaq.top/announce.php
+  audience:
+    loginurl: https://audiences.me/login.php
+    uploadurl: https://audiences.me/upload.php
+    tracker: https://t.audiences.me/announce.php
+  carpt:
+    loginurl: https://carpt.net/login.php
+    uploadurl: https://carpt.net/upload.php
+    tracker: https://tracker.carpt.net/api/announce
+  hdsky:
+    loginurl: https://hdsky.me/login.php
+    uploadurl: https://hdsky.me/upload.php
+    tracker: https://tracker.hdsky.me/announce.php
+  tjupt:
+    loginurl: https://www.tjupt.org/login.php
+    uploadurl: https://www.tjupt.org/upload.php
+    tracker: https://tracker-public.tjupt.org/announce.php
+  piggo:
+    loginurl: https://piggo.me/login.php
+    uploadurl: https://piggo.me/upload.php
+    tracker: https://piggo.me/api/announce
+  ssd:
+    loginurl: https://springsunday.net/login.php
+    uploadurl: https://springsunday.net/upload.php
+    tracker: https://on.springsunday.net/announce.php
+  hdpt:
+    loginurl: https://hdpt.xyz/login.php
+    uploadurl: https://hdpt.xyz/upload.php
+    tracker: https://hdpt.xyz/announce.php
+
