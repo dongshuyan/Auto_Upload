@@ -3,7 +3,7 @@ import io
 
 setup(
     name = "auto_upload",     
-    version = "0.0.24", 
+    version = "0.0.25", 
     keywords = ["pip", "auto_upload","auto","upload","PT","private tracker"],            
     description = "Upload local resources to PT trackers automatically.",    
     long_description=io.open("README.md", "r", encoding='utf-8').read(),
@@ -11,7 +11,10 @@ setup(
     license = "MIT Licence",    
 
     entry_points = {
-        'console_scripts': ['auto_upload=auto_upload.main:main'],
+        'console_scripts': [
+            'auto_upload=auto_upload.main:main',
+            'au=auto_upload.main:main',
+        ],
     },
 
     url = "https://github.com/dongshuyan/Auto_Upload", 

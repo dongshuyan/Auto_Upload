@@ -96,7 +96,7 @@ sudo apt-get install libffi-dev
 sudo apt-get install libxpm-dev libxext-dev 
 sudo apt-get install zlib1g-dev libbz2-dev libssl-dev libncurses5-dev libsqlite3-dev 
 
-#配置ssls
+#配置ssl
 ./configure --with-ssl
 
 # 给超级权限
@@ -228,8 +228,8 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1'
 Windows下的mktorrent支持的不太好，后面我再修复吧  
 
 ## Reference
-[Differential 差速器](https://github.com/LeiShi1313/Differential)  
-[Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)  
+[Differential 差速器](https://github.com/LeiShi1313/Differential)  (复制了上传图床部分代码)
+[Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)  (Auto_Upload安装教程主要参考本文)  
 [mktorrent-win-builds](https://github.com/q3aql/mktorrent-win-builds)  
 [MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)  
 [linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)  
