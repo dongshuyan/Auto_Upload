@@ -25,7 +25,7 @@ Upload local resources to PT trackers automatically.
 
 `Auto_Upload自动发种机`可以在任何具有`Python`环境的系统上使用，下面讲解下在各个系统上的安装步骤
 
-### Windows  
+### Windows(已测试成功)
 
 1.需要本地安装Chrome且升级到最新正式版本  
   
@@ -38,8 +38,10 @@ Upload local resources to PT trackers automatically.
   
 3.安装`ffmpeg`，并确认安装正确  
   
-- 下载安装`ffmpeg` & `ffprobe`：https://ffmpeg.org/download.html#build-windows  
-- 将下载的`ffmpeg.exe`和`ffprobe.exe`路径添加到系统PATH  
+- 下载安装`ffmpeg` & `ffprobe`：https://github.com/BtbN/FFmpeg-Builds/releases  
+- 将解压后的`ffmpeg`文件夹移动到一个相对稳定的文件夹,比如`D:\Program Files\`  
+- 将上一步`ffmpeg\bin`文件夹路径添加到系统PATH  
+我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`ffmpeg\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
 - 在PowerShell确认ffmpeg和ffprobe安装成功  
   
 4.安装`mktorrent`，并确认安装正确  
@@ -93,7 +95,7 @@ python3 -m pip install --upgrade auto_upload
 auto_upload -h
 ```
 
-### MacOS
+### MacOS(已测试成功)
 1.需要本地安装Chrome且升级到最新正式版本    
 以Mac为例，2020.08.06最新正式版为104.0.5112.79  
   
@@ -148,8 +150,10 @@ https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhk
 
 ### 4.在文件夹中新建配置文件au.yaml
 配置文件可以样例[au.yaml.example](https://github.com/dongshuyan/Auto_Upload/blob/main/au.yaml.example)填写 
-详细参数说明参考[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
-
+详细参数说明参考[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+  
+注意：如果是在windows系统下，要发布的`资源文件/文件夹名称`如果有`空格`会导致制作种子失败，建议将空格替换为`.`或者下划线`_`。其他系统没有这个问题。  
+  
 建立完成后在工作目录下应该有三个文件夹以及一个au.yaml位置文件，如下图  
 ![Img_Demo](https://img.picgo.net/2022/08/06/dir.jpg)  
 
@@ -178,6 +182,8 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1'
 ## 常见错误及修复方法（更新ing）  
 
 ### Chrome未更新至最新  
+### Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败  
+Windows下的mktorrent支持的不太好，后面我再修复吧  
 
 ## Reference
 [Differential 差速器](https://github.com/LeiShi1313/Differential)  
