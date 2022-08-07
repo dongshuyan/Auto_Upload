@@ -3,7 +3,7 @@ import io
 
 setup(
     name = "auto_upload",     
-    version = "0.0.21", 
+    version = "0.0.24", 
     keywords = ["pip", "auto_upload","auto","upload","PT","private tracker"],            
     description = "Upload local resources to PT trackers automatically.",    
     long_description=io.open("README.md", "r", encoding='utf-8').read(),
@@ -23,5 +23,6 @@ setup(
     exclude_package_data = {'': ['__pycache__']},
 
     platforms = "any",
+    python_requires = '>=3.7.0',
     install_requires = ["loguru","pathlib","typing","pyyaml","requests","bs4","lxml","datetime","selenium","qbittorrent-api","undetected_chromedriver","function_controler"]
 )

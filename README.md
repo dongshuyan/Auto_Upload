@@ -63,11 +63,54 @@ mediainfo -h
 
 4.安装`Auto_Upload`，在以管理员身份打开`Windows PowerShell`中输入:
 ```
-python3 -m pip install --upgrade auto_upload
+python3 -m pip install auto_upload
 auto_upload -h
 ```
 
-### Linux
+### Linux  
+0.升级`python`至`3.7.0`版本以上，建议`3.9.0`
+如果有`_ssl`或者`_ctypes`找不到，也可以试试按照下面步骤重新安装python3
+```bash
+# 我也使用的wget ,我下载到了Download中
+wget https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz
+# 在home中解压
+tar -zxf Python-3.9.0.tgz
+# 进入python3.9
+cd Python-3.9.0
+ 
+# 编译文件  时间大概有1-3分钟
+./configure --prefix=/usr/local/python3
+ 
+# 编译好后，会有另外一个提示，让run ./configure xxx
+./configure --enable-optimizations
+
+# 安装pip依赖
+sudo apt-get update
+sudo apt-get install openssl
+sudo apt-get install libssl-dev
+sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus
+sudo apt-get install build-essential libncursesw5-dev libgdbm-dev libc6-dev
+sudo apt-get install zlib1g-dev libsqlite3-dev tk-dev
+sudo apt-get install libssl-dev openssl
+sudo apt-get install libffi-dev
+sudo apt-get install libxpm-dev libxext-dev 
+sudo apt-get install zlib1g-dev libbz2-dev libssl-dev libncurses5-dev libsqlite3-dev 
+
+#配置ssls
+./configure --with-ssl
+
+# 给超级权限
+sudo su
+
+# 安装
+make && make install
+
+#退出超级权限
+exit
+ 
+# 结束
+```
+
 1.需要本地安装Chrome且升级到最新正式版本  
 手动下载安装并更新即可，如果不方便手动，可以尝试使用如果命令（没有测试过） 
 #### 安装Chrome  
@@ -90,7 +133,7 @@ sudo apt update && sudo apt install python3 python3-pip ffmpeg mediainfo mktorre
   
 3.安装`Auto_Upload`
 ```
-python3 -m pip install --upgrade auto_upload
+python3 -m pip install auto_upload
 auto_upload -h
 ```
 
@@ -112,7 +155,7 @@ mediainfo --version
   
 4.安装`Auto_Upload`，在`Terminal.app`中输入:
 ```
-python3 -m pip install --upgrade auto_upload
+python3 -m pip install auto_upload
 auto_upload -h
 ```
 
@@ -191,4 +234,5 @@ Windows下的mktorrent支持的不太好，后面我再修复吧
 [MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)  
 [linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)  
 [windows10 环境变量设置](https://blog.csdn.net/palmer_kai/article/details/80588594)  
-
+[Linux Ubuntu系统升级Python3版本至Python3.9版本步骤](https://blog.csdn.net/u012080686/article/details/112600252)  
+  
