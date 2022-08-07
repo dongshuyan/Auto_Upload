@@ -14,6 +14,7 @@ cookies/
 setup.py
 MANIFEST.in
 auto_upload/*.yaml
+main.py
 
 
 # C extensions
