@@ -92,9 +92,13 @@ def finddownloadurl(driver,elementstr=""):
             return url
     soup = BeautifulSoup(driver.page_source,'lxml')
     for a in soup.find_all('a'):
-      link = a['href']
-      if o in link:
-        logger.info('成功获得下载链接'+link)
+        link=''
+        try:
+            link = a['href']
+        except:
+            logger.warning('该a标签未找到href属性')
+        if o in link:
+            logger.info('成功获得下载链接'+link)
         return link
     logger.warning('未找到下载链接')
     return ''
@@ -102,23 +106,50 @@ def finddownloadurl(driver,elementstr=""):
 
 def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True):
     logger.info('正在添加资源到Qbittorrent,请稍等...')
+
+    if int(qbinfo['start'])==1:
+        is_paused=False
+    else:
+        is_paused=True
+
     try:
         client = Client(host=qbinfo['qburl'],username=qbinfo['qbwebuiusername'],password=qbinfo['qbwebuipassword'])
     except:
         logger.warning('Qbittorrent WEBUI登录失败,将种子添加到QB任务失败')
         return False
 
-    logger.info('正在添加种子')
+    logger.info('正在登录Qbittorrent WEBUI')
     try:
-        res=client.torrents_add(urls=url,save_path=filepath,is_skip_checking=is_skip_checking,is_paused=is_paused)
-    except Exception as r:
-        logger.warning('添加种子进入qb出错，错误信息: %s' %(r))
-        res=dict()
-        #raise ValueError ('添加种子进入qbittorrent出错，程序结束')
-    if 'Ok' in res:
-        logger.info('已经成功添加种子')
-        return True
-    else:
-        logger.warning('添加种子失败，返回值为:',res)
+        client.auth_log_in()
+    except:
+        logger.warning('Qbittorrent WEBUI信息错误，登录失败，请检查au.yaml文件里的url、用户名、密码')
         return False
+    logger.info('成功登录Qbittorrent WEBUI')
 
+    tor_num=len(client.torrents_info())
+    tor_num_new=tor_num
+    trynum=0
+    while tor_num_new==tor_num:
+        trynum=trynum+1
+        if trynum>5:
+            logger.warning('添加种子失败,种子下载链接为:'+url+'   请自行手动添加')
+            return False
+        logger.info('正在第'+str(trynum)+'次添加种子')
+        try:
+            res=client.torrents_add(urls=url,save_path=filepath,is_skip_checking=is_skip_checking,is_paused=is_paused)
+        except Exception as r:
+            logger.warning('添加种子进入qb出错，错误信息: %s' %(r))
+            continue
+            #raise ValueError ('添加种子进入qbittorrent出错，程序结束')
+        if 'Ok' in res:
+            logger.info('返回值显示成功添加种子')
+        else:
+            logger.warning('添加种子失败，返回值为:',res)
+        time.sleep(1)
+        tor_num_new=len(client.torrents_info())
+        if tor_num_new==tor_num:
+            time.sleep(5)
+            tor_num_new=len(client.torrents_info())
+
+    logger.info('已经成功添加种子')
+    return True

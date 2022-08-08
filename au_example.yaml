@@ -1,5 +1,6 @@
 basic:
   picture_num: 3 #表示截图的数量
+  headless: 1 #是否优先后台运行 1表示是，0表示否。不填默认否
   workpath: /Users/Desktop/ #工作路径
   record_path: /Users/Desktop/record_path #用来存放发种记录 
   cookies_path: /Users/Desktop/cookies_path #用来存放站点cookie文件，文件名需要命名为cookie_站点.js。(例如:cookie_lemonhd.json,cookie_pter.json等)
@@ -8,6 +9,7 @@ qbinfo:
   qburl: 127.0.0.1:8080
   qbwebuiusername: username #你qbittorrent的WEBUI的用户名密码
   qbwebuipassword: password
+  start: 0 #表示添加到qb的种子是否直接开始 1表示是，0表示否。不填默认否
 image hosting: #配置图床站点信息
   seq: #这个有先后顺，如果不指定图床则优先使用编号靠前的图床上传图片
     1: ptpimg
@@ -46,7 +48,7 @@ site info: #配置站点信息
     cookiefile: /Users/Desktop/cookies_path/cookie_pter.json #js格式的cookie文件
 path info:
   path1:
-    path: /动漫/2022年7月番/6-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #资源路径的最后一层文件夹必须保持如下格式"任意内容-资源中文名-资源英文名-发布组" 如果资源不是第一季，在英文名后面加SXX,例如S02
+    path: /动漫/2022年7月番/6-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #资源路径的最后一层文件夹必须保持如下格式"任意内容-资源中文名-资源英文名-发布组" 如果资源不是第一季，在英文名后面加SXX,例如S02 
     type: anime #类型,可选择[anime,tv,movie]中的一个 柠檬站点目前只支持发布动漫
     collection: 0 #是否以合集发布 0为否 1为是
     complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
@@ -57,7 +59,7 @@ path info:
     anidb_url: null #anidb链接 非必填
     from_url: https://mikanani.me/Home/Bangumi/2723 #如果是转载资源 来源地址。转载资源发布柠檬动漫必填，其他非必填
     transfer: 1 #是否是转载资源 0为否 1为是。不填默认为是
-    pter: 1,2,3,4,5,6,7,8,9,10,11,12,13 #此路径已发布的集数 每新发布一集会自动更新 -1代表已发布合集。未发布过填写 0。如果留空默认为不发。
+    pter: 1,2,3,4,5,6,7,8,9,10,11,12,13 #此路径已发布的集数 每新发布一集会自动更新 '-1'代表已发布合集。未发布过填写 '0'。如果留空默认为不发。
     lemonhd: 1,2,3,4,5,6,7,8,9,10,11,12,13 
     
 

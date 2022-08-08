@@ -72,6 +72,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
     web.driver.find_elements_by_name('en_name')[0].send_keys(file1.englishname)
     logger.info('已成功填写英文名')
     
+    logger.info('正在填写简介,请稍等...')
     #web.driver.find_elements_by_name('descr')[0].click()
     web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
     logger.info('已成功填写简介')
@@ -240,7 +241,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:
             logger.warning(fileinfo+'添加种子失败,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
-            return False,fileinfo+'添加种子失败,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+            return True,fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
     else:
         logger.warning(fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url)
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url

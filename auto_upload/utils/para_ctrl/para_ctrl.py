@@ -52,6 +52,16 @@ def read_para():
             if 'type' in au_data['path info'][item] and not ( au_data['path info'][item]['type'].lower()=='anime' or au_data['path info'][item]['type'].lower()=='tv' or au_data['path info'][item]['type'].lower()=='movie'):
                 logger.error('参数输入错误，'+item+'的type类型暂不支持')
                 raise ValueError ('参数输入错误，'+item+'的type类型暂不支持')
+        if not 'qbinfo' in au_data:
+            logger.error('参数输入错误，未找到qbinfo')
+            raise ValueError ('参数输入错误，未找到qbinfo')
+        if not 'start' in au_data['qbinfo'] or not (int(au_data['qbinfo']['start'])==1 or int(au_data['qbinfo']['start'])==0):
+            au_data['qbinfo']['start']=0
+            logger.warning('未找到qbinfo中的start(添加到qb的种子是否自动开始)参数,已设置为0(不自动开始)')
+        if not 'headless' in au_data['basic'] or not (int(au_data['basic']['headless'])==1 or int(au_data['basic']['headless'])==0):
+            au_data['basic']['headless']=1
+            logger.warning('未找到basic中的headless(是否后台运行)参数,已设置为1(后台运行)')
+
 
 
     

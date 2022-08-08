@@ -3,6 +3,9 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项
+添加考虑通过url下载站点种子失败的情况的判断  
+增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug。  
 但是需要确保在制作种子期间，该`文件`或者`文件夹`没有被其他应用占用。仅对Windows系统有这个限制。  
   
@@ -231,6 +234,9 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1'
 ### Chrome未更新至最新  
 ### Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败（已修复）  
 Windows下的mktorrent支持的不太好，后面我再修复吧  
+
+## 交流群
+群号:735803201
 
 ## Reference
 [Differential 差速器](https://github.com/LeiShi1313/Differential)  (复制了上传图床部分代码)

@@ -33,6 +33,7 @@ def pter_upload(web,file1,record_path,qbinfo):
     except Exception as r:
         logger.warning('填写主标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写主标题发生错误'
+
     try:
         #web.driver.find_elements_by_name('small_descr')[0].click()
         web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
@@ -56,6 +57,7 @@ def pter_upload(web,file1,record_path,qbinfo):
         logger.warning('填写IMDb链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写IMDb链接发生错误'
 
+    logger.info('正在填写简介,请稍等...')
     try:
         #web.driver.find_elements_by_name('descr')[0].click()
         web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
@@ -178,7 +180,7 @@ def pter_upload(web,file1,record_path,qbinfo):
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:
-            return False,fileinfo+'添加种子失败,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+            return True,fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
     else:
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
 
