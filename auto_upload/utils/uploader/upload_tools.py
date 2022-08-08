@@ -139,7 +139,7 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True):
             res=client.torrents_add(urls=url,save_path=filepath,is_skip_checking=is_skip_checking,is_paused=is_paused)
         except Exception as r:
             logger.warning('添加种子进入qb出错，错误信息: %s' %(r))
-            return False
+            continue
             #raise ValueError ('添加种子进入qbittorrent出错，程序结束')
         if 'Ok' in res:
             logger.info('返回值显示成功添加种子')
