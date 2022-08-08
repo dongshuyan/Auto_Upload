@@ -66,7 +66,10 @@ def finddoubanurl(name):
             'user-agent': user_agent,
             'referer': url,
             }
-    r = requests.get(url,headers=headers,timeout=100)
+    try:
+        r = requests.get(url,headers=headers,timeout=30)
+    except:
+        logger.warning('寻找豆瓣链接失败')
     for item in re.findall('/?url=(.*)%2F',r.text):
         item=unquote(item)
         if ('movie.douban.com'in item) and ('/subject/' in item or '/movie/' in item) :
@@ -89,7 +92,7 @@ def findbgmurl(name):
             'user-agent': user_agent,
             'referer': url,
             }
-    r = requests.get(url,headers=headers,timeout=100)
+    r = requests.get(url,headers=headers,timeout=30)
     ans=re.findall('href="/subject/(\d*)',r.text)
     if len(ans)>0:
         logger.info('已找到 '+name+' 的Bangumi链接为:\n'+'https://bgm.tv/subject/'+ans[0]+'\n')
@@ -313,10 +316,11 @@ class pathinfo(object):
 
             if len(re.findall("第.*季",self.chinesename))>0:
                 self.chinesename=self.chinesename.replace(re.findall("第.*季",self.chinesename)[0],'')
+                self.chinesename=self.chinesename.strip()
 
 
             season_ch=''
-            season_ch=season_ch+' 第'
+            season_ch=season_ch+'第'
             if self.seasonnum==1:
                 season_ch=season_ch+'一'
             elif self.seasonnum==2:
@@ -347,22 +351,31 @@ class pathinfo(object):
             self.max=self.eps[-1]
 
             if (not self.exist_bgm_url):
-                self.bgm_url=findbgmurl(self.chinesename+' '+self.season_ch)
+                if self.seasonnum>1:
+                    self.bgm_url=findbgmurl(self.chinesename.strip()+' '+self.season_ch.strip())
+                else:
+                    self.bgm_url=findbgmurl(self.chinesename.strip())
                 if self.bgm_url=='':
-                    logger.error('未找到 '+self.chinesename+' 对应的Bangumi地址，程序结束')
-                    raise ValueError ('未找到 '+self.chinesename+' 对应的Bangumi地址，程序结束')
+                    #logger.error('未找到 '+self.chinesename+' 对应的Bangumi地址。')
+                    logger.warning('未找到 '+self.chinesename+' 对应的Bangumi地址。暂设置为空，如果需要请手动前往au.yaml设置')
+                    infodict['bgm_url']=None
                 else:
                     infodict['bgm_url']=self.bgm_url
 
 
         if (not self.exist_doubanurl):
             if (self.type=='anime' or self.type=='tv'):
-                self.doubanurl=finddoubanurl(self.chinesename+' '+self.season_ch)
+                if self.seasonnum>1:
+                    self.doubanurl=finddoubanurl(self.chinesename.strip()+' '+self.season_ch.strip())
+                else:
+                    self.doubanurl=finddoubanurl(self.chinesename.strip())
             else:
-                self.doubanurl=finddoubanurl(self.chinesename)
+                self.doubanurl=finddoubanurl(self.chinesename.strip())
             if self.doubanurl=='':
-                logger.error('未找到 '+self.chinesename+' 对应的豆瓣地址，程序结束')
-                raise ValueError ('未找到 '+self.chinesename+' 对应的豆瓣地址，程序结束')
+                logger.warning('未找到 '+self.chinesename+' 对应的豆瓣地址')
+                res=input('未找到 '+self.chinesename+' 对应的豆瓣地址。请手动输入正确的豆瓣链接:\n')
+                self.doubanurl=res
+                infodict['doubanurl']=res
             else:
                 infodict['doubanurl']=self.doubanurl
 

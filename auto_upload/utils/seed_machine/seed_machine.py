@@ -98,6 +98,13 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 siteitem.enable=0
                 log_error=log_error+logstr+'\n'
                 logger.warning(logstr)
+            elif '已存在' in  logstr:
+                log_error=log_error+logstr+'\n'
+                logger.warning(logstr)
+                #记录已发布的种子
+                exec('pathinfo.'+siteitem.sitename+'_done.append(pathep)')
+                exec('pathinfo.'+siteitem.sitename+'_done.sort()')
+                exec('pathyaml["'+siteitem.sitename+'"]=",".join([str(i) for i in pathinfo.'+siteitem.sitename+'_done])')
             else:
                 log_succ=log_succ+logstr+'\n'
                 logger.info(logstr)
@@ -184,6 +191,13 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             siteitem.enable=0
             log_error=log_error+logstr+'\n'
             logger.warning(logstr)
+        elif '已存在' in  logstr:
+            log_error=log_error+logstr+'\n'
+            logger.warning(logstr)
+            #记录已发布的种子
+            exec('pathinfo.'+siteitem.sitename+'_done.append(-1)')
+            exec('pathinfo.'+siteitem.sitename+'_done.sort()')
+            exec('pathyaml["'+siteitem.sitename+'"]=",".join([str(i) for i in pathinfo.'+siteitem.sitename+'_done])')
         else:
             log_succ=log_succ+logstr+'\n'
             logger.info(logstr)
@@ -215,6 +229,7 @@ def start_machine(pathlist,sites,yamlinfo):
         if not log_succ=='':
             log_allsucc=log_allsucc+log_succ+'\n'
             logger.info(log_succ)
+        print('\n')
         if not log_error=='':
             log_allerror=log_allerror+log_error+'\n'
             logger.error(log_error)

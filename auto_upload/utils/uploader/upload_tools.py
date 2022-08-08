@@ -78,7 +78,7 @@ def finduploadurl(driver):
 
 
 def finddownloadurl(driver,elementstr=""):
-    logger.info('正在页面下载链接')
+    logger.info('正在寻找页面下载链接')
     o = urlparse(driver.current_url)
     o = o.scheme+'://'+o.hostname+'/download.php?'
     if not elementstr=="" and len(driver.find_elements_by_xpath(elementstr))>0:
@@ -90,6 +90,7 @@ def finddownloadurl(driver,elementstr=""):
         if o in url:
             logger.info('成功获得下载链接:'+url)
             return url
+    logger.warning('未通过标签找到下载链接，正在直接通过页面查找...')
     soup = BeautifulSoup(driver.page_source,'lxml')
     for a in soup.find_all('a'):
         link=''
@@ -99,8 +100,11 @@ def finddownloadurl(driver,elementstr=""):
             logger.warning('该a标签未找到href属性')
         if o in link:
             logger.info('成功获得下载链接'+link)
-        return link
+            return link
     logger.warning('未找到下载链接')
+    if '已存在' in driver.page_source:
+        logger.warning('该种子已存在')
+        return '已存在'
     return ''
 
 
