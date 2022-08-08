@@ -178,7 +178,7 @@ def pter_upload(web,file1,record_path,qbinfo):
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:
-            return False,fileinfo+'添加种子失败,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+            return True,fileinfo+'添加种子失败,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
     else:
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
 

@@ -72,7 +72,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                     trynum=trynum+1
                     if trynum>5:
                         logger.warning(siteitem.sitename+'站点登录失败')
-                    if trynum==1:
+                    if trynum==1 and basic['headless']==1:
                         web1=web(site=siteitem,headless=True)
                     else:
                         web1=web(site=siteitem,headless=False)
@@ -163,7 +163,7 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 trynum=trynum+1
                 if trynum>5:
                     logger.warning(siteitem.sitename+'站点登录失败')
-                if trynum==1:
+                if trynum==1 and basic['headless']==1:
                     web1=web(site=siteitem,headless=True)
                 else:
                     web1=web(site=siteitem,headless=False)
