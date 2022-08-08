@@ -122,20 +122,22 @@ exit
 手动下载安装并更新即可，如果不方便手动，可以尝试使用如果命令（没有测试过） 
 #### 安装Chrome  
 ``` bash
-wget -q -O - [https://dl-ssl.google.com/linux/linux_signing_key.pub](https://dl-ssl.google.com/linux/linux_signing_key.pub) | sudo apt-key add -
-sudo sh -c 'echo "deb [http://dl.google.com/linux/chrome/deb/](http://dl.google.com/linux/chrome/deb/) stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 sudo apt-get update
 sudo apt-get install google-chrome-stable
 ```
 #### 更新Chrome
-```
+```bash
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
    
 2.安装`mktorrent`,`ffmpeg`和`mediainfo`，并确认安装正确
-```
-sudo apt update && sudo apt install python3 python3-pip ffmpeg mediainfo mktorrent
+```bash
+sudo apt update 
+sudo python3 -m pip install --upgrade pip
+sudo apt-get install python3-pip ffmpeg mediainfo mktorrent
 ```
   
 3.安装`Auto_Upload`
@@ -239,7 +241,7 @@ Windows下的mktorrent支持的不太好，后面我再修复吧
 群号:735803201
 
 ## Reference
-[Differential 差速器](https://github.com/LeiShi1313/Differential)  (复制了上传图床部分代码)
+[Differential 差速器](https://github.com/LeiShi1313/Differential)  (复制了上传图床部分代码)  
 [Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)  (Auto_Upload安装教程主要参考本文)  
 [mktorrent-win-builds](https://github.com/q3aql/mktorrent-win-builds)  
 [MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)  
