@@ -7,6 +7,7 @@ import re
 import json
 import sys
 from auto_upload.utils.img_upload.imgupload import img_upload
+from auto_upload.utils.edittorrent.edittorrent import *
 
 def deletetorrent(delpath=''):
     if delpath=='':
@@ -24,7 +25,7 @@ def changename(path):
         return path
     else:
         return '/cygdrive/'+path.replace('\\','/').replace(':','')
-def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/announce.php"):
+def mktorrent_win_temp(filepath,torrentname,tracker="https://announce.leaguehd.com/announce.php"):
     cwd=os.getcwd()
     newcwd=os.path.dirname(filepath)
     os.chdir(newcwd)
@@ -42,6 +43,51 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
     order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(filepath)+'\"'+''
     logger.info(order)
     os.system(order)
+    logger.info('已完成制作种子'+torrentname)
+    os.chdir(cwd)
+
+def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/announce.php"):
+    cwd=os.getcwd()
+    newcwd=os.path.dirname(filepath)
+    os.chdir(newcwd)
+    if os.path.isdir(filepath):
+        logger.info('检测到路径制种，将先删除掉路径里面所有种子文件(torrent后缀)以及隐藏文件（.开头的文件）...')
+        deletetorrent(filepath) 
+    logger.info('即将开始制作种子...')
+    if os.path.exists(torrentname):
+        logger.info('已存在种子文件，正在删除'+torrentname)
+        try:
+            os.remove(torrentname)
+        except Exception as r:
+            logger.error('删除种子发生错误: %s' %(r))
+
+    if os.path.isdir(filepath):
+        new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC')
+        os.rename(filepath,new_filepath)
+        logger.info('正在制作种子:'+filepath)
+        order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        #logger.info(order)
+        os.system(order)
+        os.rename(new_filepath,filepath)
+        t=Torrent()
+        t.load(torrentname)
+        t.data[b"info"][b"name"]=str2bytes(os.path.basename(filepath))
+        t.dump(torrentname)
+    else:
+        new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC'+os.path.splitext(filepath)[-1])
+        os.rename(filepath,new_filepath)
+        logger.info('正在制作种子:'+filepath)
+        order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        #logger.info(order)
+        os.system(order)
+        os.rename(new_filepath,filepath)
+        t=Torrent()
+        t.load(torrentname)
+        t.data[b"info"][b"name"]=str2bytes(os.path.basename(filepath))
+        t.dump(torrentname)
+
+
+
     logger.info('已完成制作种子'+torrentname)
     os.chdir(cwd)
 
