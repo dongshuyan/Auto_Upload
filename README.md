@@ -3,6 +3,7 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe
 - 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项
 添加考虑通过url下载站点种子失败的情况的判断  
 增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
@@ -174,7 +175,7 @@ auto_upload -h
 例如路径为:/Users/Desktop/auto_upload  
 
 ### 2.在1中工作路径文件夹下，再新建三个文件夹  
-"cookies_path","screenshot_path","record_path"  
+"cookies_path","screenshot_path","m"  
 
 - cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.js。  
 (例如:cookie_lemonhd.json,cookie_pter.json等)  
