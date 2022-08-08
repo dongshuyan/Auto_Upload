@@ -2,6 +2,10 @@
 自动将本地资源发布到PT站  
 Upload local resources to PT trackers automatically.  
 
+## 更新说明  
+- 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug。  
+但是需要确保在制作种子期间，该`文件`或者`文件夹`没有被其他应用占用。仅对Windows系统有这个限制。  
+  
 ## 功能说明  
 ### 命令行实现将本地图片上传到图床  
 ### 自动检测本地未发布的资源并发布到站点，并下载到Qbittorrent  
@@ -18,7 +22,7 @@ Upload local resources to PT trackers automatically.
 - 自动获取下载链接并传递给Qbittorrent做种
 - 自动记录发布资源信息生成excel表格(csv文件)
 - 自动统计目前已发布的总量(可以用来统计每月发种数量)
-  
+
   
 ## 安装Auto_Upload自动发种机
 
@@ -205,7 +209,8 @@ https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhk
 ``` bash
 auto_upload -yp '工作目录/au.yaml' -u
 ```
-
+注意：在Windows系统发种时需要确保在制作种子期间，被发布的`文件`或者`文件夹`没有被其他应用占用。    
+  
 ### 2.本地图片自动上传图床
 ``` bash
 auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1' '图片路径2'
@@ -224,7 +229,7 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1'
 ## 常见错误及修复方法（更新ing）  
 
 ### Chrome未更新至最新  
-### Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败  
+### Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败（已修复）  
 Windows下的mktorrent支持的不太好，后面我再修复吧  
 
 ## Reference
@@ -235,4 +240,4 @@ Windows下的mktorrent支持的不太好，后面我再修复吧
 [linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)  
 [windows10 环境变量设置](https://blog.csdn.net/palmer_kai/article/details/80588594)  
 [Linux Ubuntu系统升级Python3版本至Python3.9版本步骤](https://blog.csdn.net/u012080686/article/details/112600252)  
-  
+[PYTorrent](https://github.com/ndroi/pytorrent)
