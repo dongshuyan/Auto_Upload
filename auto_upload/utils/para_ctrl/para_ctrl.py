@@ -10,9 +10,9 @@ def read_para():
     iu=0#img upload
     su=0#sign
     ru=0#resources upload
-    if not args.img_upload+args.sign+args.upload==1:
-        logger.error('参数输入错误，上传模式 -u,签到模式 -s,上传图床模式 -iu,必须且只能选择一个。')
-        raise ValueError ('参数输入错误，上传模式 -u,签到模式 -s,上传图床模式 -iu,必须且只能选择一个。')
+    if not args.img_upload+args.sign+args.upload+args.douban_info+args.media_img==1:
+        logger.error('参数输入错误，上传模式 -u,签到模式 -s,上传图床模式 -iu,获取豆瓣信息 -di, 获取视频截图链接 -mi, 必须且只能选择一个。')
+        raise ValueError ('参数输入错误，上传模式 -u,签到模式 -s,上传图床模式 -iu,获取豆瓣信息 -di, 获取视频截图链接 -mi, 必须且只能选择一个。')
 
 
     au_data   = readyaml(args.yaml_path)
@@ -39,7 +39,7 @@ def read_para():
     au_data['yaml_path']=args.yaml_path
     write_yaml(au_data)
     
-    au_data['mod']=args.img_upload*'img_upload'+args.sign*'sign'+args.upload*'upload'
+    au_data['mod']=args.media_img*'media_img'+args.img_upload*'img_upload'+args.sign*'sign'+args.upload*'upload'+args.douban_info*'douban_info'
 
     if args.upload:
         if not 'path info' in au_data or len(au_data['path info'])==0:
@@ -88,6 +88,49 @@ def read_para():
             logger.error('参数输入错误，上传图片请至少输入一个本地文件地址')
             raise ValueError ('参数输入错误，上传图片请至少输入一个本地文件地址')
         au_data['imgfilelist']=filelist
+
+    if args.douban_info:
+        
+        if not 'douban_url' in args or ( args.douban_info==None or args.douban_info==''):
+            logger.error('参数输入错误，请输入--douban-url 豆瓣链接')
+            raise ValueError ('参数输入错误，请输入--douban-url 豆瓣链接')
+        
+        au_data['douban_url']=args.douban_url
+
+    if args.media_img:
+
+        if not 'media_file' in args or ( args.media_file==None or args.media_file==''):
+            logger.error('参数输入错误，请输入media-file 视频文件路径')
+            raise ValueError ('参数输入错误，请输入media-file 视频文件路径')
+
+        if not 'basic' in au_data or not 'picture_num' in au_data['basic'] or ( au_data['basic']['picture_num']==None or au_data['basic']['picture_num']==''):
+            logger.warning('未找到yaml文件中截图数量参数picture_num,已设置为3')
+            if not 'basic' in au_data:
+                au_data['basic']=dict()
+            au_data['basic']['picture_num']=3
+
+        if not 'basic' in au_data or not 'screenshot_path' in au_data['basic'] or ( au_data['basic']['screenshot_path']==None or au_data['basic']['screenshot_path']==''):
+            logger.error('参数输入错误，请前往yaml文件配置截图路径参数screenshot_path')
+            raise ValueError ('参数输入错误，请前往yaml文件配置截图路径参数screenshot_path')
+
+        if 'img_host' in args and not args.img_host=='':
+            au_data['img_host']=args.img_host
+        else:
+            au_data['img_host']=''
+
+        if 'img_form' in args and not args.img_form=='':
+            au_data['img_form']=args.img_form
+        else:
+            au_data['img_form']='img'
+
+        if 'img_num' in args and not (args.img_num=='' or args.img_num==None) :
+            au_data['basic']['picture_num']=int(args.img_num)
+
+
+
+        au_data['media_file']=args.media_file
+
+
 
 
 

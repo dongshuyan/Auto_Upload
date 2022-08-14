@@ -135,7 +135,7 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True):
     trynum=0
     while tor_num_new==tor_num:
         trynum=trynum+1
-        if trynum>5:
+        if trynum>12:
             logger.warning('添加种子失败,种子下载链接为:'+url+'   请自行手动添加')
             return False
         logger.info('正在第'+str(trynum)+'次添加种子')

@@ -157,6 +157,9 @@ def takescreenshot(file,screenshotaddress,screenshotnum):
         os.system(screenshotstr)
     logger.info('截图完毕')
 
+
+
+
 class mediafile(object):
     def __init__(self,mediapath,pathinfo,basic,imgdata):
         self.mediapath         =mediapath
@@ -451,7 +454,7 @@ class mediafile(object):
             }
         logger.info('正在获取豆瓣信息')
         try:
-            r = requests.get(url,headers=headers,timeout=100)
+            r = requests.get(url,headers=headers,timeout=20)
         except Exception as r:
             logger.error('获取豆瓣信息失败，原因: %s' %(r))
             return 
@@ -476,6 +479,7 @@ class mediafile(object):
             return 
         
         info=info_json['data']['format']
+        info=info[0:info.find('<a')]
         self.douban_info=info
         imgurl=re.findall('img[0-9]\.doubanio\.com',self.douban_info)
         if len(imgurl)>0:
@@ -495,7 +499,7 @@ class mediafile(object):
             }
         logger.info('正在获取豆瓣信息，请稍等...')
         try:
-            r = requests.get(url,headers=headers,timeout=100)
+            r = requests.get(url,headers=headers,timeout=20)
         except Exception as r:
             logger.warning('通过柠檬获取豆瓣信息失败，原因: %s' %(r))
             return
@@ -588,7 +592,10 @@ class mediafile(object):
         if (data['tags'] and len(data['tags']) > 0) :
             douban_info += "\n\n\n◎标　　签　" + " | ".join(data['tags'])
         if (data['plot']) :
-            douban_info += "\n\n◎简　　介　" + "\n\n " +(data['plot'].replace('<br \\/>', "\n").replace('<wbr \\/>', "\n"))
+            douban_info=douban_info[0:douban_info.find('<a')]
+            plotstr=data['plot']
+            plotstr=plotstr[0:plotstr.find('<a')]
+            douban_info += "\n\n◎简　　介　" + "\n\n " +(plotstr)
 
         if (data['awards'] and len(data['awards']) > 0) :
             awardstr=''
@@ -599,6 +606,7 @@ class mediafile(object):
             douban_info += "\n\n◎获奖情况　" + awardstr
 
         douban_info =douban_info+ "\n\n"
+
         self.douban_info=douban_info
         self.getptgen_done=1
 

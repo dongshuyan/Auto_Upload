@@ -5,6 +5,7 @@ from auto_upload.utils.site.site import makesites
 from auto_upload.utils.pathinfo.pathinfo import findpathinfo
 from auto_upload.utils.seed_machine.seed_machine import start_machine
 from auto_upload.utils.img_upload.imgupload import img_upload
+from auto_upload.utils.mediafile.doubaninfo import *
 
 @logger.catch
 def main():
@@ -30,6 +31,8 @@ def main():
         #    item.print()
 
         start_machine(pathlist,sites,yamlinfo)
+    if yamlinfo['mod']=='douban_info':
+        doubaninfo(yamlinfo['douban_url'])
 
 
 if __name__ == '__main__':
