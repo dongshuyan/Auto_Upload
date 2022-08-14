@@ -3,15 +3,19 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220814 增加直接在命令行获取豆瓣链接/获取视频截图链接的功能  
 - 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe
 - 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项
 添加考虑通过url下载站点种子失败的情况的判断  
 增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug。  
 但是需要确保在制作种子期间，该`文件`或者`文件夹`没有被其他应用占用。仅对Windows系统有这个限制。  
+
   
 ## 功能说明  
 ### 命令行实现将本地图片上传到图床  
+### 命令行实现抓取豆瓣链接
+### 命令行实现获取本地视频截图链接
 ### 自动检测本地未发布的资源并发布到站点，并下载到Qbittorrent  
 包括了以下功能:  
 - 根据配置文件分析待发布资源的中英文名
@@ -219,7 +223,7 @@ auto_upload -yp '工作目录/au.yaml' -u
   
 ### 2.本地图片自动上传图床
 ``` bash
-auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1' '图片路径2'
+auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称  -iform 图片格式 -if  '图片路径1' '图片路径2'
 ```  
 图床名称目前仅支持（排名无先后）：  
 - ptpimg  
@@ -227,7 +231,42 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称 -if  '图片路径1'
 - chd  
 - imgbox  
 - pter  
-- smms  
+- smms 
+  
+### 3.获取豆瓣信息
+```bash
+auto_upload -yp '工作目录/au.yaml' -di -du https://movie.douban.com/subject/26353671/
+```
+  
+示例:  
+```bash
+auto_upload 'au.yaml' -mi -mf '1.mp4' -ih picgo -iform bbcode -in 6
+```
+  
+### 4.命令行获取本地视频截图链接
+```bash
+auto_upload -yp '工作目录/au.yaml' -mi -mf '视频路径' -ih 图床名称 -iform 图片格式 -in 截图数量
+```
+图床名称目前仅支持（排名无先后）：  
+- ptpimg  
+- picgo  
+- chd  
+- imgbox  
+- pter  
+- smms 
+  
+图片格式(可以不填，默认'img'):  
+- img 图片原始链接  
+- bbcode BBcode格式链接  
+  
+截图数量(可以不填，默认3张)  
+  
+示例:  
+```bash
+auto_upload 'au.yaml' -mi -mf '1.mp4' -ih picgo -iform bbcode -in 6
+```
+
+
 
 ## 配置文件au.yaml详细说明  
 参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
