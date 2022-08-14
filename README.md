@@ -235,12 +235,12 @@ auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称  -iform 图片格式
   
 ### 3.获取豆瓣信息
 ```bash
-auto_upload -yp '工作目录/au.yaml' -di -du https://movie.douban.com/subject/26353671/
+auto_upload -yp '工作目录/au.yaml' -di -du 豆瓣链接
 ```
   
 示例:  
 ```bash
-auto_upload 'au.yaml' -mi -mf '1.mp4' -ih picgo -iform bbcode -in 6
+auto_upload -yp '工作目录/au.yaml' -di -du https://movie.douban.com/subject/26353671/
 ```
   
 ### 4.命令行获取本地视频截图链接
