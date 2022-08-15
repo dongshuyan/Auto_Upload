@@ -102,7 +102,8 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
     if os.path.exists(torrentname):
         logger.info('已存在种子文件，正在删除'+torrentname)
         try:
-            os.remove(torrentname)
+            os.rename(torrentname,torrentname+'temp')
+            os.remove(torrentname+'temp')
         except Exception as r:
             logger.error('删除种子发生错误: %s' %(r))
     logger.info('正在制作种子:'+filepath)
@@ -189,7 +190,7 @@ class mediafile(object):
         
         self.path              = os.path.dirname(mediapath)
         
-        self.type              = pathinfo.type
+        self.mediatype         = pathinfo.type
         self.doubanurl         = pathinfo.doubanurl
         self.imdburl           = pathinfo.imdb_url
         self.bgmurl            = pathinfo.bgm_url
@@ -204,17 +205,32 @@ class mediafile(object):
         self.englishname       = self.pathinfo.englishname
         self.chinesename       = self.pathinfo.chinesename
  
-        if (self.type=='anime' or self.type=='tv'):
+        if ('anime' in self.mediatype.lower() or 'tv' in self.mediatype.lower() ):
             self.season            = self.pathinfo.season
             self.seasonnum         = self.pathinfo.seasonnum
             self.season_ch         = self.pathinfo.season_ch
             self.complete          = self.pathinfo.complete
 
-        self.dlgroup           =['NaN-Raws','NaN Raws','NC-Raws','NC Raws','Lilith-Raws','Lilith Raws','ANi','Skymoon-Raws','Skymoon Raws']
+        dlgroup           =['NaN-Raws','NaN Raws','NC-Raws','NC Raws','Lilith-Raws','Lilith Raws','ANi','Skymoon-Raws','Skymoon Raws']
         self.type              ='WEBRip'
         self.Video_Format      ='H264'
-        if self.sub in self.dlgroup:
+        if self.sub in dlgroup:
             self.type='WEB-DL'
+        elif 'hdtvrip' in self.filename.lower() or 'hdtv-rip' in self.filename.lower():
+            self.type='HDTVRip'
+        elif 'hdtv' in self.filename.lower():
+            self.type='HDTV'
+        elif 'bdrip' in self.filename.lower() or 'bd-rip' in self.filename.lower():
+            self.type='BDRip'
+        elif 'remux' in self.filename.lower():
+            self.type='Remux'
+        elif 'bluray' in self.filename.lower() or 'blu-ray' in self.filename.lower():
+            self.type='Bluray'
+        elif 'dvdrip' in self.filename.lower() or 'dvd-rip' in self.filename.lower():
+            self.type='DVDRip'
+        elif 'dvd' in self.filename.lower() :
+            self.type='DVD'
+
         self.getscreenshot_done=0
         self.getimgurl_done=0
         self.getmediainfo_done=0
@@ -388,7 +404,35 @@ class mediafile(object):
         self.Height            =int(media_json['media']['track'][1]['Height'].strip())
         self.BitDepth          =int(media_json['media']['track'][1]['BitDepth'].strip())
         self.Audio_Format      =media_json['media']['track'][2]['Format']
+        if 'Scan type' in media_json['media']['track'][1]:
+            self.scan_type=media_json['media']['track'][1]['Scan type']
+        else:
+            self.scan_type=None
         self.Channels          =int(media_json['media']['track'][2]['Channels'].strip())
+        self.standard_sel=None
+        if not self.scan_type==None and ( 'inter' in self.scan_type.lower() or '隔行' in self.scan_type):
+            if int(self.Height)>2160:
+                self.standard_sel='8K'
+            elif int(self.Height)>1080:
+                self.standard_sel='2160i'
+            elif int(self.Height)>720:
+                self.standard_sel='1080i'
+            elif int(self.Height)>480:
+                self.standard_sel='720i'
+            else:
+                self.standard_sel='480i'
+        else:
+            if int(self.Height)>2160:
+                self.standard_sel='8K'
+            elif int(self.Height)>1080:
+                self.standard_sel='2160p'
+            elif int(self.Height)>720:
+                self.standard_sel='1080p'
+            elif int(self.Height)>480:
+                self.standard_sel='720p'
+            else:
+                self.standard_sel='480p'
+
         text=self.mediainfo.lower()
         if ('webrip'in text) or ('web-rip' in text):
             self.type='WEBRip'
@@ -611,8 +655,8 @@ class mediafile(object):
         self.getptgen_done=1
 
     def mktorrent(self,tracker='https://announce.leaguehd.com/announce.php'):
-        if self.mktorrent_done==1:
-            return
+        #if self.mktorrent_done==1:
+        #    return
         torrentpath=os.path.join(self.screenshotaddress,str(self.episode)+'.torrent')
         self.torrentpath=torrentpath
         mktorrent(self.mediapath,torrentpath,tracker=tracker)
@@ -657,8 +701,8 @@ class mediafile(object):
 
 
 
-        self.uploadname_ssd=self.uploadname+' '+self.type+' '+str(self.Height)+'p '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
-        self.uploadname    =self.uploadname+' '+str(self.Height)+'p '+self.type+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
+        self.uploadname_ssd=self.uploadname+' '+self.type+' '+self.standard_sel+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
+        self.uploadname    =self.uploadname+' '+self.standard_sel+' '+self.type+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
         
         try:
             if not self.language=='':

@@ -49,7 +49,7 @@ def read_para():
             if not 'path' in au_data['path info'][item] or au_data['path info'][item]['path']==None or au_data['path info'][item]['path']=='':
                 logger.error('参数输入错误，'+item+'请至少输入一个本地文件地址')
                 raise ValueError ('参数输入错误，'+item+'请至少输入一个本地文件地址')
-            if 'type' in au_data['path info'][item] and not ( au_data['path info'][item]['type'].lower()=='anime' or au_data['path info'][item]['type'].lower()=='tv' or au_data['path info'][item]['type'].lower()=='movie'):
+            if 'type' in au_data['path info'][item] and not ( 'anime' in au_data['path info'][item]['type'].lower() or 'tv' in au_data['path info'][item]['type'].lower() or 'movie' in au_data['path info'][item]['type'].lower()):
                 logger.error('参数输入错误，'+item+'的type类型暂不支持')
                 raise ValueError ('参数输入错误，'+item+'的type类型暂不支持')
         if not 'qbinfo' in au_data:

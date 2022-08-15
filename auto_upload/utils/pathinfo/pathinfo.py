@@ -96,9 +96,9 @@ def findbgmurl(name):
     ans=re.findall('href="/subject/(\d*)',r.text)
     if len(ans)>0:
         logger.info('已找到 '+name+' 的Bangumi链接为:\n'+'https://bgm.tv/subject/'+ans[0]+'\n')
-        res=input('请确认Bangumi链接正确性,如果正确回复y,否则回复正确的Bangumi链接:\n')
+        res=input('请确认Bangumi链接正确性,如果正确回复y,否则回复正确的Bangumi链接,若不需要则直接输入回车:\n')
         if res.strip().lower()=='y':
-            logger.info('已确认 '+name+' 的Bangumi链接为:'+'https://bgm.tv/subject/'+res[0]+'\n')
+            logger.info('已确认 '+name+' 的Bangumi链接为:'+'https://bgm.tv/subject/'+ans[0]+'\n')
             return 'https://bgm.tv/subject/'+ans[0]
         else :
             logger.info('已确认 '+name+' 的Bangumi链接为:'+res+'\n')
@@ -127,6 +127,7 @@ class pathinfo(object):
     def __init__(self,pathid,infodict,sites):
         self.pathid=pathid
         self.sites=[]
+        self.exclusive=[]
         #必须有的属性
         attr_must=['path']
         for item in attr_must:
@@ -301,6 +302,9 @@ class pathinfo(object):
                         exec('self.'+siteitem+'_min_done=self.'+siteitem+'_done[i]')
                 exec('self.'+siteitem+'_done.sort()')
         
+        if 'exclusive' in infodict and infodict['exclusive']!=None:
+            self.exclusive=infodict['exclusive'].split(",")
+            self.exclusive=[i.strip().lower() for i in self.exclusive]
 
 
         if (self.type=='anime' or self.type=='tv'):

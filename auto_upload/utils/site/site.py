@@ -59,7 +59,7 @@ class site(object):
             self.password   = sitedict['password']
             self.exist_password=True
 
-        if not self.exist_cookie and not self.exist_password:
+        if self.enable==1 and (not self.exist_cookie and not self.exist_password):
             logger.error('未找到'+sitename+' 站点的cookie信息以及用户名密码信息，请至少填写一个')
             raise ValueError ('未找到'+sitename+' 站点的cookie信息以及用户名密码信息，请至少填写一个')
 
