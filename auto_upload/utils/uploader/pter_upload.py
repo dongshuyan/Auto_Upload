@@ -12,7 +12,12 @@ def pter_upload(web,file1,record_path,qbinfo):
     else:
         fileinfo=file1.chinesename+'在'+web.site.sitename
 
-    web.driver.get(web.site.uploadurl)
+    try:
+        web.driver.get(web.site.uploadurl)
+    except Exception as r:
+        logger.warning('打开发布页面发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'打开发布页面发生错误'
+
     logger.info('正在'+web.site.sitename+'发布种子...')
     try:
         web.driver.find_element_by_class_name('file').send_keys(file1.torrentpath);
@@ -69,11 +74,11 @@ def pter_upload(web,file1,record_path,qbinfo):
     try:
         select_type = web.driver.find_element('name','type')  
         select_type = Select(select_type)
-        if file1.pathinfo.type=='anime':
+        if 'anime' in file1.pathinfo.type.lower():
             select_type.select_by_value('403')
-        elif file1.pathinfo.type=='tv':
+        elif 'tv' in file1.pathinfo.type.lower():
             select_type.select_by_value('404')
-        elif file1.pathinfo.type=='movie':
+        elif 'movie' in file1.pathinfo.type.lower():
             select_type.select_by_value('401')
         else:
             select_type.select_by_value('403')
@@ -87,13 +92,16 @@ def pter_upload(web,file1,record_path,qbinfo):
     try:
         select_source_sel = web.driver.find_element('name','source_sel')    #定位到id为browsecat的下拉框并起名为select_ele
         select_source_sel_ob = Select(select_source_sel)    #生成下拉框的实例对象
-        select_source_sel_ob.select_by_value('5')
         if file1.type=='WEB-DL':
             select_source_sel_ob.select_by_value('5')
-        elif file1.type=='WEBRip':
+        elif 'rip' in file1.type.lower() or file1.type=='bluray'  :
             select_source_sel_ob.select_by_value('6')
+        elif file1.type=='HDTV':
+            select_source_sel_ob.select_by_value('4')
+        elif file1.type=='remux':
+            select_source_sel_ob.select_by_value('3')
         else:
-            select_source_sel_ob.select_by_value('5')
+            select_source_sel_ob.select_by_value('6')
         logger.info('已成功选择质量为'+file1.type)
     except Exception as r:
         logger.warning('选择质量发生错误，错误信息: %s' %(r))
@@ -151,6 +159,28 @@ def pter_upload(web,file1,record_path,qbinfo):
         logger.warning('选择中字发生错误，错误信息: %s' %(r))
 
     try:
+        if '国' in file1.language or '中' in file1.language:
+            checkbox=web.driver.find_elements_by_name('guoyu')
+            if len(checkbox)>0:
+                checkbox=checkbox[0]
+                if not checkbox.is_selected():
+                    checkbox.click()
+                    logger.info('已选择国语')
+    except Exception as r:
+        logger.warning('选择国语发生错误，错误信息: %s' %(r))
+
+    try:
+        if 'pter' in file1.pathinfo.exclusive :
+            checkbox=web.driver.find_elements_by_name('jinzhuan')
+            if len(checkbox)>0:
+                checkbox=checkbox[0]
+                if not checkbox.is_selected():
+                    checkbox.click()
+                    logger.info('已选择禁转')
+    except Exception as r:
+        logger.warning('选择禁转错误，错误信息: %s' %(r))
+
+    try:
         if web.site.uplver==1:
             checkbox=web.driver.find_elements_by_name('uplver')[0]
             if not checkbox.is_selected():
@@ -160,7 +190,7 @@ def pter_upload(web,file1,record_path,qbinfo):
         logger.warning('选择匿名发布发生错误，错误信息: %s' %(r))
 
 
-    
+    #a=input('check')
     String_url = web.driver.current_url;
     try:
         web.driver.find_elements_by_id('qr')[0].click()

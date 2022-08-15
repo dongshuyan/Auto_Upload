@@ -37,7 +37,7 @@ image hosting: #配置图床站点信息
     cookie: cookie #F12 nerwork中提取的cookie
     url: https://shewang.net/
 site info: #配置站点信息
-  pter:
+  pter: #配置站点，目前支持的关键词有[pter,lemonhd,audience,carpt,hdsky,piggo,ssd,hdpt]
     enable: 1 #是否开启此站点自动发种 1为开启，0为关闭
     uplver: 1 #是否开启匿名发种，1为开启，0为关闭
     username: username #站点用户名密码与cookie文件原则来说有一个即可。首选cookie，如果cookie过期会自动使用用户名密码登录
@@ -53,6 +53,7 @@ path info:
     collection: 0 #是否以合集发布 0为否 1为是
     complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
     enable: 0 #是否开启此路径自动发种 1为开启，0为关闭
+    exclusive: pter,lemonhd #需要禁转发布的站点，以英文逗号','分割。如果均不需要禁转则留空
     doubanurl: https://movie.douban.com/subject/35358650 #豆瓣链接  如果不填写则自动抓取
     imdb_url: null #imdb链接 非必填
     bgm_url: https://bgm.tv/subject/327606 # bgm链接 动漫类型如果不填写会自动抓取

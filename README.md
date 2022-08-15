@@ -3,6 +3,8 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220815 增加对于SSD,明教以及CarPT的支持，增加禁转识别,参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
+- 20220815 增加对于天空，观众以及柠檬剧集板块的支持
 - 20220814 增加直接在命令行获取豆瓣链接/获取视频截图链接的功能  
 - 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe
 - 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项
@@ -30,7 +32,29 @@ Upload local resources to PT trackers automatically.
 - 自动获取下载链接并传递给Qbittorrent做种
 - 自动记录发布资源信息生成excel表格(csv文件)
 - 自动统计目前已发布的总量(可以用来统计每月发种数量)
+  
+目前支持的资源类型:  
+- 动漫
+- 剧集
+- 电影
+  
+目前支持的站点(排名仅代表支持的时间先后):  
+- pter
+- lemonhd
+- hdsky
+- audience
+- piggo
+- ssd
+- hdpt(明教)
+- carpt
 
+  
+正在适配的站点(排名不分先后):  
+- ptnap
+- MT
+  
+如果有新的站点/资源类型等需求可以加入QQ群交流(735803201)
+  
   
 ## 安装Auto_Upload自动发种机
 
@@ -205,8 +229,9 @@ https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhk
 - 粘贴进本文并保存到`工作目录/cookies_path/cookie_站点.js`文件即可
 
 ### 4.在文件夹中新建配置文件au.yaml
-配置文件可以样例[au.yaml.example](https://github.com/dongshuyan/Auto_Upload/blob/main/au.yaml.example)填写 
 详细参数说明参考[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+配置文件可以样例[au.yaml.example](https://github.com/dongshuyan/Auto_Upload/blob/main/au.yaml.example)填写 
+
   
 注意：如果是在windows系统下，要发布的`资源文件/文件夹名称`如果有`空格`会导致制作种子失败，建议将空格替换为`.`或者下划线`_`。其他系统没有这个问题。  
   
