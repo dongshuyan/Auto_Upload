@@ -203,10 +203,15 @@ class web(object):
             else:
                 showpic(image_code_name)
                 data_ocr=input('请输入文件所示验证码:') 
-            try:
-                os.remove(image_code_name)
-            except:
-                a=None
+        
+
+            if os.path.exists(image_code_name):
+                logger.info('正在删除验证码图片'+image_code_name)
+                try:
+                    os.remove(image_code_name)
+                except Exception as r:
+                    logger.warning('删除图片发生错误: %s' %(r))
+
             try:
                 self.driver.find_elements_by_name('imagestring')[0].send_keys(data_ocr)
             except Exception as r:
