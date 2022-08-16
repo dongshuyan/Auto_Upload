@@ -200,7 +200,7 @@ def piggo_upload(web,file1,record_path,qbinfo):
             select_source_sel_ob.select_by_value('5')
         elif 'AC3' in file1.Audio_Format.upper() or 'DD' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('8')
-        elif 'DTS:X' in file1.Audio_Format.upper():
+        elif 'DTS:X' in file1.Audio_Format.upper() or 'DTS-X' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('3')
         elif 'DTS' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('3')
@@ -325,7 +325,7 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.complete==0:
             checkbox=web.driver.find_elements_by_name('tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[9]
+                checkbox=checkbox[10]
                 if not checkbox.is_selected():
                     checkbox.click()
                     logger.info('已选择追更')

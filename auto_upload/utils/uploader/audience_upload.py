@@ -162,7 +162,7 @@ def audience_upload(web,file1,record_path,qbinfo):
             select_source_sel_ob.select_by_value('23')
         elif 'AC3' in file1.Audio_Format.upper() or 'DD' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('18')
-        elif 'DTS:X' in file1.Audio_Format.upper():
+        elif 'DTS:X' in file1.Audio_Format.upper() or 'DTS-X' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('25')
         elif 'DTS' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('3')

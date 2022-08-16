@@ -6,6 +6,7 @@ import os
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import sys
+import re
 
 def recordupload(torrent_file,file1,String_url,downloadurl):
     logger.info('正在记录发布的资源到'+torrent_file)
@@ -101,6 +102,21 @@ def finddownloadurl(driver,elementstr=""):
         if o in link:
             logger.info('成功获得下载链接'+link)
             return link
+
+    for a in soup.find_all('a'):
+        link=''
+        try:
+            link = a['href']
+        except:
+            logger.warning('该a标签未找到href属性')
+        if len(re.findall(r'download.php\?id=[0-9]+&',link))>0:
+            o = urlparse(driver.current_url)
+            if link.startswith('download.php'):
+                link=o.scheme+'://'+o.hostname+'/'+link
+            logger.info('成功获得下载链接'+link)
+            return link
+
+
     logger.warning('未找到下载链接')
     if '已存在' in driver.page_source:
         logger.warning('该种子已存在')

@@ -9,6 +9,7 @@ class site(object):
         self.exist_password=False
         self.uplver =1
         self.enable =0
+        self.check = False
 
         attr=['loginurl','uploadurl']
         for item in attr:
@@ -50,10 +51,25 @@ class site(object):
         else:
             sitedict['tracker']='https://tracker.pterclub.com/announce'
 
-        if 'cookiefile' in sitedict and os.path.exists(sitedict['cookiefile']):
-            self.cookiefile = sitedict['cookiefile']
-            self.cookie=json.load(open(self.cookiefile,'r',encoding="utf-8"))
-            self.exist_cookie=True
+        if 'cookiefile' in sitedict :
+            if  os.path.exists(sitedict['cookiefile']):
+                self.cookiefile = sitedict['cookiefile']
+                self.cookie=json.load(open(self.cookiefile,'r',encoding="utf-8"))
+                self.exist_cookie=True
+            else:
+                self.cookiefile = sitedict['cookiefile']
+                self.cookie=[]
+                self.exist_cookie=False
+        else:
+            self.cookiefile=None
+            self.cookie=[]
+            self.exist_cookie=False
+
+        if 'check' in sitedict :
+            if str(sitedict['check']=='1'):
+                self.check=True
+            else:
+                self.check=False
         if 'username' in sitedict and not sitedict['username']==None and 'password' in sitedict and not sitedict['password']==None:
             self.username   = sitedict['username']
             self.password   = sitedict['password']
