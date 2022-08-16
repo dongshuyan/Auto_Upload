@@ -3,6 +3,7 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220817 修正au.yaml内容丢失的bug并增加提醒
 - 20220817 增加用户名密码登录，验证码自动识别功能以及cookie自动备份功能  
 - 20220817 增加yaml文件备份功能(生成au.yaml.bak文件)，以防文件损坏  
 - 20220817 增加对于PTNap的支持  
