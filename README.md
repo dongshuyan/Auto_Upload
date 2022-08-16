@@ -3,6 +3,7 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220817 增加对于PTNap的支持  
 - 20220815 增加对于SSD,明教以及CarPT的支持，增加禁转识别,参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20220815 增加对于天空，观众以及柠檬剧集板块的支持
 - 20220814 增加直接在命令行获取豆瓣链接/获取视频截图链接的功能  
@@ -16,8 +17,8 @@ Upload local resources to PT trackers automatically.
   
 ## 功能说明  
 ### 1.命令行实现将本地图片上传到图床  
-### 2.命令行实现抓取豆瓣信息
-### 3.命令行实现获取本地视频截图链接
+### 2.命令行实现抓取豆瓣信息  
+### 3.命令行实现获取本地视频截图链接  
 ### 4.自动检测本地未发布的资源并发布到各个站点，并下载到Qbittorrent进行辅种  
 包括了以下功能:  
 - 根据配置文件分析待发布资源的中英文名
@@ -58,7 +59,7 @@ Upload local resources to PT trackers automatically.
 - ptnap
 - mt
   
-如果有新的站点/资源类型等需求可以加入QQ群交流(735803201)
+如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
   
   
 ## 安装Auto_Upload自动发种机

@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from auto_upload.utils.uploader.upload_tools import *
 from selenium.webdriver.support.select import Select
 
-def ssd_upload(web,file1,record_path,qbinfo):
+def ptnap_upload(web,file1,record_path,qbinfo):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'
@@ -33,99 +33,110 @@ def ssd_upload(web,file1,record_path,qbinfo):
         web.driver.find_elements_by_name('name')[0].send_keys(Keys.CONTROL, "a")
         web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
         web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(file1.uploadname.replace('  ',' ').replace(' ','.'))
+        web.driver.find_elements_by_name('name')[0].send_keys(file1.uploadname)
         logger.info('已成功填写主标题')
     except Exception as r:
         logger.warning('填写主标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写主标题发生错误'
-    logger.info('已成功填写主标题')
 
     try:
-        #web.driver.find_elements_by_name('small_descr')[0].click()
         web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
         logger.info('已成功填写副标题')
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写副标题发生错误'
-    logger.info('已成功填写副标题')
 
     try:
-        #web.driver.find_elements_by_name('url')[0].click()
-        web.driver.find_elements_by_name('url')[0].send_keys(file1.doubanurl)
+        web.driver.find_elements_by_name('pt_gen')[0].send_keys(file1.doubanurl)
         logger.info('已成功填写豆瓣链接')
     except Exception as r:
         logger.warning('填写豆瓣链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写豆瓣链接发生错误'
-    logger.info('已成功填写豆瓣链接')
 
+
+
+    logger.info('正在填写简介,请稍等...')
     try:
-        #web.driver.find_elements_by_name('url_vimages')[0].click()
-        web.driver.find_elements_by_name('url_vimages')[0].send_keys(file1.screenshoturl.replace('[img]','').replace('[/img]',''))
+        #web.driver.find_elements_by_name('descr')[0].click()
+        web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
+        logger.info('已成功填写简介')
     except Exception as r:
-        logger.warning('填写截图发生错误，错误信息: %s' %(r))
-        return False,fileinfo+'填写截图发生错误'
-    logger.info('已成功填写截图')
-
-    try:
-        #web.driver.find_elements_by_name('Media_BDInfo')[0].click()
-        web.driver.find_elements_by_name('Media_BDInfo')[0].send_keys(file1.mediainfo)
-    except Exception as r:
-        logger.warning('填写mediainfo发生错误，错误信息: %s' %(r))
-        return False,fileinfo+'填写mediainfo发生错误'
-    logger.info('已成功填写mediainfo')
-
-
-
+        logger.warning('填写简介发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'填写简介发生错误'
+    
     #选择类型
     try:
         select_type = web.driver.find_element('name','type')  
         select_type = Select(select_type)
         if 'anime' in file1.pathinfo.type.lower():
-            select_type.select_by_value('504')
+            select_type.select_by_value('405')
         elif 'tv' in file1.pathinfo.type.lower():
-            select_type.select_by_value('502')
+            select_type.select_by_value('402')
         elif 'movie' in file1.pathinfo.type.lower():
-            select_type.select_by_value('501')
+            select_type.select_by_value('401')
         elif 'show' in file1.pathinfo.type.lower():
-            select_type.select_by_value('505')
+            select_type.select_by_value('403')
         elif 'doc' in file1.pathinfo.type.lower():
-            select_type.select_by_value('503')
+            select_type.select_by_value('404')
         elif 'sport' in file1.pathinfo.type.lower():
-            select_type.select_by_value('506')
+            select_type.select_by_value('407')
         elif 'mv' in file1.pathinfo.type.lower():
-            select_type.select_by_value('507')
+            select_type.select_by_value('406')
         elif 'music' in file1.pathinfo.type.lower():
-            select_type.select_by_value('508')
+            select_type.select_by_value('408')
+        elif 'game' in file1.pathinfo.type.lower():
+            select_type.select_by_value('410')
         else:
-            select_type.select_by_value('509')
+            select_type.select_by_value('405')
     except Exception as r:
         logger.warning('选择类型发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择类型发生错误'
     logger.info('已成功填写类型为'+file1.pathinfo.type)
 
 
+    #选择来源
+    try:
+        select_sel = web.driver.find_element('name','source_sel')    
+        select_sel_ob = Select(select_sel)    
+        if 'web' in file1.type.lower():
+            select_sel_ob.select_by_value('6')
+        elif file1.type=='bluray' or 'bd' in file1.type.lower():
+            select_sel_ob.select_by_value('1')
+        elif 'dvd' in file1.type.lower()  :
+            select_sel_ob.select_by_value('3')
+        elif file1.type=='HDTV':
+            select_sel_ob.select_by_value('4')
+        elif file1.type=='remux':
+            select_sel_ob.select_by_value('1')
+        else:
+            select_sel_ob.select_by_value('6')
+        logger.info('已成功选择质量为'+file1.type)
+    except Exception as r:
+        logger.warning('选择媒介发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'选择媒介发生错误'
+    logger.info('已成功填写来源为'+file1.type)
+
+
     #选择媒介
     try:
         select_sel = web.driver.find_element('name','medium_sel')    
-        select_sel_ob = Select(select_sel) 
-        if 'remux' in file1.type.lower():
-            select_sel_ob.select_by_value('4')
-        elif 'bdrip' in file1.type.lower():
-            select_sel_ob.select_by_value('6')
-        elif file1.type=='WEB-DL':
-            select_sel_ob.select_by_value('7')
+        select_sel_ob = Select(select_sel)    
+        if file1.type=='WEB-DL':
+            select_sel_ob.select_by_value('17')
         elif 'webrip' in file1.type.lower():
-            select_sel_ob.select_by_value('8')
-        elif file1.type=='HDTV':
-            select_sel_ob.select_by_value('5')
-        elif 'tvrip' in file1.type.lower():
-            select_sel_ob.select_by_value('9')
+            select_sel_ob.select_by_value('14')
         elif 'dvdrip' in file1.type.lower():
-            select_sel_ob.select_by_value('10')
+            select_sel_ob.select_by_value('14')
+        elif 'rip' in file1.type.lower():
+            select_sel_ob.select_by_value('14')
+        elif 'hdtv'in file1.type.lower():
+            select_sel_ob.select_by_value('15')
+        elif 'remux' in file1.type.lower():
+            select_sel_ob.select_by_value('13')
         elif 'dvd' in file1.type.lower():
-            select_sel_ob.select_by_value('3')
+            select_sel_ob.select_by_value('19')
         else:
-            select_sel_ob.select_by_value('12')
+            select_sel_ob.select_by_value('22')
         logger.info('已成功选择质量为'+file1.type)
     except Exception as r:
         logger.warning('选择媒介发生错误，错误信息: %s' %(r))
@@ -138,15 +149,15 @@ def ssd_upload(web,file1,record_path,qbinfo):
         select_codec_sel = web.driver.find_element('name','codec_sel') 
         select_codec_sel_ob = Select(select_codec_sel) 
         if file1.Video_Format=='H264':
-            select_codec_sel_ob.select_by_value('2')
+            select_codec_sel_ob.select_by_value('1')
         elif file1.Video_Format=='x264':
-            select_codec_sel_ob.select_by_value('2')
+            select_codec_sel_ob.select_by_value('1')
         elif file1.Video_Format=='H265':
-            select_codec_sel_ob.select_by_value('1')
-        elif file1.Video_Format=='x265':
-            select_codec_sel_ob.select_by_value('1')
-        else:
             select_codec_sel_ob.select_by_value('2')
+        elif file1.Video_Format=='x265':
+            select_codec_sel_ob.select_by_value('2')
+        else:
+            select_codec_sel_ob.select_by_value('1')
         logger.info('已成功选择编码为'+file1.Video_Format)
     except Exception as r:
         logger.warning('选择编码发生错误，错误信息: %s' %(r))
@@ -158,33 +169,35 @@ def ssd_upload(web,file1,record_path,qbinfo):
         select_source_sel = web.driver.find_element('name','audiocodec_sel')   
         select_source_sel_ob = Select(select_source_sel)    
         if file1.Audio_Format.upper()=='AAC':
-            select_source_sel_ob.select_by_value('5')
-        elif 'DTS-HDMA' in file1.Audio_Format.upper() or 'DTS-HD MA' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('1')
-        elif 'TrueHD Atmos' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('2')
-        elif 'LPCM' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('6')
-        elif 'TrueHD' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('2')
-        elif 'FLAC' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('7')
-        elif 'APE' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('8')
-        elif 'MP3' in file1.Audio_Format.upper():
+        elif 'DTS-HDMA' in file1.Audio_Format.upper() or 'DTS-HD MA' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('9')
+        elif 'TrueHD Atmos' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('10')
-        elif 'AC3' in file1.Audio_Format.upper() or 'AC-3' in file1.Audio_Format.upper() or 'DD' in file1.Audio_Format.upper():
+        elif 'LPCM' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('12')
+        elif 'TrueHD' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('11')
+        elif 'FLAC' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('1')
+        elif 'APE' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('2')
+        elif 'OGG' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('5')
+        elif 'MP3' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('4')
+        elif 'AC3' in file1.Audio_Format.upper() or 'DD' in file1.Audio_Format.upper():
+            select_source_sel_ob.select_by_value('7')
         elif 'DTS:X' in file1.Audio_Format.upper() or 'DTS-X' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('3')
+            select_source_sel_ob.select_by_value('8')
         elif 'DTS' in file1.Audio_Format.upper():
             select_source_sel_ob.select_by_value('3')
         elif 'WAV' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('9')
+            select_source_sel_ob.select_by_value('13')
         elif 'M4A' in file1.Audio_Format.upper():
-            select_source_sel_ob.select_by_value('10')
+            select_source_sel_ob.select_by_value('14')
         else:
-            select_source_sel_ob.select_by_value('10')
+            select_source_sel_ob.select_by_value('9')
     except Exception as r:
         logger.warning('选择音频编码发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择音频编码发生错误'
@@ -195,91 +208,81 @@ def ssd_upload(web,file1,record_path,qbinfo):
         select_team_sel = web.driver.find_element('name','standard_sel')    #定位到id为browsecat的下拉框并起名为select_ele
         select_team_sel_ob = Select(select_team_sel)    #生成下拉框的实例对象
         if '8K' in file1.standard_sel:
-            select_team_sel_ob.select_by_value('1')
+            select_team_sel_ob.select_by_value('8')
         elif '2160' in file1.standard_sel:
-            select_team_sel_ob.select_by_value('1')
+            select_team_sel_ob.select_by_value('7')
         elif '1080p' in file1.standard_sel.lower():
-            select_team_sel_ob.select_by_value('2')
+            select_team_sel_ob.select_by_value('1')
         elif '1080i' in file1.standard_sel.lower():
-            select_team_sel_ob.select_by_value('3')
-        elif '720' in file1.standard_sel:
-            select_team_sel_ob.select_by_value('4')
-        elif '480' in file1.standard_sel:
-            select_team_sel_ob.select_by_value('5')
-        else:
             select_team_sel_ob.select_by_value('2')
+        elif '720p' in file1.standard_sel:
+            select_team_sel_ob.select_by_value('3')
+        elif '720i' in file1.standard_sel:
+            select_team_sel_ob.select_by_value('5')
+        elif '480' in file1.standard_sel:
+            select_team_sel_ob.select_by_value('9')
+        else:
+            select_team_sel_ob.select_by_value('1')
     except Exception as r:
         logger.warning('选择分辨率发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择分辨率发生错误'
     logger.info('已成功选择分辨率为'+file1.standard_sel)
-    
-    #选择地区
+
+    #选择处理
     try:
-        select_team_sel = web.driver.find_element('name','source_sel')    #定位到id为browsecat的下拉框并起名为select_ele
+        select_team_sel = web.driver.find_element('name','processing_sel')    #定位到id为browsecat的下拉框并起名为select_ele
         select_team_sel_ob = Select(select_team_sel)    #生成下拉框的实例对象
-        if not file1.country=='':
-            if '大陆' in file1.country:
-                select_team_sel_ob.select_by_value('1')
-                logger.info('国家信息已选择'+file1.country)
-            elif '香港' in file1.country:
-                select_team_sel_ob.select_by_value('2')
-                logger.info('国家信息已选择'+file1.country)
-            elif '台湾' in file1.country:
-                select_team_sel_ob.select_by_value('2')
-                logger.info('国家信息已选择'+file1.country)
-            elif '美国' in file1.country:
-                select_team_sel_ob.select_by_value('9')
-                logger.info('国家信息已选择'+file1.country)
-            elif '英国' in file1.country:
-                select_team_sel_ob.select_by_value('9')
-                logger.info('国家信息已选择'+file1.country)
-            elif '法国' in file1.country:
-                select_team_sel_ob.select_by_value('9')
-                logger.info('国家信息已选择'+file1.country)
-            elif '韩国' in file1.country:
-                select_team_sel_ob.select_by_value('10')
-                logger.info('国家信息已选择'+file1.country)
-            elif '日本' in file1.country:
-                select_team_sel_ob.select_by_value('10')
-                logger.info('国家信息已选择'+file1.country)
-            elif '印度' in file1.country:
-                select_team_sel_ob.select_by_value('3')
-                logger.info('国家信息已选择'+file1.country)
-            else:
-                select_team_sel_ob.select_by_value('3')
-                logger.info('未找到资源国家信息，已选择Other')
+        if 'rip' in file1.type.lower():
+            select_team_sel_ob.select_by_value('2')
         else:
-            select_team_sel_ob.select_by_value('10')
-            logger.info('未找到资源国家信息，已默认日本')
+            select_team_sel_ob.select_by_value('0')
     except Exception as r:
-        logger.warning('选择地区发生错误，错误信息: %s' %(r))
-        return False,fileinfo+'选择地区发生错误'
+        logger.warning('选择处理发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'选择处理发生错误'
+    logger.info('已选择处理为'+('rip' in file1.type.lower())*'Encode'+(1-('rip' in file1.type.lower()))*'Raw')
 
 
+    #选择制作组
+    try:
+        select_team_sel = web.driver.find_element('name','team_sel')    #定位到id为browsecat的下拉框并起名为select_ele
+        select_team_sel_ob = Select(select_team_sel)    #生成下拉框的实例对象
+        if 'PTNE' in file1.sub.upper():
+            select_team_sel_ob.select_by_value('6')
+        elif 'PTNBD' in file1.sub.upper():
+            select_team_sel_ob.select_by_value('7')
+        elif 'PTNWEB' in file1.sub.upper():
+            select_team_sel_ob.select_by_value('8')
+        else:
+            select_team_sel_ob.select_by_value('5')
+    except Exception as r:
+        logger.warning('选择制作组发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'选择制作组发生错误'
+    logger.info('制作组已成功选择'+file1.sub)
     
-
     try:
-        if file1.pathinfo.collection==1:
-            checkbox=web.driver.find_elements_by_name('pack')
+        if 'ptnap' in file1.pathinfo.exclusive:
+            checkbox=web.driver.find_elements_by_name('tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择合集')
-    except Exception as r:
-        logger.warning('选择合集错误，错误信息: %s' %(r))
-
-    try:
-        if 'ssd' in file1.pathinfo.exclusive:
-            checkbox=web.driver.find_elements_by_name('exclusive')
-            if len(checkbox)>0:
-                checkbox=checkbox[0]
+                checkbox=checkbox[2]
                 if not checkbox.is_selected():
                     checkbox.click()
                     logger.info('已选择禁转')
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
 
+    try:
+        if 'ptn' in file1.sub.lower():
+            checkbox=web.driver.find_elements_by_name('tags[]')
+            if len(checkbox)>0:
+                checkbox=checkbox[0]
+                if not checkbox.is_selected():
+                    checkbox.click()
+                    logger.info('已选择官方')
+    except Exception as r:
+        logger.warning('选择官方发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'选择官方发生错误'
+
+    
 
     try:
         if web.site.uplver==1:
