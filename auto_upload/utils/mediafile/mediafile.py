@@ -105,7 +105,7 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
             os.rename(torrentname,torrentname+'temp')
             os.remove(torrentname+'temp')
         except Exception as r:
-            logger.error('删除种子发生错误: %s' %(r))
+            logger.warning('删除种子发生错误: %s' %(r))
     logger.info('正在制作种子:'+filepath)
     order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
     #logger.info(order)

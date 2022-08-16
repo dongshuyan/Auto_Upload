@@ -450,8 +450,9 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
     else:
         logger.warning(fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url)
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
-
-    return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+    
+    if web.site.check==False:
+        return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
 
     res=lemon_check(web)
     if res:

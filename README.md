@@ -3,16 +3,18 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明  
+- 20220817 增加用户名密码登录，验证码自动识别功能以及cookie自动备份功能  
+- 20220817 增加yaml文件备份功能(生成au.yaml.bak文件)，以防文件损坏  
 - 20220817 增加对于PTNap的支持  
-- 20220815 增加对于SSD,明教以及CarPT的支持，增加禁转识别,参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
-- 20220815 增加对于天空，观众以及柠檬剧集板块的支持
+- 20220815 增加对于SSD,明教以及CarPT的支持，增加禁转识别,参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+- 20220815 增加对于天空，观众以及柠檬剧集板块的支持  
 - 20220814 增加直接在命令行获取豆瓣链接/获取视频截图链接的功能  
-- 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe
-- 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项
+- 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe  
+- 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项  
 添加考虑通过url下载站点种子失败的情况的判断  
-增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
-- 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug。  
-但是需要确保在制作种子期间，该`文件`或者`文件夹`没有被其他应用占用。仅对Windows系统有这个限制。  
+增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+- 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug   
+但是需要确保在制作种子期间，该`文件`或者`文件夹`没有被其他应用占用。仅对Windows系统有这个限制  
 
   
 ## 功能说明  

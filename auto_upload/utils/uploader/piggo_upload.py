@@ -325,7 +325,7 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.complete==0:
             checkbox=web.driver.find_elements_by_name('tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[9]
+                checkbox=checkbox[10]
                 if not checkbox.is_selected():
                     checkbox.click()
                     logger.info('已选择追更')
