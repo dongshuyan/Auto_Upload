@@ -55,10 +55,10 @@ Upload local resources to PT trackers automatically.
 - ssd
 - hdpt(明教)
 - carpt
+- ptnap  
 
   
 正在适配的站点(排名不分先后):  
-- ptnap
 - mt
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)

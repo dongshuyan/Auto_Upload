@@ -3,7 +3,7 @@ import io
 
 setup(
     name = "auto_upload",     
-    version = "0.0.39", 
+    version = "0.0.40", 
     keywords = ["pip", "auto_upload","auto","upload","PT","private tracker"],            
     description = "Upload local resources to PT trackers automatically.",    
     long_description=io.open("README.md", "r", encoding='utf-8').read(),
