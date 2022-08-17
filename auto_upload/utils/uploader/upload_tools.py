@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import sys
 import re
+from selenium.webdriver.common.by import By
 
 def recordupload(torrent_file,file1,String_url,downloadurl):
     logger.info('正在记录发布的资源到'+torrent_file)
@@ -82,7 +83,7 @@ def finddownloadurl(driver,elementstr=""):
     logger.info('正在寻找页面下载链接')
     o = urlparse(driver.current_url)
     o = o.scheme+'://'+o.hostname+'/download.php?'
-    if not elementstr=="" and len(driver.find_elements_by_xpath(elementstr))>0:
+    if not elementstr=="" and len(driver.find_elements(By.XPATH,elementstr))>0:
         element=driver.find_element('xpath',elementstr)
         try:
             url=element.get_attribute('href')

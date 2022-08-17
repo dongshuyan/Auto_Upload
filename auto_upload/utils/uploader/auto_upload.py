@@ -9,6 +9,7 @@ from auto_upload.utils.uploader.ssd_upload import ssd_upload
 from auto_upload.utils.uploader.hdpt_upload import hdpt_upload
 from auto_upload.utils.uploader.carpt_upload import carpt_upload
 from auto_upload.utils.uploader.ptnap_upload import ptnap_upload
+#from auto_upload.utils.uploader.hare_upload import hare_upload
 
 
 

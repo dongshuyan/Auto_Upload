@@ -4,6 +4,8 @@ import os
 from selenium.webdriver.common.keys import Keys
 from auto_upload.utils.uploader.upload_tools import *
 from selenium.webdriver.support.select import Select
+import re
+from selenium.webdriver.common.by import By
 
 def ssd_upload(web,file1,record_path,qbinfo):
 
@@ -20,20 +22,20 @@ def ssd_upload(web,file1,record_path,qbinfo):
 
     logger.info('正在'+web.site.sitename+'发布种子...')
     try:
-        web.driver.find_element_by_class_name('file').send_keys(file1.torrentpath);
+        web.driver.find_element(By.CLASS_NAME,'file').send_keys(file1.torrentpath);
     except Exception as r:
         logger.warning('上传种子文件发生错误，错误信息: %s' %(r))
         return False,fileinfo+'上传种子文件发生错误'
     logger.info('已成功上传种子')
 
     try:
-        if len(web.driver.find_elements_by_name('name'))<=0:
+        if len(web.driver.find_elements(By.NAME,'name'))<=0:
             web.driver.execute_script("window.scrollBy(0,300)")
-        #web.driver.find_elements_by_name('name')[0].click()
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.CONTROL, "a")
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(file1.uploadname.replace('  ',' ').replace(' ','.'))
+        #web.driver.find_elements(By.NAME,'name')[0].click()
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.CONTROL, "a")
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(file1.uploadname.replace('  ',' ').replace(' ','.'))
         logger.info('已成功填写主标题')
     except Exception as r:
         logger.warning('填写主标题发生错误，错误信息: %s' %(r))
@@ -41,8 +43,8 @@ def ssd_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写主标题')
 
     try:
-        #web.driver.find_elements_by_name('small_descr')[0].click()
-        web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
+        #web.driver.find_elements(By.NAME,'small_descr')[0].click()
+        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr+file1.pathinfo.exinfo)
         logger.info('已成功填写副标题')
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))
@@ -50,8 +52,8 @@ def ssd_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写副标题')
 
     try:
-        #web.driver.find_elements_by_name('url')[0].click()
-        web.driver.find_elements_by_name('url')[0].send_keys(file1.doubanurl)
+        #web.driver.find_elements(By.NAME,'url')[0].click()
+        web.driver.find_elements(By.NAME,'url')[0].send_keys(file1.doubanurl)
         logger.info('已成功填写豆瓣链接')
     except Exception as r:
         logger.warning('填写豆瓣链接发生错误，错误信息: %s' %(r))
@@ -59,16 +61,16 @@ def ssd_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写豆瓣链接')
 
     try:
-        #web.driver.find_elements_by_name('url_vimages')[0].click()
-        web.driver.find_elements_by_name('url_vimages')[0].send_keys(file1.screenshoturl.replace('[img]','').replace('[/img]',''))
+        #web.driver.find_elements(By.NAME,'url_vimages')[0].click()
+        web.driver.find_elements(By.NAME,'url_vimages')[0].send_keys(file1.screenshoturl.replace('[img]','').replace('[/img]',''))
     except Exception as r:
         logger.warning('填写截图发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写截图发生错误'
     logger.info('已成功填写截图')
 
     try:
-        #web.driver.find_elements_by_name('Media_BDInfo')[0].click()
-        web.driver.find_elements_by_name('Media_BDInfo')[0].send_keys(file1.mediainfo)
+        #web.driver.find_elements(By.NAME,'Media_BDInfo')[0].click()
+        web.driver.find_elements(By.NAME,'Media_BDInfo')[0].send_keys(file1.mediainfo)
     except Exception as r:
         logger.warning('填写mediainfo发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写mediainfo发生错误'
@@ -260,7 +262,7 @@ def ssd_upload(web,file1,record_path,qbinfo):
 
     try:
         if file1.pathinfo.collection==1:
-            checkbox=web.driver.find_elements_by_name('pack')
+            checkbox=web.driver.find_elements(By.NAME,'pack')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -271,7 +273,7 @@ def ssd_upload(web,file1,record_path,qbinfo):
 
     try:
         if 'ssd' in file1.pathinfo.exclusive:
-            checkbox=web.driver.find_elements_by_name('exclusive')
+            checkbox=web.driver.find_elements(By.NAME,'exclusive')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -283,7 +285,7 @@ def ssd_upload(web,file1,record_path,qbinfo):
 
     try:
         if web.site.uplver==1:
-            checkbox=web.driver.find_elements_by_name('uplver')
+            checkbox=web.driver.find_elements(By.NAME,'uplver')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -296,7 +298,7 @@ def ssd_upload(web,file1,record_path,qbinfo):
     #a=input('check')
     String_url = web.driver.current_url;
     try:
-        web.driver.find_elements_by_id('qr')[0].click()
+        web.driver.find_elements(By.ID,'qr')[0].click()
     except Exception as r:
         logger.warning('发布种子发生错误，错误信息: %s' %(r))
         return False,fileinfo+'发布种子发生错误'
@@ -312,7 +314,7 @@ def ssd_upload(web,file1,record_path,qbinfo):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.path,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:

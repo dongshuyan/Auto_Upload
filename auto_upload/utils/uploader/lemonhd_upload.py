@@ -4,6 +4,8 @@ import os
 from selenium.webdriver.common.keys import Keys
 from auto_upload.utils.uploader.upload_tools import *
 from selenium.webdriver.support.select import Select
+import re
+from selenium.webdriver.common.by import By
 
 def lemonhd_upload(web,file1,record_path,qbinfo):
     if 'anime' in file1.pathinfo.type.lower():
@@ -17,12 +19,12 @@ def lemon_check(web):
     logger.info('正在自动审核')
     #自动审核
     try:
-        checkbox=web.driver.find_elements_by_name('check_type')[0]
+        checkbox=web.driver.find_elements(By.NAME,'check_type')[0]
         if not checkbox.is_selected():
             checkbox.click()
         logger.info('自动选择审核通过')
         time.sleep(2)
-        web.driver.find_elements_by_id('qr')[0].click()
+        web.driver.find_elements(By.ID,'qr')[0].click()
         logger.info('已审核')
         return True
     except Exception as r:
@@ -44,87 +46,90 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
         
     logger.info('正在'+web.site.sitename+'发布种子...')
     try:
-        web.driver.find_element_by_class_name('file').send_keys(file1.torrentpath);
+        web.driver.find_element(By.CLASS_NAME,'file').send_keys(file1.torrentpath);
     except Exception as r:
         logger.warning('上传种子文件发生错误，错误信息: %s' %(r))
         return False,fileinfo+'上传种子文件发生错误'
     logger.info('已成功上传种子')
     
     try:
-        if len(web.driver.find_elements_by_name('name'))<=0:
+        if len(web.driver.find_elements(By.NAME,'name'))<=0:
             web.driver.execute_script("window.scrollBy(0,300)")
     except Exception as r:
         logger.warning('下拉页面发生错误，错误信息: %s' %(r))
         return False,fileinfo+'下拉页面发生错误'
 
-    #web.driver.find_elements_by_name('small_descr')[0].click()
+    #web.driver.find_elements(By.NAME,'small_descr')[0].click()
     try:
-        web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
+        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr+file1.pathinfo.exinfo)
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写副标题发生错误'
     logger.info('已成功填写副标题')
     
-    #web.driver.find_elements_by_name('douban_url')[0].click()
+    #web.driver.find_elements(By.NAME,'douban_url')[0].click()
     try:
-        web.driver.find_elements_by_name('douban_url')[0].send_keys(file1.doubanurl)
+        web.driver.find_elements(By.NAME,'douban_url')[0].send_keys(file1.doubanurl)
     except Exception as r:
         logger.warning('填写豆瓣链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写豆瓣链接发生错误'
     logger.info('已成功填写豆瓣链接')
     
-    #web.driver.find_elements_by_name('url')[0].click()
+    #web.driver.find_elements(By.NAME,'url')[0].click()
     try:
-        web.driver.find_elements_by_name('url')[0].send_keys(file1.imdburl)
+        web.driver.find_elements(By.NAME,'url')[0].send_keys(file1.imdburl)
     except Exception as r:
         logger.warning('填写IMDb链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写IMDb链接发生错误'
     logger.info('已成功填写IMDb链接')
     
-    #web.driver.find_elements_by_name('bangumi_url')[0].click()
+    #web.driver.find_elements(By.NAME,'bangumi_url')[0].click()
     try:
-        web.driver.find_elements_by_name('bangumi_url')[0].send_keys(file1.bgmurl)
+        web.driver.find_elements(By.NAME,'bangumi_url')[0].send_keys(file1.bgmurl)
     except Exception as r:
         logger.warning('填写Bangumi链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写Bangumi链接发生错误'
     logger.info('已成功填写Bangumi链接')
     
-    #web.driver.find_elements_by_name('anidb_url')[0].click()
+    #web.driver.find_elements(By.NAME,'anidb_url')[0].click()
     try:
-        web.driver.find_elements_by_name('anidb_url')[0].send_keys(file1.anidburl)
+        web.driver.find_elements(By.NAME,'anidb_url')[0].send_keys(file1.anidburl)
     except Exception as r:
         logger.warning('填写Anidb链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写Anidb链接发生错误'
     logger.info('已成功填写Anidb链接')
     
-    #web.driver.find_elements_by_name('cn_name')[0].click()
+    #web.driver.find_elements(By.NAME,'cn_name')[0].click()
     try:
-        web.driver.find_elements_by_name('cn_name')[0].send_keys(file1.chinesename)
+        web.driver.find_elements(By.NAME,'cn_name')[0].send_keys(file1.chinesename)
     except Exception as r:
         logger.warning('填写中文名发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写中文名发生错误'
     logger.info('已成功填写中文名')
     
-    #web.driver.find_elements_by_name('en_name')[0].click()
+    #web.driver.find_elements(By.NAME,'en_name')[0].click()
     try:
-        web.driver.find_elements_by_name('en_name')[0].send_keys(file1.englishname)
+        web.driver.find_elements(By.NAME,'en_name')[0].send_keys(file1.englishname)
     except Exception as r:
         logger.warning('填写英文名发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写英文名发生错误'
     logger.info('已成功填写英文名')
     
     logger.info('正在填写简介,请稍等...')
-    #web.driver.find_elements_by_name('descr')[0].click()
+    #web.driver.find_elements(By.NAME,'descr')[0].click()
     try:
-        web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
+        if 'league' in file1.sub.lower():
+            web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.douban_info+'\n[img]https://imgbox.leaguehd.com/images/2022/07/29/Movie-info-s3.png[/img]\n[quote=Mediainfo]\n'+file1.mediainfo+'\n[/quote]\n[img]https://imgbox.leaguehd.com/images/2022/07/29/Movie-screen-s3.png[/img]\n'+file1.screenshoturl)
+        else:
+            web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.content)
     except Exception as r:
         logger.warning('填写简介发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写简介发生错误'
     logger.info('已成功填写简介')
     
-    #web.driver.find_elements_by_name('year')[0].click()
+    #web.driver.find_elements(By.NAME,'year')[0].click()
     try:
-        web.driver.find_elements_by_name('year')[0].send_keys(str(file1.year))
+        web.driver.find_elements(By.NAME,'year')[0].send_keys(str(file1.year))
     except Exception as r:
         logger.warning('填写年份发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写年份发生错误'
@@ -153,18 +158,18 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
                 logger.info('已成功选择类型为collection')
 
             if file1.pathinfo.complete==0:
-                is_complete_checkbox=web.driver.find_elements_by_name('is_complete')[0]
+                is_complete_checkbox=web.driver.find_elements(By.NAME,'is_complete')[0]
                 if not is_complete_checkbox.is_selected():
                     is_complete_checkbox.click()
                 logger.info('已成功选择未完结')
 
             if file1.pathinfo.collection==0:
-                #web.driver.find_elements_by_name('series')[0].click()
-                web.driver.find_elements_by_name('series')[0].send_keys('第'+file1.episodename+'话')
+                #web.driver.find_elements(By.NAME,'series')[0].click()
+                web.driver.find_elements(By.NAME,'series')[0].send_keys('第'+file1.episodename+'话')
             elif file1.pathinfo.complete==1:
-                web.driver.find_elements_by_name('series')[0].send_keys('TV '+str(file1.pathinfo.min).zfill(2)+'-'+str(file1.pathinfo.max).zfill(2)+' Fin')
+                web.driver.find_elements(By.NAME,'series')[0].send_keys('TV '+str(file1.pathinfo.min).zfill(2)+'-'+str(file1.pathinfo.max).zfill(2)+' Fin')
             else:
-                web.driver.find_elements_by_name('series')[0].send_keys('TV '+str(file1.pathinfo.min).zfill(2)+'-'+str(file1.pathinfo.max).zfill(2))
+                web.driver.find_elements(By.NAME,'series')[0].send_keys('TV '+str(file1.pathinfo.min).zfill(2)+'-'+str(file1.pathinfo.max).zfill(2))
             logger.info('已成功填写集数')
 
     except Exception as r:
@@ -195,7 +200,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
         elif 'cint' in file1.sub.lower():
             select_team_sel_ob.select_by_value('15')
         else:
-            web.driver.find_elements_by_name('source_author')[0].send_keys(file1.sub)
+            web.driver.find_elements(By.NAME,'source_author')[0].send_keys(file1.sub)
     except Exception as r:
         logger.warning('填写制作组发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写制作组发生错误'
@@ -365,7 +370,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
         if file1.pathinfo.transfer==1:
             select_original_ob.select_by_value('1')
             logger.info('已选择来源为转载')
-            web.driver.find_elements_by_name('from_url')[0].send_keys(file1.from_url)
+            web.driver.find_elements(By.NAME,'from_url')[0].send_keys(file1.from_url)
             logger.info('已成功填写转载地址')
         elif file1.pathinfo.transfer==0:
             select_original_ob.select_by_value('2')
@@ -373,7 +378,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
         else:
             select_original_ob.select_by_value('1')
             logger.info('已默认来源为转载')
-            web.driver.find_elements_by_name('from_url')[0].send_keys(file1.from_url)
+            web.driver.find_elements(By.NAME,'from_url')[0].send_keys(file1.from_url)
             logger.info('已成功填写转载地址')
     except Exception as r:
         logger.warning('选择来源发生错误，错误信息: %s' %(r))
@@ -383,7 +388,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
     
     try:
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
-            checkbox=web.driver.find_elements_by_name('tag_zz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_zz')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -395,7 +400,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     try:
         if '国' in file1.language or '中' in file1.language:
-            checkbox=web.driver.find_elements_by_name('tag_zz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_zz')
             if len(checkbox)>0:
                 checkbox=checkbox[1]
                 if not checkbox.is_selected():
@@ -406,7 +411,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     try:
         if 'lemonhd' in file1.pathinfo.exclusive and ('league' in file1.sub.lower() or 'lhd' in file1.sub.lower() or 'cint' in file1.sub.lower() or 'i18n' in file1.sub.lower() ):
-            checkbox=web.driver.find_elements_by_name('tag_jz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_jz')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -418,7 +423,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     try:
         if web.site.uplver==1:
-            checkbox=web.driver.find_elements_by_name('uplver')[0]
+            checkbox=web.driver.find_elements(By.NAME,'uplver')[0]
             if not checkbox.is_selected():
                 checkbox.click()
             logger.info('已选择匿名发布')
@@ -427,7 +432,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     #a=input('check')
     String_url = web.driver.current_url;
-    web.driver.find_elements_by_id('qr')[0].click()
+    web.driver.find_elements(By.ID,'qr')[0].click()
     logger.info('已发布成功')
 
     String_url =finduploadurl(web.driver)
@@ -441,7 +446,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     if not downloadurl =='':
 
-        res=qbseed(url=downloadurl,filepath=file1.path,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:
@@ -481,58 +486,61 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
         
     logger.info('正在'+web.site.sitename+'发布种子...')
     try:
-        web.driver.find_element_by_class_name('file').send_keys(file1.torrentpath);
+        web.driver.find_element(By.CLASS_NAME,'file').send_keys(file1.torrentpath);
     except Exception as r:
         logger.warning('上传种子文件发生错误，错误信息: %s' %(r))
         return False,fileinfo+'上传种子文件发生错误'
     logger.info('已成功上传种子')
     
     try:
-        if len(web.driver.find_elements_by_name('name'))<=0:
+        if len(web.driver.find_elements(By.NAME,'name'))<=0:
             web.driver.execute_script("window.scrollBy(0,300)")
     except Exception as r:
         logger.warning('下拉页面发生错误，错误信息: %s' %(r))
         return False,fileinfo+'下拉页面发生错误'
 
     try:
-        if len(web.driver.find_elements_by_name('name'))<=0:
+        if len(web.driver.find_elements(By.NAME,'name'))<=0:
             web.driver.execute_script("window.scrollBy(0,300)")
-        #web.driver.find_elements_by_name('name')[0].click()
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.CONTROL, "a")
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(file1.uploadname)
+        #web.driver.find_elements(By.NAME,'name')[0].click()
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.CONTROL, "a")
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(file1.uploadname)
         logger.info('已成功填写主标题')
     except Exception as r:
         logger.warning('填写主标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写主标题发生错误'
 
     try:
-        #web.driver.find_elements_by_name('small_descr')[0].click()
-        web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
+        #web.driver.find_elements(By.NAME,'small_descr')[0].click()
+        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr+file1.pathinfo.exinfo)
         logger.info('已成功填写副标题')
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写副标题发生错误'
     
-    #web.driver.find_elements_by_name('douban_url')[0].click()
+    #web.driver.find_elements(By.NAME,'douban_url')[0].click()
     try:
-        web.driver.find_elements_by_name('douban_url')[0].send_keys(file1.doubanurl)
+        web.driver.find_elements(By.NAME,'douban_url')[0].send_keys(file1.doubanurl)
     except Exception as r:
         logger.warning('填写豆瓣链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写豆瓣链接发生错误'
     logger.info('已成功填写豆瓣链接')
     
-    #web.driver.find_elements_by_name('url')[0].click()
+    #web.driver.find_elements(By.NAME,'url')[0].click()
     try:
-        web.driver.find_elements_by_name('url')[0].send_keys(file1.imdburl)
+        web.driver.find_elements(By.NAME,'url')[0].send_keys(file1.imdburl)
     except Exception as r:
         logger.warning('填写IMDb链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写IMDb链接发生错误'
     logger.info('已成功填写IMDb链接')
 
     try:
-        web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
+        if 'league' in file1.sub.lower():
+            web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.douban_info+'\n[img]https://imgbox.leaguehd.com/images/2022/07/29/Movie-info-s3.png[/img]\n[quote=Mediainfo]\n'+file1.mediainfo+'\n[/quote]\n[img]https://imgbox.leaguehd.com/images/2022/07/29/Movie-screen-s3.png[/img]\n'+file1.screenshoturl)
+        else:
+            web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.content)
     except Exception as r:
         logger.warning('填写简介发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写简介发生错误'
@@ -551,20 +559,20 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
             logger.info('已成功选择类型为TV Series(电视剧)')
 
         if file1.pathinfo.complete==1:
-            is_complete_checkbox=web.driver.find_elements_by_name('is_complete')[0]
+            is_complete_checkbox=web.driver.find_elements(By.NAME,'is_complete')[0]
             if not is_complete_checkbox.is_selected():
                 is_complete_checkbox.click()
             logger.info('已成功选择已完结')
 
-        web.driver.find_elements_by_name('t_season')[0].send_keys(file1.season)
+        web.driver.find_elements(By.NAME,'t_season')[0].send_keys(file1.season)
 
         if file1.pathinfo.collection==0:
-            #web.driver.find_elements_by_name('series')[0].click()
-            web.driver.find_elements_by_name('series')[0].send_keys('E'+file1.episodename)
+            #web.driver.find_elements(By.NAME,'series')[0].click()
+            web.driver.find_elements(By.NAME,'series')[0].send_keys('E'+file1.episodename)
         elif file1.pathinfo.complete==1:
-            web.driver.find_elements_by_name('series')[0].send_keys('E'+str(file1.pathinfo.min).zfill(2)+'-E'+str(file1.pathinfo.max).zfill(2)+' Fin')
+            web.driver.find_elements(By.NAME,'series')[0].send_keys('E'+str(file1.pathinfo.min).zfill(2)+'-E'+str(file1.pathinfo.max).zfill(2)+' Fin')
         else:
-            web.driver.find_elements_by_name('series')[0].send_keys('E'+str(file1.pathinfo.min).zfill(2)+'-E'+str(file1.pathinfo.max).zfill(2))
+            web.driver.find_elements(By.NAME,'series')[0].send_keys('E'+str(file1.pathinfo.min).zfill(2)+'-E'+str(file1.pathinfo.max).zfill(2))
         logger.info('已成功填写集数')
 
     except Exception as r:
@@ -768,7 +776,7 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
     
     try:
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
-            checkbox=web.driver.find_elements_by_name('tag_zz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_zz')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -780,7 +788,7 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     try:
         if '国' in file1.language or '中' in file1.language:
-            checkbox=web.driver.find_elements_by_name('tag_zz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_zz')
             if len(checkbox)>0:
                 checkbox=checkbox[1]
                 if not checkbox.is_selected():
@@ -791,7 +799,7 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     try:
         if 'lemonhd' in file1.pathinfo.exclusive and ('league' in file1.sub.lower() or 'lhd' in file1.sub.lower() or 'cint' in file1.sub.lower() or 'i18n' in file1.sub.lower() ):
-            checkbox=web.driver.find_elements_by_name('tag_jz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_jz')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -803,7 +811,7 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
         
     try:
         if web.site.uplver==1:
-            checkbox=web.driver.find_elements_by_name('uplver')[0]
+            checkbox=web.driver.find_elements(By.NAME,'uplver')[0]
             if not checkbox.is_selected():
                 checkbox.click()
             logger.info('已选择匿名发布')
@@ -812,7 +820,7 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     #a=input('check')
     String_url = web.driver.current_url;
-    web.driver.find_elements_by_id('qr')[0].click()
+    web.driver.find_elements(By.ID,'qr')[0].click()
     logger.info('已发布成功')
 
     String_url =finduploadurl(web.driver)
@@ -826,7 +834,7 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     if not downloadurl =='':
 
-        res=qbseed(url=downloadurl,filepath=file1.path,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:

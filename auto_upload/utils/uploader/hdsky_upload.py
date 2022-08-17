@@ -4,6 +4,8 @@ import os
 from selenium.webdriver.common.keys import Keys
 from auto_upload.utils.uploader.upload_tools import *
 from selenium.webdriver.support.select import Select
+import re
+from selenium.webdriver.common.by import By
 
 def hdsky_upload(web,file1,record_path,qbinfo):
 
@@ -20,43 +22,43 @@ def hdsky_upload(web,file1,record_path,qbinfo):
 
     logger.info('正在'+web.site.sitename+'发布种子...')
     try:
-        web.driver.find_element_by_class_name('file').send_keys(file1.torrentpath);
+        web.driver.find_element(By.CLASS_NAME,'file').send_keys(file1.torrentpath);
     except Exception as r:
         logger.warning('上传种子文件发生错误，错误信息: %s' %(r))
         return False,fileinfo+'上传种子文件发生错误'
     logger.info('已成功上传种子')
 
     try:
-        if len(web.driver.find_elements_by_name('name'))<=0:
+        if len(web.driver.find_elements(By.NAME,'name'))<=0:
             web.driver.execute_script("window.scrollBy(0,300)")
-        #web.driver.find_elements_by_name('name')[0].click()
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.CONTROL, "a")
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(file1.uploadname)
+        #web.driver.find_elements(By.NAME,'name')[0].click()
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.CONTROL, "a")
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(file1.uploadname)
         logger.info('已成功填写主标题')
     except Exception as r:
         logger.warning('填写主标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写主标题发生错误'
 
     try:
-        #web.driver.find_elements_by_name('small_descr')[0].click()
-        web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
+        #web.driver.find_elements(By.NAME,'small_descr')[0].click()
+        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr+file1.pathinfo.exinfo)
         logger.info('已成功填写副标题')
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写副标题发生错误'
     try:
-        #web.driver.find_elements_by_name('url_douban')[0].click()
-        web.driver.find_elements_by_name('url_douban')[0].send_keys(file1.doubanurl)
+        #web.driver.find_elements(By.NAME,'url_douban')[0].click()
+        web.driver.find_elements(By.NAME,'url_douban')[0].send_keys(file1.doubanurl)
         logger.info('已成功填写豆瓣链接')
     except Exception as r:
         logger.warning('填写豆瓣链接发生错误，错误信息: %s' %(r))
         return False,fileinfo+'填写豆瓣链接发生错误'
 
     try:
-        #web.driver.find_elements_by_name('url')[0].click()
-        web.driver.find_elements_by_name('url')[0].send_keys(file1.imdburl)
+        #web.driver.find_elements(By.NAME,'url')[0].click()
+        web.driver.find_elements(By.NAME,'url')[0].send_keys(file1.imdburl)
         logger.info('已成功填写IMDb链接')
     except Exception as r:
         logger.warning('填写IMDb链接发生错误，错误信息: %s' %(r))
@@ -64,8 +66,8 @@ def hdsky_upload(web,file1,record_path,qbinfo):
 
     logger.info('正在填写简介,请稍等...')
     try:
-        #web.driver.find_elements_by_name('descr')[0].click()
-        web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
+        #web.driver.find_elements(By.NAME,'descr')[0].click()
+        web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.content)
         logger.info('已成功填写简介')
     except Exception as r:
         logger.warning('填写简介发生错误，错误信息: %s' %(r))
@@ -208,7 +210,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
         select_team_sel_ob = Select(select_team_sel)    #生成下拉框的实例对象
         if 'HDSKY' in file1.sub.upper():
             select_team_sel_ob.select_by_value('6')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -216,7 +218,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDS3D' in file1.sub.upper():
             select_team_sel_ob.select_by_value('28')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -224,7 +226,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDSTV' in file1.sub.upper():
             select_team_sel_ob.select_by_value('9')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -232,7 +234,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDSWEB' in file1.sub.upper() and file1.pathinfo.collection==1:
             select_team_sel_ob.select_by_value('35')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -240,7 +242,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDSWEB' in file1.sub.upper():
             select_team_sel_ob.select_by_value('31')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -248,7 +250,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDSPAD' in file1.sub.upper():
             select_team_sel_ob.select_by_value('18')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -256,7 +258,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDSCD' in file1.sub.upper():
             select_team_sel_ob.select_by_value('22')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -264,7 +266,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'hdspecial' in file1.sub.lower():
             select_team_sel_ob.select_by_value('34')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -272,7 +274,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'BMDRU' in file1.sub.upper():
             select_team_sel_ob.select_by_value('30')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -280,7 +282,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'AREA11' in file1.sub.upper():
             select_team_sel_ob.select_by_value('25')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -288,7 +290,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDSAB' in file1.sub.upper():
             select_team_sel_ob.select_by_value('36')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -296,7 +298,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择官组')
         elif 'HDS' in file1.sub.upper():
             select_team_sel_ob.select_by_value('1')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -316,8 +318,8 @@ def hdsky_upload(web,file1,record_path,qbinfo):
 
     try:
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
-            #checkbox=web.driver.find_elements_by_xpath('/html/body/table[2]/tbody/tr[2]/td/form/table/tbody/tr[12]/td[2]/input[7]')
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            #checkbox=web.driver.find_elements(By.XPATH,'/html/body/table[2]/tbody/tr[2]/td/form/table/tbody/tr[12]/td[2]/input[7]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[6]
                 if not checkbox.is_selected():
@@ -328,7 +330,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
 
     try:
         if '国' in file1.language or '中' in file1.language:
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[4]
                 if not checkbox.is_selected():
@@ -339,7 +341,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
 
     try:
         if 'hdsky' in file1.pathinfo.exclusive:
-            checkbox=web.driver.find_elements_by_name('option_sel[]')
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
                 checkbox=checkbox[2]
                 if not checkbox.is_selected():
@@ -350,7 +352,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
 
     try:
         if web.site.uplver==1:
-            checkbox=web.driver.find_elements_by_name('uplver')
+            checkbox=web.driver.find_elements(By.NAME,'uplver')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -363,7 +365,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
     #a=input('check')
     String_url = web.driver.current_url;
     try:
-        web.driver.find_elements_by_id('qr')[0].click()
+        web.driver.find_elements(By.ID,'qr')[0].click()
     except Exception as r:
         logger.warning('发布种子发生错误，错误信息: %s' %(r))
         return False,fileinfo+'发布种子发生错误'
@@ -379,7 +381,7 @@ def hdsky_upload(web,file1,record_path,qbinfo):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.path,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:
