@@ -44,7 +44,7 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     try:
         #web.driver.find_elements(By.NAME,'small_descr')[0].click()
-        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr)
+        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr+file1.pathinfo.exinfo)
         logger.info('已成功填写副标题')
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))

@@ -3,6 +3,7 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明 
+- 20220818 增加对wintersakura(冬樱)的支持
 - 20220817 增加副标题附加内容
 - 20220817 修正find_elements_by_path等问题，并添加柠檬官组识别，下载路径配置功能 
 - 20220817 修正au.yaml内容丢失的bug并增加提醒
@@ -58,7 +59,8 @@ Upload local resources to PT trackers automatically.
 - ssd
 - hdpt(明教)
 - carpt
-- ptnap  
+- ptnap 
+- wintersakura 
 
   
 正在适配的站点(排名不分先后):  

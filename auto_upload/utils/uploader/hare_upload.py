@@ -108,34 +108,63 @@ def hare_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写mediainfo')
 
 
-
     #选择类型
     try:
-        select_type = web.driver.find_element('name','type')  
-        select_type = Select(select_type)
+        element_type = web.driver.find_elements(By.CLASS_NAME,'layui-select-tips')
+        for item in element_type:
+            if '电影' in item.text:
+                element_type=item
+                break
+        if type(element_type)==list:
+            logger.error('未找到类型选项组件')
+            return False,fileinfo+'未找到类型选项组件'
+        element_type=element_type.find_elements(By.XPATH,'div/dl/dd')
+
         if 'anime' in file1.pathinfo.type.lower():
-            select_type.select_by_value('504')
+            for item in element_type:
+                if '动漫' in item.text:
+                    item.click()
+                    break
         elif 'tv' in file1.pathinfo.type.lower():
-            select_type.select_by_value('502')
+            for item in element_type:
+                if '电视剧' in item.text:
+                    item.click()
+                    break
         elif 'movie' in file1.pathinfo.type.lower():
-            select_type.select_by_value('501')
+            for item in element_type:
+                if '电影' in item.text:
+                    item.click()
+                    break
         elif 'show' in file1.pathinfo.type.lower():
-            select_type.select_by_value('505')
+            for item in element_type:
+                if '综艺' in item.text:
+                    item.click()
+                    break
         elif 'doc' in file1.pathinfo.type.lower():
-            select_type.select_by_value('503')
+            for item in element_type:
+                if '纪录片' in item.text:
+                    item.click()
+                    break
         elif 'sport' in file1.pathinfo.type.lower():
-            select_type.select_by_value('506')
+            for item in element_type:
+                if '体育' in item.text:
+                    item.click()
+                    break
         elif 'mv' in file1.pathinfo.type.lower():
-            select_type.select_by_value('507')
-        elif 'music' in file1.pathinfo.type.lower():
-            select_type.select_by_value('508')
+            for item in element_type:
+                if '音乐视频' in item.text:
+                    item.click()
+                    break
         else:
-            select_type.select_by_value('509')
+            for item in element_type:
+                if 'Others' in item.text:
+                    item.click()
+                    break
     except Exception as r:
         logger.warning('选择类型发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择类型发生错误'
     logger.info('已成功填写类型为'+file1.pathinfo.type)
-
+    a=input('check')
 
     #选择媒介
     try:

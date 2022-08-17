@@ -142,10 +142,12 @@ class pathinfo(object):
             logger.error(pathid+' 中文件夹命名有误,错误信息: - 数量异常')
             raise ValueError (pathid+' 中文件夹命名有误,错误信息: - 数量异常')
         pathitem=(pathstr.split('-'))[1].strip()
-        
+
         self.exinfo=re.findall('\[.*\]',pathstr.split('-')[0].strip())
         if len(self.exinfo)>0:
             self.exinfo=self.exinfo[0]
+        else:
+            self.exinfo=''
 
         #可有可无的属性
         attr_disp=['type','collection','complete','enable','doubanurl','imdb_url','bgm_url','anidb_url','from_url','transfer']
