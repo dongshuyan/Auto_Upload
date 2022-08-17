@@ -2,7 +2,9 @@
 自动将本地资源发布到PT站  
 Upload local resources to PT trackers automatically.  
 
-## 更新说明  
+## 更新说明 
+- 20220817 增加副标题附加内容
+- 20220817 修正find_elements_by_path等问题，并添加柠檬官组识别，下载路径配置功能 
 - 20220817 修正au.yaml内容丢失的bug并增加提醒
 - 20220817 增加用户名密码登录，验证码自动识别功能以及cookie自动备份功能  
 - 20220817 增加yaml文件备份功能(生成au.yaml.bak文件)，以防文件损坏  
@@ -61,6 +63,7 @@ Upload local resources to PT trackers automatically.
   
 正在适配的站点(排名不分先后):  
 - mt
+- hare
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
   
@@ -307,9 +310,12 @@ auto_upload 'au.yaml' -mi -mf '1.mp4' -ih picgo -iform bbcode -in 6
 
 ## 常见错误及修复方法（更新ing）  
 
-### Chrome未更新至最新  
-### Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败（已修复）  
+### 1.Chrome未更新至最新  
+### 2.Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败（已修复）  
 Windows下的mktorrent支持的不太好，后面我再修复吧  
+### 3.文件夹名称错误
+最后一级文件夹名称必须是：任意内容[想要在副标题添加的内容]-资源中文名-资源英文名-发布组
+例如`6[有B站水印]-不死者之王-OVERLOAD-sauterne`  
 
 ## 交流群
 群号:735803201

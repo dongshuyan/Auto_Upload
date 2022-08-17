@@ -138,10 +138,14 @@ class pathinfo(object):
                 exec('self.'+item+'=infodict[item]')
 
         pathstr=os.path.basename(self.path)
-        pathitem=(pathstr.split('-'))[1].strip()
         if not(len(pathstr.split('-'))==4):
             logger.error(pathid+' 中文件夹命名有误,错误信息: - 数量异常')
             raise ValueError (pathid+' 中文件夹命名有误,错误信息: - 数量异常')
+        pathitem=(pathstr.split('-'))[1].strip()
+        
+        self.exinfo=re.findall('\[.*\]',pathstr.split('-')[0].strip())
+        if len(self.exinfo)>0:
+            self.exinfo=self.exinfo[0]
 
         #可有可无的属性
         attr_disp=['type','collection','complete','enable','doubanurl','imdb_url','bgm_url','anidb_url','from_url','transfer']
@@ -153,6 +157,12 @@ class pathinfo(object):
             else:
                 exec('self.'+item+'=infodict[item]')
                 exec('self.exist_'+item+'=True')
+
+        self.downloadpath=''
+        if not 'downloadpath' in infodict or infodict['downloadpath']==None:
+            self.downloadpath=self.path
+        else:
+            self.downloadpath=infodict['downloadpath']
 
         if self.complete=='':
             self.complete=0

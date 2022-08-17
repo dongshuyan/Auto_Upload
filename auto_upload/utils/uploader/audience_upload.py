@@ -4,6 +4,8 @@ import os
 from selenium.webdriver.common.keys import Keys
 from auto_upload.utils.uploader.upload_tools import *
 from selenium.webdriver.support.select import Select
+import re
+from selenium.webdriver.common.by import By
 
 def audience_upload(web,file1,record_path,qbinfo):
 
@@ -20,20 +22,20 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     logger.info('正在'+web.site.sitename+'发布种子...')
     try:
-        web.driver.find_element_by_class_name('file').send_keys(file1.torrentpath);
+        web.driver.find_element(By.CLASS_NAME,'file').send_keys(file1.torrentpath);
     except Exception as r:
         logger.warning('上传种子文件发生错误，错误信息: %s' %(r))
         return False,fileinfo+'上传种子文件发生错误'
     logger.info('已成功上传种子')
 
     try:
-        if len(web.driver.find_elements_by_name('name'))<=0:
+        if len(web.driver.find_elements(By.NAME,'name'))<=0:
             web.driver.execute_script("window.scrollBy(0,300)")
-        #web.driver.find_elements_by_name('name')[0].click()
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.CONTROL, "a")
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(Keys.BACKSPACE)
-        web.driver.find_elements_by_name('name')[0].send_keys(file1.uploadname)
+        #web.driver.find_elements(By.NAME,'name')[0].click()
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.CONTROL, "a")
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(Keys.BACKSPACE)
+        web.driver.find_elements(By.NAME,'name')[0].send_keys(file1.uploadname)
         logger.info('已成功填写主标题')
     except Exception as r:
         logger.warning('填写主标题发生错误，错误信息: %s' %(r))
@@ -41,8 +43,8 @@ def audience_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写主标题')
 
     try:
-        #web.driver.find_elements_by_name('small_descr')[0].click()
-        web.driver.find_elements_by_name('small_descr')[0].send_keys(file1.small_descr)
+        #web.driver.find_elements(By.NAME,'small_descr')[0].click()
+        web.driver.find_elements(By.NAME,'small_descr')[0].send_keys(file1.small_descr)
         logger.info('已成功填写副标题')
     except Exception as r:
         logger.warning('填写副标题发生错误，错误信息: %s' %(r))
@@ -50,8 +52,8 @@ def audience_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写副标题')
 
     try:
-        #web.driver.find_elements_by_name('douban_id')[0].click()
-        web.driver.find_elements_by_name('douban_id')[0].send_keys(file1.doubanurl)
+        #web.driver.find_elements(By.NAME,'douban_id')[0].click()
+        web.driver.find_elements(By.NAME,'douban_id')[0].send_keys(file1.doubanurl)
         logger.info('已成功填写豆瓣链接')
     except Exception as r:
         logger.warning('填写豆瓣链接发生错误，错误信息: %s' %(r))
@@ -59,8 +61,8 @@ def audience_upload(web,file1,record_path,qbinfo):
     logger.info('已成功填写豆瓣链接')
 
     try:
-        #web.driver.find_elements_by_name('url')[0].click()
-        web.driver.find_elements_by_name('url')[0].send_keys(file1.imdburl)
+        #web.driver.find_elements(By.NAME,'url')[0].click()
+        web.driver.find_elements(By.NAME,'url')[0].send_keys(file1.imdburl)
         logger.info('已成功填写IMDb链接')
     except Exception as r:
         logger.warning('填写IMDb链接发生错误，错误信息: %s' %(r))
@@ -69,8 +71,8 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     logger.info('正在填写简介,请稍等...')
     try:
-        #web.driver.find_elements_by_name('descr')[0].click()
-        web.driver.find_elements_by_name('descr')[0].send_keys(file1.content)
+        #web.driver.find_elements(By.NAME,'descr')[0].click()
+        web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.content)
         logger.info('已成功填写简介')
     except Exception as r:
         logger.warning('填写简介发生错误，错误信息: %s' %(r))
@@ -81,7 +83,7 @@ def audience_upload(web,file1,record_path,qbinfo):
         select_type = Select(select_type)
         if 'anime' in file1.pathinfo.type.lower():
             select_type.select_by_value('402')
-            checkbox=web.driver.find_elements_by_name('tags[]')
+            checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
                 checkbox=checkbox[6]
                 if not checkbox.is_selected():
@@ -227,7 +229,7 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     try:
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
-            checkbox=web.driver.find_elements_by_name('tags[]')
+            checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
                 checkbox=checkbox[3]
                 if not checkbox.is_selected():
@@ -238,7 +240,7 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     try:
         if file1.pathinfo.transfer==0:
-            checkbox=web.driver.find_elements_by_name('tags[]')
+            checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -250,7 +252,7 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     try:
         if '国' in file1.language or '中' in file1.language:
-            checkbox=web.driver.find_elements_by_name('tags[]')
+            checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
                 checkbox=checkbox[1]
                 if not checkbox.is_selected():
@@ -262,7 +264,7 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     try:
         if 'audience' in file1.pathinfo.exclusive:
-            checkbox=web.driver.find_elements_by_name('tags[]')
+            checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
                 checkbox=checkbox[10]
                 if not checkbox.is_selected():
@@ -273,7 +275,7 @@ def audience_upload(web,file1,record_path,qbinfo):
 
     try:
         if web.site.uplver==1:
-            checkbox=web.driver.find_elements_by_name('uplver')
+            checkbox=web.driver.find_elements(By.NAME,'uplver')
             if len(checkbox)>0:
                 checkbox=checkbox[0]
                 if not checkbox.is_selected():
@@ -286,7 +288,7 @@ def audience_upload(web,file1,record_path,qbinfo):
     #a=input('check')
     String_url = web.driver.current_url;
     try:
-        web.driver.find_elements_by_id('qr')[0].click()
+        web.driver.find_elements(By.ID,'qr')[0].click()
     except Exception as r:
         logger.warning('发布种子发生错误，错误信息: %s' %(r))
         return False,fileinfo+'发布种子发生错误'
@@ -302,7 +304,7 @@ def audience_upload(web,file1,record_path,qbinfo):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.path,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:

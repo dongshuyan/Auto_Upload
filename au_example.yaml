@@ -37,7 +37,7 @@ image hosting: #配置图床站点信息
     cookie: cookie #F12 nerwork中提取的cookie
     url: https://shewang.net/
 site info: #配置站点信息
-  pter: #配置站点，目前支持的关键词有[pter,lemonhd,audience,carpt,hdsky,piggo,ssd,hdpt]
+  pter: #配置站点，目前支持的关键词有[pter,lemonhd,audience,carpt,hdsky,piggo,ssd,hdpt,ptnap]
     enable: 1 #是否开启此站点自动发种 1为开启，0为关闭
     uplver: 1 #是否开启匿名发种，1为开启，0为关闭
     username: username #站点用户名密码与cookie文件原则来说有一个即可。首选cookie，如果cookie过期会自动使用用户名密码登录
@@ -48,7 +48,8 @@ site info: #配置站点信息
     cookiefile: /Users/Desktop/cookies_path/cookie_pter.json #js格式的cookie文件
 path info:
   path1:
-    path: /动漫/2022年7月番/6-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #资源路径的最后一层文件夹必须保持如下格式"任意内容-资源中文名-资源英文名-发布组" 如果资源不是第一季，在英文名后面加SXX,例如S02 
+    path: /动漫/2022年7月番/6[欢迎大家下载]-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #资源路径的最后一层文件夹必须保持如下格式"任意内容[想要在副标题添加的内容]-资源中文名-资源英文名-发布组" 如果资源不是第一季，在英文名后面加SXX,例如S02 
+    downlaodpath: /动漫/2022年7月番/6-杜鹃的婚约-Kakkou no Iinazuke-Lilith Raws #可有可无，如果有下载路径与资源路径不一致的情况可以配置此选项。如果一样则不填，默认与path相同
     type: anime #类型,可选择[anime,tv,movie]中的一个 柠檬站点目前只支持发布动漫
     collection: 0 #是否以合集发布 0为否 1为是
     complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
@@ -62,6 +63,6 @@ path info:
     transfer: 1 #是否是转载资源 0为否 1为是。不填默认为是
     pter: 1,2,3,4,5,6,7,8,9,10,11,12,13 #此路径已发布的集数 每新发布一集会自动更新 '-1'代表已发布合集。未发布过填写 '0'。如果留空默认为不发。
     lemonhd: 1,2,3,4,5,6,7,8,9,10,11,12,13 
-    
+  path2: ...
 
   

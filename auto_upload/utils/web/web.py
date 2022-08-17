@@ -7,6 +7,7 @@ import ddddocr
 import os
 import platform
 from PIL import Image
+from selenium.webdriver.common.by import By
 
 ssl._create_default_https_context = ssl._create_unverified_context
 uc.TARGET_VERSION = 91
@@ -103,8 +104,10 @@ class web(object):
 
     def wait_page(self):
         try:
-            useritem=self.driver.find_elements_by_name('username')
-            fileitem=self.driver.find_elements_by_name('file')
+            #useritem=self.driver.find_elements(By.NAME,'username')
+            #fileitem=self.driver.find_elements(By.NAME,'file')
+            useritem=self.driver.find_elements(By.NAME,'username')
+            fileitem=self.driver.find_elements(By.NAME,'file')
         except Exception as r:
             logger.warning('寻找页面组件发生错误，错误信息: %s' %(r))
             return False
@@ -116,8 +119,8 @@ class web(object):
                 return False
             time.sleep(1)
             try:
-                useritem=self.driver.find_elements_by_name('username')
-                fileitem=self.driver.find_elements_by_name('file')
+                useritem=self.driver.find_elements(By.NAME,'username')
+                fileitem=self.driver.find_elements(By.NAME,'file')
             except Exception as r:
                 logger.warning('寻找页面组件发生错误，错误信息: %s' %(r))
                 return False
@@ -142,7 +145,7 @@ class web(object):
         except Exception as r:
             logger.warning('打开登录页面发生错误，错误信息: %s' %(r))
 
-        if len(self.driver.find_elements_by_name('username'))<=0:
+        if len(self.driver.find_elements(By.NAME,'username'))<=0:
             self.driver.execute_script("window.scrollBy(0,300)")
 
         if not self.wait_page():
@@ -150,16 +153,18 @@ class web(object):
             return -1
 
         try:
-            self.driver.find_elements_by_name('username')[0].send_keys(self.site.username)
-            self.driver.find_elements_by_name('password')[0].send_keys(self.site.password)
+            self.driver.find_elements(By.NAME,'username')[0].send_keys(self.site.username)
+            self.driver.find_elements(By.NAME,'password')[0].send_keys(self.site.password)
         except Exception as r:
             logger.warning('输入用户名密码发生错误，错误信息: %s' %(r))
             return -1
 
         if self.site.sitename=='ssd':
-            imgs=self.driver.find_elements_by_xpath('/html/body/section/main/div/form/div[3]/span[1]/img')
+            imgs=self.driver.find_elements(By.XPATH,'/html/body/section/main/div/form/div[3]/span[1]/img')
+        elif self.site.sitename=='hare':
+            imgs=self.driver.find_elements(By.XPATH,'/html/body/div[3]/form[2]/div[3]/div[2]/img')
         else:
-            imgs=self.driver.find_elements_by_xpath('/html/body/table[2]/tbody/tr/td/form[2]/table/tbody/tr[4]/td[2]/img')
+            imgs=self.driver.find_elements(By.XPATH,'/html/body/table[2]/tbody/tr/td/form[2]/table/tbody/tr[4]/td[2]/img')
 
         if len(imgs)>0:
             logger.info('遇到验证码，请稍等...')
@@ -213,7 +218,7 @@ class web(object):
                     logger.warning('删除图片发生错误: %s' %(r))
 
             try:
-                self.driver.find_elements_by_name('imagestring')[0].send_keys(data_ocr)
+                self.driver.find_elements(By.NAME,'imagestring')[0].send_keys(data_ocr)
             except Exception as r:
                 logger.info('输入验证码发生错误: %s' %(r)) 
                 #return -1      
@@ -225,13 +230,15 @@ class web(object):
             submitxpath='/html/body/table[2]/tbody/tr/td/form[2]/table/tbody/tr[7]/td/input[1]'
         elif self.site.sitename=='pter':
             time.sleep(3)
+        elif self.site.sitename=='hare':
+            submitxpath='/html/body/div[3]/form[2]/div[8]/button[1]'
         elif self.site.sitename=='tjupt':
             submitxpath='/html/body/table[2]/tbody/tr/td/form/table/tbody/tr[5]/td/input[1]'
 
         try:
-            if len(self.driver.find_elements_by_xpath(submitxpath))>0:
+            if len(self.driver.find_elements(By.XPATH,submitxpath))>0:
                 logger.info('找到登录按键')
-                self.driver.find_element_by_xpath(submitxpath).click()
+                self.driver.find_element(By.XPATH,submitxpath).click()
         except Exception as r:
             logger.info('点击登录发生错误: %s' %(r)) 
         
@@ -246,7 +253,7 @@ class web(object):
             return -1
 
         try:
-            fileitem=self.driver.find_elements_by_class_name('file')
+            fileitem=self.driver.find_elements(By.CLASS_NAME,'file')
         except Exception as r:
             logger.info('打开发布页面发生错误，错误信息: %s' %(r))
 
@@ -281,10 +288,10 @@ class web(object):
         except Exception as r:
             logger.warning('打开登录页面发生错误，错误信息: %s' %(r))
             return -1
-
-        if len(self.driver.find_elements_by_name('username'))<=0:
+        '''
+        if len(self.driver.find_elements(By.NAME,'username'))<=0:
             self.driver.execute_script("window.scrollBy(0,300)")
-
+        '''
         if not self.wait_page():
             logger.warning('登录页面加载失败')
             return -1
@@ -312,7 +319,7 @@ class web(object):
             return -1
 
         try:
-            fileitem=self.driver.find_elements_by_class_name('file')
+            fileitem=self.driver.find_elements(By.CLASS_NAME,'file')
         except Exception as r:
             logger.warning('打开发布页面发生错误，错误信息: %s' %(r))
 
