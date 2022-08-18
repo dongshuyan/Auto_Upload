@@ -44,7 +44,7 @@ site info:
     loginurl: https://hdpt.xyz/login.php
     uploadurl: https://hdpt.xyz/upload.php
     tracker: https://hdpt.xyz/announce.php
-  hare:
-    loginurl: https://club.hares.top/login.php
-    uploadurl: https://club.hares.top/upload.php
-    tracker: https://club.hares.top/announce.php
+  wintersakura:
+    loginurl: https://wintersakura.net/login.php
+    uploadurl: https://wintersakura.net/upload.php
+    tracker: https://tracker.wintersakura.net/announce.php

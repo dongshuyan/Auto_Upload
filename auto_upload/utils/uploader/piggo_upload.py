@@ -322,18 +322,18 @@ def piggo_upload(web,file1,record_path,qbinfo):
                     logger.info('已选择国语')
     except Exception as r:
         logger.warning('选择国语发生错误，错误信息: %s' %(r))
-
+    '''
     try:
         if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.complete==0:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[10]
+                checkbox=checkbox[11]
                 if not checkbox.is_selected():
                     checkbox.click()
                     logger.info('已选择追更')
     except Exception as r:
         logger.warning('选择追更发生错误，错误信息: %s' %(r))
-
+    '''
     try:
         if 'piggo' in file1.pathinfo.exclusive :
             checkbox=web.driver.find_elements(By.NAME,'tags[]')

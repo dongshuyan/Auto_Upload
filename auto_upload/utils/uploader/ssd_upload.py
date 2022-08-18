@@ -293,7 +293,13 @@ def ssd_upload(web,file1,record_path,qbinfo):
                 logger.info('已选择匿名发布')
     except Exception as r:
         logger.warning('选择匿名发布发生错误，错误信息: %s' %(r))
+        
 
+    try:
+        web.driver.find_elements(By.ID,'qr_check')[0].click()
+    except Exception as r:
+        logger.warning('审核种子发生错误，错误信息: %s' %(r))
+        return False,fileinfo+'审核种子发生错误'
 
     #a=input('check')
     String_url = web.driver.current_url;
