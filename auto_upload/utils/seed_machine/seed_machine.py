@@ -116,7 +116,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 #deletetorrent(basic['screenshot_path'])
             #a=input('check')
             
-
+        del(file1)
     logger.info('路径'+pathinfo.path+'下资源已全部发布完毕')
     return log_error,log_succ
 
@@ -209,8 +209,8 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             exec('pathyaml["'+siteitem.sitename+'"]=",".join([str(i) for i in pathinfo.'+siteitem.sitename+'_done])')
             #deletetorrent(basic['screenshot_path'])
         #a=input('check')
-       
-
+            
+    del(file1)  
     logger.info('路径'+pathinfo.path+'下资源已全部发布完毕')
     return log_error,log_succ
 

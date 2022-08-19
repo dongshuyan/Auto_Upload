@@ -230,10 +230,11 @@ def hdpt_upload(web,file1,record_path,qbinfo):
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[4]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择中字')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='6':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择中字')
     except Exception as r:
         logger.warning('选择中字发生错误，错误信息: %s' %(r))
 
@@ -241,10 +242,11 @@ def hdpt_upload(web,file1,record_path,qbinfo):
         if 'hdpt' in file1.sub.lower():
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官方')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='3':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官方')
     except Exception as r:
         logger.warning('选择官方发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择官方发生错误'
@@ -253,10 +255,11 @@ def hdpt_upload(web,file1,record_path,qbinfo):
         if file1.pathinfo.transfer==0:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[1]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择原创')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='21':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择原创')
     except Exception as r:
         logger.warning('选择原创发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择原创发生错误'
@@ -265,10 +268,11 @@ def hdpt_upload(web,file1,record_path,qbinfo):
         if '国' in file1.language or '中' in file1.language:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[2]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择国语')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='5':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择国语')
     except Exception as r:
         logger.warning('选择国语发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择国语发生错误'
@@ -277,10 +281,11 @@ def hdpt_upload(web,file1,record_path,qbinfo):
         if 'hdpt' in file1.pathinfo.exclusive:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[11]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择禁转')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='1':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择禁转')
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
 

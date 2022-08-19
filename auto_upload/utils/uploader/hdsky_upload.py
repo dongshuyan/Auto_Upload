@@ -212,98 +212,110 @@ def hdsky_upload(web,file1,record_path,qbinfo):
             select_team_sel_ob.select_by_value('6')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDS3D' in file1.sub.upper():
             select_team_sel_ob.select_by_value('28')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDSTV' in file1.sub.upper():
             select_team_sel_ob.select_by_value('9')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDSWEB' in file1.sub.upper() and file1.pathinfo.collection==1:
             select_team_sel_ob.select_by_value('35')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDSWEB' in file1.sub.upper():
             select_team_sel_ob.select_by_value('31')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDSPAD' in file1.sub.upper():
             select_team_sel_ob.select_by_value('18')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDSCD' in file1.sub.upper():
             select_team_sel_ob.select_by_value('22')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'hdspecial' in file1.sub.lower():
             select_team_sel_ob.select_by_value('34')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'BMDRU' in file1.sub.upper():
             select_team_sel_ob.select_by_value('30')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'AREA11' in file1.sub.upper():
             select_team_sel_ob.select_by_value('25')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDSAB' in file1.sub.upper():
             select_team_sel_ob.select_by_value('36')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif 'HDS' in file1.sub.upper():
             select_team_sel_ob.select_by_value('1')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官组')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='12':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官组')
         elif file1.transfer==0:
             select_team_sel_ob.select_by_value('24')
         elif file1.transfer==1:
@@ -321,10 +333,11 @@ def hdsky_upload(web,file1,record_path,qbinfo):
             #checkbox=web.driver.find_elements(By.XPATH,'/html/body/table[2]/tbody/tr[2]/td/form/table/tbody/tr[12]/td[2]/input[7]')
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[6]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择中字')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='6':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择中字')
     except Exception as r:
         logger.warning('选择中字发生错误，错误信息: %s' %(r))
 
@@ -332,10 +345,11 @@ def hdsky_upload(web,file1,record_path,qbinfo):
         if '国' in file1.language or '中' in file1.language:
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[4]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择国语')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='5':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择国语')
     except Exception as r:
         logger.warning('选择国语发生错误，错误信息: %s' %(r))
 
@@ -343,12 +357,25 @@ def hdsky_upload(web,file1,record_path,qbinfo):
         if 'hdsky' in file1.pathinfo.exclusive:
             checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
             if len(checkbox)>0:
-                checkbox=checkbox[2]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择禁转')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='2':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择禁转')
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
+
+    try:
+        if file1.transfer==0:
+            checkbox=web.driver.find_elements(By.NAME,'option_sel[]')
+            if len(checkbox)>0:
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='14':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择自制')
+    except Exception as r:
+        logger.warning('选择自制错误，错误信息: %s' %(r))
 
     try:
         if web.site.uplver==1:

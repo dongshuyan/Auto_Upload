@@ -3,6 +3,7 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明 
+- 20220819 优化内存使用，增强标签识别性能，柠檬下载链接改用https  
 - 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签  
 - 20220818 修正download的拼写错误
 - 20220818 增加对wintersakura(冬樱)的支持
@@ -233,14 +234,14 @@ python3 -m pip install --upgrade auto_upload -i https://pypi.tuna.tsinghua.edu.c
 例如路径为:/Users/Desktop/auto_upload  
 
 ### 2.在1中工作路径文件夹下，再新建三个文件夹  
-"cookies_path","screenshot_path","m"  
+"cookies_path","screenshot_path","record_path"  
 
-- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.js。  
+- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.json。  
 (例如:cookie_lemonhd.json,cookie_pter.json等)  
 - screenshot_path将用来存放视频截图，种子等临时文件  
 - record_path将用来存放发种记录 
 
-### 3.获取cookie并存入文件 工作目录/cookies_path/cookie_站点.js 中  
+### 3.获取cookie并存入文件 工作目录`/cookies_path/cookie_站点.json` 中  
 js格式的cookie推荐使用插件"EditThisCookie"获取  
 
 #### EditThisCookie插件官网  

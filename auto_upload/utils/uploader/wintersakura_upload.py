@@ -7,6 +7,11 @@ from selenium.webdriver.support.select import Select
 import re
 from selenium.webdriver.common.by import By
 
+def check(web):
+
+    return True
+    
+
 def wintersakura_upload(web,file1,record_path,qbinfo):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
@@ -251,44 +256,50 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
         if 'sakura academic' in file1.sub.lower():
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择Sakura Academic')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='15':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择Sakura Academic')
     except Exception as r:
         logger.warning('选择Sakura Academic发生错误，错误信息: %s' %(r))
-
-    try:
-        if 'wsub' in file1.sub.lower():
-            checkbox=web.driver.find_elements(By.NAME,'tags[]')
-            if len(checkbox)>0:
-                checkbox=checkbox[2]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择Sakura SUB')
-    except Exception as r:
-        logger.warning('选择Sakura SUB发生错误，错误信息: %s' %(r))
 
     try:
         if 'sakuraweb' in file1.sub.lower():
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[1]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择Sakura WEB')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='14':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择Sakura WEB')
     except Exception as r:
         logger.warning('选择Sakura WEB发生错误，错误信息: %s' %(r))
+
+    try:
+        if 'wsub' in file1.sub.lower():
+            checkbox=web.driver.find_elements(By.NAME,'tags[]')
+            if len(checkbox)>0:
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='13':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择Sakura SUB')
+    except Exception as r:
+        logger.warning('选择Sakura SUB发生错误，错误信息: %s' %(r))
+
+    
     try:
         if 'sakura' in file1.sub.lower() or 'wsub' in file1.sub.lower():
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[5]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择Sakura WEB')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='3':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官方标签')
     except Exception as r:
-        logger.warning('选择Sakura WEB发生错误，错误信息: %s' %(r))
+        logger.warning('选择官方标签发生错误，错误信息: %s' %(r))
 
 
     
@@ -297,10 +308,11 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[9]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择中字')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='6':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择中字')
     except Exception as r:
         logger.warning('选择中字发生错误，错误信息: %s' %(r))
 
@@ -308,10 +320,11 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
         if file1.pathinfo.transfer==0:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[14]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择原创')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='8':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择原创')
     except Exception as r:
         logger.warning('选择原创发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择原创发生错误'
@@ -320,10 +333,11 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
         if '国' in file1.language or '中' in file1.language:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[7]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择国语')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='5':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择国语')
     except Exception as r:
         logger.warning('选择国语发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择国语发生错误'
@@ -332,10 +346,11 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
         if 'wintersakura' in file1.pathinfo.exclusive:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[3]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择禁转')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='1':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择禁转')
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
 
@@ -372,10 +387,40 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
     if not downloadurl =='':
         res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
         if res:
-            return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+            logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
+            #return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:
-            return True,fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+            logger.info(fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
+            #return True,fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
     else:
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
+    
+    if 'check' in dir(web.site) and web.site.check==False:
+        return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+
+    res=check(web)
+    if res:
+        logger.info('成功审核第'+file1.episodename+'集的资源')
+        infostr=fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'且成功审核第'+file1.episodename+'集的资源'
+        logger.info(infostr)
+        return True,infostr
+    else:
+        logger.info('未成功审核第'+file1.episodename+'集的资源')
+        return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'但未成功审核第'+file1.episodename+'集的资源'
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
