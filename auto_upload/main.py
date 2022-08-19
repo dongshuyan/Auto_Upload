@@ -1,6 +1,6 @@
 from loguru import logger
 import os
-from auto_upload.utils.para_ctrl.para_ctrl import read_para
+from auto_upload.utils.para_ctrl.para_ctrl import *
 from auto_upload.utils.site.site import makesites
 from auto_upload.utils.pathinfo.pathinfo import findpathinfo
 from auto_upload.utils.seed_machine.seed_machine import start_machine
@@ -32,6 +32,7 @@ def main():
         #    item.print()
 
         start_machine(pathlist,sites,yamlinfo)
+        write_yaml(yamlinfo)
 
     if yamlinfo['mod']=='douban_info':
         doubaninfo(yamlinfo['douban_url'])

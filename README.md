@@ -2,7 +2,11 @@
 自动将本地资源发布到PT站  
 Upload local resources to PT trackers automatically.  
 
+## 特色
+最适合发布更追资源，可以自动识别资源集数。
+
 ## 更新说明 
+- 20220820 增加对HDFans的支持
 - 20220819 优化内存使用，增强标签识别性能，柠檬下载链接改用https  
 - 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签  
 - 20220818 修正download的拼写错误
@@ -64,11 +68,11 @@ Upload local resources to PT trackers automatically.
 - carpt
 - ptnap 
 - wintersakura 
+- hdfans
 
   
 正在适配的站点(排名不分先后):  
 - mt
-- hdfan
 - hare
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
