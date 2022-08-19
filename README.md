@@ -3,6 +3,7 @@
 Upload local resources to PT trackers automatically.  
 
 ## 更新说明 
+- 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签  
 - 20220818 修正download的拼写错误
 - 20220818 增加对wintersakura(冬樱)的支持
 - 20220817 增加副标题附加内容
@@ -80,45 +81,47 @@ Upload local resources to PT trackers automatically.
 
 1.需要本地安装Chrome且升级到最新正式版本  
   
-2.安装python3  
-  
+2.安装python3:  
 [安装Python](https://www.python.org/downloads/)，一般选择最新版本的Python3及对应的Windows installer即可。安装时注意将为所有用户安装和将Python添加到PATH勾上
 ![安装python1](https://img.picgo.net/2022/08/07/1.png)
 打开PowerShell，确认Python安装成功
 ![安装python2](https://img.picgo.net/2022/08/07/2.png)
   
-3.安装`ffmpeg`，并确认安装正确  
-  
+3.安装`ffmpeg`，并确认安装正确:  
 - 下载安装`ffmpeg` & `ffprobe`：https://github.com/BtbN/FFmpeg-Builds/releases  
 - 将解压后的`ffmpeg`文件夹移动到一个相对稳定的文件夹,比如`D:\Program Files\`  
 - 将上一步`ffmpeg\bin`文件夹路径添加到系统PATH  
 我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`ffmpeg\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
 - 在PowerShell确认ffmpeg和ffprobe安装成功  
   
-4.安装`mktorrent`，并确认安装正确  
-
+4.安装`mktorrent`，并确认安装正确:  
 - 根据自己电脑下载[64位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-64bit-build2.7z)或者[32位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-32bit-build2.7z)  
 - 使用[7-zip](http://www.7-zip.org/) or [Winrar](http://www.rarlab.com/)解压文件.  
 - 将`mktorrent`文件夹移动到一个相对稳定的文件夹,比如`D:\Program Files\`  
 - 将上一步`mktorrent\bin`文件夹路径添加到系统PATH  
 我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`mktorrent\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
-
+  
 5.安装`mediainfo`，并确认安装正确 
 - 下载[mediainfo-cli](https://mediaarea.net/download/binary/mediainfo/22.06/MediaInfo_CLI_22.06_Windows_x64.zip)：https://mediaarea.net/en/MediaInfo/Download/Windows 
 - 解压zip文件并解压后的`Mediainfo_CLIxxx`文件夹移动到一个相对稳定的位置
 - 将上一步`Mediainfo_CLIxxx`文件夹路径添加到系统PATH  
 我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`Mediainfo_CLIxxx`文件夹路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启。
 - 在PowerShell确认`mediainfo`安装成功 
-```
+```bash
 mediainfo -h
 ```
-
-4.安装`Auto_Upload`，在以管理员身份打开`Windows PowerShell`中输入:
-```
-python3 -m pip install auto_upload
+  
+6.安装`Auto_Upload`，在以管理员身份打开`Windows PowerShell`中输入:
+```bash
+python3 -m pip install auto_upload  -i https://pypi.tuna.tsinghua.edu.cn/simple/
 auto_upload -h
 ```
-
+  
+7.更新`Auto_Upload`，，在`Terminal.app`中输入:
+```bash
+python3 -m pip install --upgrade auto_upload  -i https://pypi.tuna.tsinghua.edu.cn/simple/
+```
+  
 ### Linux  
 0.升级`python`至`3.7.0`版本以上，建议`3.9.0`
 如果有`_ssl`或者`_ctypes`找不到，也可以试试按照下面步骤重新安装python3
@@ -186,9 +189,14 @@ sudo apt-get install python3-pip ffmpeg mediainfo mktorrent
 ```
   
 3.安装`Auto_Upload`
-```
-python3 -m pip install auto_upload
+```bash
+python3 -m pip install auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 auto_upload -h
+```
+  
+4.更新`Auto_Upload`，，在`Terminal.app`中输入:
+```bash
+python3 -m pip install --upgrade auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
 
 ### MacOS(已测试成功)
@@ -200,18 +208,24 @@ auto_upload -h
 bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
   
-3.安装`mktorrent`,`ffmpeg`和`mediainfo`，并确认安装正确
-```
+3.安装`mktorrent`,`ffmpeg`和`mediainfo`，并确认安装正确:  
+```bash
 brew install ffmpeg mediainfo mktorrent
 ffmpeg -version
 mediainfo --version
 ```
   
-4.安装`Auto_Upload`，在`Terminal.app`中输入:
-```
-python3 -m pip install auto_upload
+4.安装`Auto_Upload`，在`Terminal.app`中输入:  
+```bash
+python3 -m pip install auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 auto_upload -h
 ```
+  
+5.更新`Auto_Upload`，，在`Terminal.app`中输入:
+```bash
+python3 -m pip install --upgrade auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
+```
+
 
 ## 配置环境&文件  
 

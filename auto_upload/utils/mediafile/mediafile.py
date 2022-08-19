@@ -214,9 +214,8 @@ class mediafile(object):
         dlgroup           =['NaN-Raws','NaN Raws','NC-Raws','NC Raws','Lilith-Raws','Lilith Raws','ANi','Skymoon-Raws','Skymoon Raws']
         self.type              ='WEBRip'
         self.Video_Format      ='H264'
-        if self.sub in dlgroup:
-            self.type='WEB-DL'
-        elif 'hdtvrip' in self.filename.lower() or 'hdtv-rip' in self.filename.lower():
+        
+        if 'hdtvrip' in self.filename.lower() or 'hdtv-rip' in self.filename.lower() or 'tv-rip' in self.filename.lower() or 'tvrip' in self.filename.lower():
             self.type='HDTVRip'
         elif 'hdtv' in self.filename.lower():
             self.type='HDTV'
@@ -230,6 +229,12 @@ class mediafile(object):
             self.type='DVDRip'
         elif 'dvd' in self.filename.lower() :
             self.type='DVD'
+        elif 'webdl' in self.filename.lower() or 'web-dl' in self.filename.lower() :
+            self.type='WEB-DL'
+        elif 'webrip' in self.filename.lower() or 'web-rip' in self.filename.lower():
+            self.type='WEBRip'
+        elif self.sub in dlgroup or ('WEB' in self.sub.upper() and not 'WEBRRP' in self.sub.upper() and not '爪爪' in self.pathinfo.exinfo):
+            self.type='WEB-DL'
 
         self.getscreenshot_done=0
         self.getimgurl_done=0
@@ -389,7 +394,11 @@ class mediafile(object):
         self.dealsubtext(res)
         self.dealaudio(res)
         ss=res.split('\n')
-        ss[1]=':'.join([ss[1].split(':')[0],' '+self.filename])
+        #ss[1]=':'.join([ss[1].split(':')[0],' '+self.filename])
+        for i in range(len(ss)):
+            if ss[i].startswith('Complete name'):
+                ss[i]=':'.join([ss[i].split(':')[0],' '+self.filename])
+
         self.mediainfo='\n'.join(ss)
         a=os.popen("mediainfo --Output=JSON \""+self.address+'"')
         #res_json=a.read()

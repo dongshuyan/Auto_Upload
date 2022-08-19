@@ -67,7 +67,7 @@ def pter_upload(web,file1,record_path,qbinfo):
     logger.info('正在填写简介,请稍等...')
     try:
         #web.driver.find_elements(By.NAME,'descr')[0].click()
-        web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.content)
+        web.driver.find_elements(By.NAME,'descr')[0].send_keys(file1.content.replace('[quote=','[hide=').replace('[/quote','[/hide'))
         logger.info('已成功填写简介')
     except Exception as r:
         logger.warning('填写简介发生错误，错误信息: %s' %(r))
