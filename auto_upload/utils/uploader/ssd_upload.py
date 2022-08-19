@@ -296,7 +296,12 @@ def ssd_upload(web,file1,record_path,qbinfo):
         
 
     try:
-        web.driver.find_elements(By.ID,'qr_check')[0].click()
+        checkbox=web.driver.find_elements(By.ID,'qr_check')
+        if len(checkbox)>0:
+                checkbox=checkbox[0]
+                if not checkbox.is_selected():
+                    checkbox.click()
+                logger.info('已选择审核种子')
     except Exception as r:
         logger.warning('审核种子发生错误，错误信息: %s' %(r))
         return False,fileinfo+'审核种子发生错误'
