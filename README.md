@@ -6,6 +6,7 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200820 修正qb自动管理带来的bug;增加给资源分类功能，体现在qb的分类里面，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
 - 20220820 增加对HDFans的支持
 - 20220819 优化内存使用，增强标签识别性能，柠檬下载链接改用https  
 - 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签  

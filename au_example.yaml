@@ -53,6 +53,7 @@ path info:
     type: anime #类型,可选择[anime,tv,movie]中的一个 柠檬站点目前只支持发布动漫
     collection: 0 #是否以合集发布 0为否 1为是
     complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
+    category: anime #分类，可有可无，体现在qbittorrent的分类里面。如果没有或者不设置就不给分类参数。
     enable: 0 #是否开启此路径自动发种 1为开启，0为关闭
     exclusive: pter,lemonhd #需要禁转发布的站点，以英文逗号','分割。如果均不需要禁转则留空
     doubanurl: https://movie.douban.com/subject/35358650 #豆瓣链接  如果不填写则自动抓取
