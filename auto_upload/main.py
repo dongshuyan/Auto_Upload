@@ -15,6 +15,11 @@ def main():
     yamlinfo=read_para()
     #设置路径，如果有下载文件都下载到screenshot_path
     os.chdir(yamlinfo['basic']['screenshot_path'])
+
+    if 'basic' in yamlinfo and 'log' in yamlinfo['basic'] and yamlinfo['basic']['log']!=None:
+        log = yamlinfo['basic']['log']
+        logger.add(log, level="TRACE", backtrace=True, diagnose=True)
+
     if yamlinfo['mod']=='img_upload':
         logger.info('正在使用上传图床模式')
         res=img_upload(imgdata=yamlinfo['image hosting'],imglist=yamlinfo['imgfilelist'],host=yamlinfo['img_host'],form=yamlinfo['img_form'])

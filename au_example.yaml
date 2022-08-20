@@ -2,6 +2,7 @@ basic:
   picture_num: 3 #表示截图的数量
   headless: 1 #是否优先后台运行 1表示是，0表示否。不填默认否
   workpath: /Users/Desktop/ #工作路径
+  log: /Users/Desktop/record_path/Auto_Upload.log #日志文件路径，可有可无，若没有则日志不写入文件
   record_path: /Users/Desktop/record_path #用来存放发种记录 
   cookies_path: /Users/Desktop/cookies_path #用来存放站点cookie文件，文件名需要命名为cookie_站点.js。(例如:cookie_lemonhd.json,cookie_pter.json等)
   screenshot_path: /Users/Desktop/screenshot_path #用来存放视频截图，种子等临时文件 
