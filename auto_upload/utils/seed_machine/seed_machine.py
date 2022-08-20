@@ -238,22 +238,22 @@ def start_machine(pathlist,sites,yamlinfo):
 
     print('\n\n以下种子已成功发布:')
     print('*'*100)
-    logger.info(log_allsucc)
+    logger.info(log_allsucc.strip())
     print('*'*100+'\n\n')
 
     logger.trace('\n\n以下种子已成功发布:')
     logger.trace('*'*100)
-    logger.trace(log_allsucc)
+    logger.trace(log_allsucc.strip())
     logger.trace('*'*100+'\n\n')
 
     print('以下种子发布失败:')
     print('&'*100)
-    logger.warning(log_allerror)
+    logger.warning(log_allerror.strip())
     print('&'*100+'\n\n')
 
     logger.trace('以下种子发布失败:')
     logger.trace('&'*100)
-    logger.trace(log_allerror)
+    logger.trace(log_allerror.strip())
     logger.trace('&'*100+'\n\n')
 
 
