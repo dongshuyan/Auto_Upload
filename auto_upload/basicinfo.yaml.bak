@@ -48,3 +48,7 @@ site info:
     loginurl: https://wintersakura.net/login.php
     uploadurl: https://wintersakura.net/upload.php
     tracker: https://tracker.wintersakura.net/announce.php
+  hdfans:
+    loginurl: https://hdfans.org/login.php
+    uploadurl: https://hdfans.org/upload.php
+    tracker: https://hdfans.org/announce.php

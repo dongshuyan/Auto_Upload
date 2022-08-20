@@ -400,9 +400,9 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     try:
         if '国' in file1.language or '中' in file1.language:
-            checkbox=web.driver.find_elements(By.NAME,'tag_zz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_gy')
             if len(checkbox)>0:
-                checkbox=checkbox[1]
+                checkbox=checkbox[0]
                 if not checkbox.is_selected():
                     checkbox.click()
                     logger.info('已选择国语')
@@ -446,7 +446,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     if not downloadurl =='':
 
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:
@@ -456,7 +456,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
         logger.warning(fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url)
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
     
-    if web.site.check==False:
+    if 'check' in dir(web.site) and web.site.check==False:
         return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
 
     res=lemon_check(web)
@@ -788,9 +788,9 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     try:
         if '国' in file1.language or '中' in file1.language:
-            checkbox=web.driver.find_elements(By.NAME,'tag_zz')
+            checkbox=web.driver.find_elements(By.NAME,'tag_gy')
             if len(checkbox)>0:
-                checkbox=checkbox[1]
+                checkbox=checkbox[0]
                 if not checkbox.is_selected():
                     checkbox.click()
                     logger.info('已选择国语')
@@ -827,6 +827,11 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     downloadurl=finddownloadurl(driver=web.driver,elementstr='/html/body/table[2]/tbody/tr[2]/td/table[1]/tbody/tr[10]/td[2]/a[2]')
     
+    if not 'https=1&' in downloadurl:
+        downloadurl_temp=downloadurl.split('.php?')
+        downloadurl=downloadurl_temp[0]+'.php?https=1&'+downloadurl_temp[1]
+        del(downloadurl_temp)
+    
     if downloadurl=='已存在':
         return True,fileinfo+'种子发布失败,失败原因:种子'+downloadurl+',当前网址:'+web.driver.current_url
 
@@ -834,7 +839,8 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     if not downloadurl =='':
 
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
+        #res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:
@@ -845,9 +851,13 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
     
     
-    return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+    #return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
     
+    if 'check' in dir(web.site) and web.site.check==False:
+        return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+
     res=lemon_check(web)
+
     if res:
         logger.info('成功审核第'+file1.episodename+'集的资源')
         infostr=fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'且成功审核第'+file1.episodename+'集的资源'

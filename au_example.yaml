@@ -2,6 +2,7 @@ basic:
   picture_num: 3 #表示截图的数量
   headless: 1 #是否优先后台运行 1表示是，0表示否。不填默认否
   workpath: /Users/Desktop/ #工作路径
+  log: /Users/Desktop/record_path/Auto_Upload.log #日志文件路径，可有可无，若没有则日志不写入文件
   record_path: /Users/Desktop/record_path #用来存放发种记录 
   cookies_path: /Users/Desktop/cookies_path #用来存放站点cookie文件，文件名需要命名为cookie_站点.js。(例如:cookie_lemonhd.json,cookie_pter.json等)
   screenshot_path: /Users/Desktop/screenshot_path #用来存放视频截图，种子等临时文件 
@@ -37,7 +38,7 @@ image hosting: #配置图床站点信息
     cookie: cookie #F12 nerwork中提取的cookie
     url: https://shewang.net/
 site info: #配置站点信息
-  pter: #配置站点，目前支持的关键词有[pter,lemonhd,audience,carpt,hdsky,piggo,ssd,hdpt,ptnap,wintersakura]
+  pter: #配置站点，目前支持的关键词有[pter,lemonhd,audience,carpt,hdsky,piggo,ssd,hdpt,ptnap,wintersakura,hdfans]
     enable: 1 #是否开启此站点自动发种 1为开启，0为关闭
     uplver: 1 #是否开启匿名发种，1为开启，0为关闭
     username: username #站点用户名密码与cookie文件原则来说有一个即可。首选cookie，如果cookie过期会自动使用用户名密码登录
@@ -53,6 +54,7 @@ path info:
     type: anime #类型,可选择[anime,tv,movie]中的一个 柠檬站点目前只支持发布动漫
     collection: 0 #是否以合集发布 0为否 1为是
     complete: 0 #是否已完结 0为否 1为是。若未填写则自动判断。
+    category: anime #分类，可有可无，体现在qbittorrent的分类里面。如果没有或者不设置就不给分类参数。
     enable: 0 #是否开启此路径自动发种 1为开启，0为关闭
     exclusive: pter,lemonhd #需要禁转发布的站点，以英文逗号','分割。如果均不需要禁转则留空
     doubanurl: https://movie.douban.com/subject/35358650 #豆瓣链接  如果不填写则自动抓取

@@ -2,7 +2,14 @@
 自动将本地资源发布到PT站  
 Upload local resources to PT trackers automatically.  
 
+## 特色
+最适合发布更追资源，可以自动识别资源集数。
+
 ## 更新说明 
+- 20200821 增加日志写入文件，优化日志显示结果，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块log参数`
+- 20200820 修正qb自动管理带来的bug; 增加给资源分类功能，体现在qb的分类里面，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+- 20220820 增加对HDFans的支持
+- 20220819 优化内存使用，增强标签识别性能，柠檬下载链接改用https  
 - 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签  
 - 20220818 修正download的拼写错误
 - 20220818 增加对wintersakura(冬樱)的支持
@@ -63,11 +70,11 @@ Upload local resources to PT trackers automatically.
 - carpt
 - ptnap 
 - wintersakura 
+- hdfans
 
   
 正在适配的站点(排名不分先后):  
 - mt
-- hdfan
 - hare
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
@@ -233,14 +240,14 @@ python3 -m pip install --upgrade auto_upload -i https://pypi.tuna.tsinghua.edu.c
 例如路径为:/Users/Desktop/auto_upload  
 
 ### 2.在1中工作路径文件夹下，再新建三个文件夹  
-"cookies_path","screenshot_path","m"  
+"cookies_path","screenshot_path","record_path"  
 
-- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.js。  
+- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.json。  
 (例如:cookie_lemonhd.json,cookie_pter.json等)  
 - screenshot_path将用来存放视频截图，种子等临时文件  
 - record_path将用来存放发种记录 
 
-### 3.获取cookie并存入文件 工作目录/cookies_path/cookie_站点.js 中  
+### 3.获取cookie并存入文件 工作目录`/cookies_path/cookie_站点.json` 中  
 js格式的cookie推荐使用插件"EditThisCookie"获取  
 
 #### EditThisCookie插件官网  

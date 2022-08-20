@@ -265,10 +265,11 @@ def ptnap_upload(web,file1,record_path,qbinfo):
         if 'ptnap' in file1.pathinfo.exclusive:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[2]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择禁转')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='8':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择禁转')
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
 
@@ -276,10 +277,11 @@ def ptnap_upload(web,file1,record_path,qbinfo):
         if 'ptn' in file1.sub.lower():
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官方')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='10':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官方')
     except Exception as r:
         logger.warning('选择官方发生错误，错误信息: %s' %(r))
         return False,fileinfo+'选择官方发生错误'
@@ -317,7 +319,7 @@ def ptnap_upload(web,file1,record_path,qbinfo):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:

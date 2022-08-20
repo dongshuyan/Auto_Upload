@@ -166,6 +166,12 @@ class pathinfo(object):
         else:
             self.downloadpath=infodict['downloadpath']
 
+        self.category=None
+        if not 'category' in infodict or infodict['category']==None:
+            self.category=None
+        else:
+            self.category=infodict['category']
+
         if self.complete=='':
             self.complete=0
         else:

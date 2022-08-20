@@ -116,7 +116,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 #deletetorrent(basic['screenshot_path'])
             #a=input('check')
             
-
+        del(file1)
     logger.info('路径'+pathinfo.path+'下资源已全部发布完毕')
     return log_error,log_succ
 
@@ -209,8 +209,8 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             exec('pathyaml["'+siteitem.sitename+'"]=",".join([str(i) for i in pathinfo.'+siteitem.sitename+'_done])')
             #deletetorrent(basic['screenshot_path'])
         #a=input('check')
-       
-
+            
+    del(file1)  
     logger.info('路径'+pathinfo.path+'下资源已全部发布完毕')
     return log_error,log_succ
 
@@ -235,5 +235,25 @@ def start_machine(pathlist,sites,yamlinfo):
         if not log_error=='':
             log_allerror=log_allerror+log_error+'\n'
             logger.error(log_error)
+
+    print('\n\n以下种子已成功发布:')
+    print('*'*100)
+    logger.info(log_allsucc)
+    print('*'*100+'\n\n')
+
+    logger.trace('\n\n以下种子已成功发布:')
+    logger.trace('*'*100)
+    logger.trace(log_allsucc)
+    logger.trace('*'*100+'\n\n')
+
+    print('以下种子发布失败:')
+    print('&'*100)
+    logger.warning(log_allerror)
+    print('&'*100+'\n\n')
+
+    logger.trace('以下种子发布失败:')
+    logger.trace('&'*100)
+    logger.trace(log_allerror)
+    logger.trace('&'*100+'\n\n')
 
 

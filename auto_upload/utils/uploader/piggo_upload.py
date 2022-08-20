@@ -272,10 +272,11 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if not file1.sublan=='' and ('简' in file1.sublan or '繁' in file1.sublan or '中' in file1.sublan):
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[7]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择中字')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='6':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择中字')
     except Exception as r:
         logger.warning('选择中字发生错误，错误信息: %s' %(r))
 
@@ -283,10 +284,11 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if file1.pathinfo.collection==1:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[1]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择合集')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='11':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择合集')
     except Exception as r:
         logger.warning('选择合集发生错误，错误信息: %s' %(r))
 
@@ -294,10 +296,11 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if file1.pathinfo.complete==1:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[2]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择完结')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='13':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择完结')
     except Exception as r:
         logger.warning('选择完结发生错误，错误信息: %s' %(r))
 
@@ -305,10 +308,11 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if 'PIGGO' in file1.sub.upper():
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[4]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择官方')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='3':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择官方')
     except Exception as r:
         logger.warning('选择官方发生错误，错误信息: %s' %(r))
 
@@ -316,32 +320,35 @@ def piggo_upload(web,file1,record_path,qbinfo):
         if '国' in file1.language or '中' in file1.language:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[6]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择国语')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='5':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择国语')
     except Exception as r:
         logger.warning('选择国语发生错误，错误信息: %s' %(r))
-    '''
+    
     try:
         if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.complete==0:
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[11]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择追更')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='14':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择追更')
     except Exception as r:
         logger.warning('选择追更发生错误，错误信息: %s' %(r))
-    '''
+    
     try:
         if 'piggo' in file1.pathinfo.exclusive :
             checkbox=web.driver.find_elements(By.NAME,'tags[]')
             if len(checkbox)>0:
-                checkbox=checkbox[0]
-                if not checkbox.is_selected():
-                    checkbox.click()
-                    logger.info('已选择禁转')
+                for item in checkbox:
+                    if 'get_attribute' in dir(item) and item.get_attribute('value')=='1':
+                        if not item.is_selected():
+                            item.click()
+                            logger.info('已选择禁转')
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
 
@@ -379,7 +386,7 @@ def piggo_upload(web,file1,record_path,qbinfo):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:

@@ -296,7 +296,12 @@ def ssd_upload(web,file1,record_path,qbinfo):
         
 
     try:
-        web.driver.find_elements(By.ID,'qr_check')[0].click()
+        checkbox=web.driver.find_elements(By.ID,'qr_check')
+        if len(checkbox)>0:
+                checkbox=checkbox[0]
+                if not checkbox.is_selected():
+                    checkbox.click()
+                logger.info('已选择审核种子')
     except Exception as r:
         logger.warning('审核种子发生错误，错误信息: %s' %(r))
         return False,fileinfo+'审核种子发生错误'
@@ -320,7 +325,7 @@ def ssd_upload(web,file1,record_path,qbinfo):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:
