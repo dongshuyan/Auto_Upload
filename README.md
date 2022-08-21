@@ -6,6 +6,7 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200821 修复发布合集路径错误的bug,修复mktorrent制作种子概率失败的问题。
 - 20200821 优化结果的高亮显示
 - 20200821 增加日志写入文件，优化日志显示结果，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块log参数`
 - 20200820 修正qb自动管理带来的bug; 增加给资源分类功能，体现在qb的分类里面，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  

@@ -446,7 +446,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
 
     if not downloadurl =='':
 
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
+        res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:
@@ -839,8 +839,8 @@ def lemonhd_upload_tv(web,file1,record_path,qbinfo):
 
     if not downloadurl =='':
 
-        #res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo)
-        res=qbseed(url=downloadurl,filepath=file1.pathinfo.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
+        #res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo)
+        res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
         else:
