@@ -40,7 +40,7 @@ def mktorrent_win_temp(filepath,torrentname,tracker="https://announce.leaguehd.c
         except Exception as r:
             logger.error('删除种子发生错误: %s' %(r))
     logger.info('正在制作种子:'+filepath)
-    order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(filepath)+'\"'+''
+    order='mktorrent -v -p -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(filepath)+'\"'+''
     logger.info(order)
     os.system(order)
     logger.info('已完成制作种子'+torrentname)
@@ -65,7 +65,7 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC')
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
-        order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        order='mktorrent -v -p -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
         #logger.info(order)
         os.system(order)
         os.rename(new_filepath,filepath)
@@ -77,7 +77,7 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC'+os.path.splitext(filepath)[-1])
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
-        order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        order='mktorrent -v -p -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
         #logger.info(order)
         os.system(order)
         os.rename(new_filepath,filepath)
@@ -107,7 +107,7 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
         except Exception as r:
             logger.warning('删除种子发生错误: %s' %(r))
     logger.info('正在制作种子:'+filepath)
-    order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
+    order='mktorrent -v -p -l 24 -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
     #logger.info(order)
     os.system(order)
     logger.info('已完成制作种子'+torrentname)
