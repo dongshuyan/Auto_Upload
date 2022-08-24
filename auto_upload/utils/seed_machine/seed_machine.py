@@ -20,6 +20,8 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
     log_error=''
     log_succ=''
     logstr=''
+    errornum=0
+    succnum=0
     for pathep in pathinfo.eps:
 
         #判断此集有没有站点要发布,此集合收纳还没有发布过本集的站点
@@ -70,8 +72,9 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 trynum=0
                 while suc==False:
                     trynum=trynum+1
-                    if trynum>5:
+                    if trynum>2:
                         logger.warning(siteitem.sitename+'站点登录失败')
+                        break
                     if trynum==1 and basic['headless']==1:
                         web1=web(site=siteitem,headless=True)
                     else:
@@ -97,17 +100,20 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             if not upload_success:
                 logger.warning(siteitem.sitename+'发布任务失败，本站暂停发种')
                 siteitem.enable=0
-                log_error=log_error+logstr+'\n'
+                errornum=errornum+1
+                log_error=log_error+str(errornum)+':\t'+siteitem.sitename+'   \t'+logstr+'\n'
                 logger.warning(logstr)
             elif '已存在' in  logstr:
-                log_error=log_error+logstr+'\n'
+                errornum=errornum+1
+                log_error=log_error+str(errornum)+':\t'+siteitem.sitename+'   \t'+logstr+'\n'
                 logger.warning(logstr)
                 #记录已发布的种子
                 exec('pathinfo.'+siteitem.sitename+'_done.append(pathep)')
                 exec('pathinfo.'+siteitem.sitename+'_done.sort()')
                 exec('pathyaml["'+siteitem.sitename+'"]=",".join([str(i) for i in pathinfo.'+siteitem.sitename+'_done])')
             else:
-                log_succ=log_succ+logstr+'\n'
+                succnum=succnum+1
+                log_succ=log_succ+str(succnum)+':\t'+siteitem.sitename+'   \t'+logstr+'\n'
                 logger.info(logstr)
                 #记录已发布的种子
                 exec('pathinfo.'+siteitem.sitename+'_done.append(pathep)')
@@ -133,7 +139,8 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
     log_error=''
     log_succ=''
     logstr=''
-
+    errornum=0
+    succnum=0
     site_upload=[]
     for siteitem in sites:
         #发布过此集的站点略过
@@ -169,8 +176,9 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             trynum=0
             while suc==False:
                 trynum=trynum+1
-                if trynum>5:
+                if trynum>2:
                     logger.warning(siteitem.sitename+'站点登录失败')
+                    break
                 if trynum==1 and basic['headless']==1:
                     web1=web(site=siteitem,headless=True)
                 else:
@@ -191,17 +199,20 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
         if not upload_success:
             logger.warning(siteitem.sitename+'发布任务失败，本站暂停发种')
             siteitem.enable=0
-            log_error=log_error+logstr+'\n'
+            errornum=errornum+1
+            log_error=log_error+str(errornum)+':\t'+siteitem.sitename+'  \t'+logstr+'\n'
             logger.warning(logstr)
         elif '已存在' in  logstr:
-            log_error=log_error+logstr+'\n'
+            errornum=errornum+1
+            log_error=log_error+str(errornum)+':\t'+siteitem.sitename+'   \t'+logstr+'\n'
             logger.warning(logstr)
             #记录已发布的种子
             exec('pathinfo.'+siteitem.sitename+'_done.append(-1)')
             exec('pathinfo.'+siteitem.sitename+'_done.sort()')
             exec('pathyaml["'+siteitem.sitename+'"]=",".join([str(i) for i in pathinfo.'+siteitem.sitename+'_done])')
         else:
-            log_succ=log_succ+logstr+'\n'
+            succnum=succnum+1
+            log_succ=log_succ+str(succnum)+':\t'+siteitem.sitename+'   \t'+logstr+'\n'
             logger.info(logstr)
             #记录已发布的种子
             exec('pathinfo.'+siteitem.sitename+'_done.append(-1)')

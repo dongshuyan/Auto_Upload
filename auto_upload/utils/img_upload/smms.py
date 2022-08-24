@@ -10,7 +10,8 @@ def smms_upload(imgpath: str, api_key: str):
     headers = {'Authorization': api_key}
     files = {'smfile': open(img, 'rb'), 'format': 'json'}
     try:
-        req = requests.post('https://sm.ms/api/v2/upload', headers=headers, files=files)
+        #req = requests.post('https://sm.ms/api/v2/upload', headers=headers, files=files)
+        req = requests.post('https://sm.ms.app/api/v2/upload', headers=headers, files=files)
     except Exception as r:
         logger.warning('requests 获取失败，原因: %s' %(r))
         return None

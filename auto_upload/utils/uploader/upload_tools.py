@@ -31,7 +31,7 @@ def recordupload(torrent_file,file1,String_url,downloadurl):
         del(a)
     
     try:
-        num=int(list1[-1])
+        num=int(list1[-1].replace(',','').strip())
         a=list1.pop(-1)
         del(a)
     except:

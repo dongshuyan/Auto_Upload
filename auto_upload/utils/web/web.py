@@ -294,7 +294,7 @@ class web(object):
         '''
         if not self.wait_page():
             logger.warning('登录页面加载失败')
-            return -1
+            #return -1
 
         try:
             self.driver.delete_all_cookies()
