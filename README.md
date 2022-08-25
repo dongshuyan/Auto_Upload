@@ -6,6 +6,7 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200825 添加了有cookie的情况绕过静态模式登录的功能  
 - 20200825 在github里面增加了一个install文件夹，里面存放了win下需要下载安装的几个安装包
 - 20200825 配置文件实例只保留一个[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20200825 修复登录失败反复登录的bug
@@ -101,6 +102,7 @@ Upload local resources to PT trackers automatically.
 打开PowerShell，确认Python安装成功
 ![安装python2](https://img.picgo.net/2022/08/07/2.png)
   
+   
 以下几个插件的安装包可以去通过下面官方途径下载，也可以前往[Install文件夹](https://github.com/dongshuyan/Auto_Upload/blob/master/install)获取 或者 前往交流群的群文件获取。    
 3.安装`ffmpeg`，并确认安装正确:  
 - 下载安装`ffmpeg` & `ffprobe`：https://github.com/BtbN/FFmpeg-Builds/releases  

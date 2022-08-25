@@ -8,6 +8,7 @@ import os
 import platform
 from PIL import Image
 from selenium.webdriver.common.by import By
+from urllib.parse import urlparse
 
 ssl._create_default_https_context = ssl._create_unverified_context
 uc.TARGET_VERSION = 91
@@ -56,6 +57,17 @@ class web(object):
 
         if self.browser:
             self.driver.set_page_load_timeout(self.waittime)
+
+        self.login_element='menu'
+        if self.site.sitename=='hare':
+            self.login_element='layui-nav'
+        elif self.site.sitename=='ttg':
+            self.login_element='smallfont'
+        elif self.site.sitename=='pttime':
+            self.login_element='selected'
+        elif self.site.sitename=='98t':
+            self.login_element='ddpc_sign_btna'
+
 
     def __del__(self):
         if self.browser:
@@ -107,24 +119,29 @@ class web(object):
             #useritem=self.driver.find_elements(By.NAME,'username')
             #fileitem=self.driver.find_elements(By.NAME,'file')
             useritem=self.driver.find_elements(By.NAME,'username')
-            fileitem=self.driver.find_elements(By.NAME,'file')
+            #fileitem=self.driver.find_elements(By.NAME,'file')
+            fileitem=self.driver.find_elements(By.CLASS_NAME,self.login_element)
         except Exception as r:
             logger.warning('寻找页面组件发生错误，错误信息: %s' %(r))
-            return False
+            return 0
+
+        if 'File not found.' in self.driver.page_source:
+            return -2
 
         trynum=0
         while len(useritem)+len(fileitem)<=0:
             trynum=trynum+1
             if trynum>15:
-                return False
+                return 0
             time.sleep(1)
             try:
                 useritem=self.driver.find_elements(By.NAME,'username')
-                fileitem=self.driver.find_elements(By.NAME,'file')
+                #fileitem=self.driver.find_elements(By.NAME,'file')
+                fileitem=self.driver.find_elements(By.CLASS_NAME,self.login_element)
             except Exception as r:
                 logger.warning('寻找页面组件发生错误，错误信息: %s' %(r))
-                return False
-        return True
+                return 0
+        return 1
 
     
     def login_account(self,autologin=True):
@@ -148,7 +165,7 @@ class web(object):
         if len(self.driver.find_elements(By.NAME,'username'))<=0:
             self.driver.execute_script("window.scrollBy(0,300)")
 
-        if not self.wait_page():
+        if self.wait_page()!=1:
             logger.warning('登录页面加载失败')
             return -1
 
@@ -248,12 +265,13 @@ class web(object):
             logger.warning('打开登录页面发生错误，错误信息: %s' %(r))
             return -1
 
-        if not self.wait_page():
+        if self.wait_page()!=1:
             logger.warning('登录页面加载失败')
             return -1
 
         try:
-            fileitem=self.driver.find_elements(By.CLASS_NAME,'file')
+            #fileitem=self.driver.find_elements(By.CLASS_NAME,'file')
+            fileitem=self.driver.find_elements(By.CLASS_NAME,self.login_element)
         except Exception as r:
             logger.info('打开发布页面发生错误，错误信息: %s' %(r))
 
@@ -284,15 +302,17 @@ class web(object):
         logger.info('正在尝试使用cookie登录'+self.site.sitename+'站点,请稍后...')
 
         try:
-            self.driver.get(self.site.loginurl)
+            o = urlparse(self.site.loginurl)
+            o = o.scheme+'://'+o.hostname+'/asddsa000.php'
+            self.driver.get(o)
         except Exception as r:
-            logger.warning('打开登录页面发生错误，错误信息: %s' %(r))
-            return -1
+            logger.warning('导入登录页面域名发生错误，错误信息: %s' %(r))
+            #return -1
         '''
         if len(self.driver.find_elements(By.NAME,'username'))<=0:
             self.driver.execute_script("window.scrollBy(0,300)")
         '''
-        if not self.wait_page():
+        if self.wait_page()==0:
             logger.warning('登录页面加载失败')
             #return -1
 
@@ -314,14 +334,15 @@ class web(object):
         except Exception as r:
             logger.warning('打开发布页面发生错误，错误信息: %s' %(r))
 
-        if not self.wait_page():
+        if self.wait_page()!=1:
             logger.warning('发布页面加载失败')
             return -1
 
         try:
-            fileitem=self.driver.find_elements(By.CLASS_NAME,'file')
+            #fileitem=self.driver.find_elements(By.CLASS_NAME,'file')
+            fileitem=self.driver.find_elements(By.CLASS_NAME,self.login_element)
         except Exception as r:
-            logger.warning('打开发布页面发生错误，错误信息: %s' %(r))
+            logger.warning('寻找登录成功组件发生错误，错误信息: %s' %(r))
 
         if len(fileitem)>0:
             logger.info('登录站点成功！')
