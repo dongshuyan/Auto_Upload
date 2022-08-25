@@ -14,7 +14,7 @@ def existitem(imgdata,item):
 
 def createimgdict(imgdata):
     imgdict=dict()
-    imghostlist=['ptpimg','picgo','smms','pter','emp','femp','imgbox','chd']
+    imghostlist=['ptpimg','picgo','smms','pter','emp','femp','imgbox','chd','freeimage']
     for item in imghostlist:
         imgdict[item]=False
     if existitem(imgdata,'ptpimg') and existitem(imgdata['ptpimg'],'apikey'):
@@ -29,6 +29,8 @@ def createimgdict(imgdata):
         imgdict['emp']=True
     if existitem(imgdata,'chd')  and existitem(imgdata['chd'],'url') and existitem(imgdata['chd'],'cookie') :
         imgdict['chd']=True
+    if existitem(imgdata,'freeimage')  and existitem(imgdata['freeimage'],'url') and existitem(imgdata['freeimage'],'cookie') :
+        imgdict['freeimage']=True
     imgdict['femp']=True
     imgdict['imgbox']=True
     listnum=1
@@ -122,6 +124,16 @@ def img_upload(imgdata,imglist:list[str],host:str='',form:str='img',fail:bool=Fa
             success=False
     elif 'chd' in host.lower():
         host='chd'
+        logger.info('正在尝试使用'+host+'上传图片,请稍等...')
+        if imgdict[host]==True:
+            res=chevereto_cookie_upload_files(imgpaths=imglist,url=imgdata[host]['url'].strip('/'), cookie=imgdata[host]['cookie'], form=form)
+        else:
+            success=False
+            logger.warning('图床'+host+'配置信息缺失')
+        if res=='':
+            success=False
+    elif 'freeimage' in host.lower():
+        host='freeimage'
         logger.info('正在尝试使用'+host+'上传图片,请稍等...')
         if imgdict[host]==True:
             res=chevereto_cookie_upload_files(imgpaths=imglist,url=imgdata[host]['url'].strip('/'), cookie=imgdata[host]['cookie'], form=form)
