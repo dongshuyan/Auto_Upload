@@ -65,9 +65,20 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC')
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
-        order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        order='mktorrent -v -p -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
         #logger.info(order)
-        os.system(order)
+        
+        trytime=0
+        filesize=0
+        while filesize==0:
+            trytime=trytime+1
+            logger.info('第'+str(trytime)+'次制作种子:')
+            if trytime>10:
+                logger.error('制作种子失败')
+                break
+            os.system(order)
+            filesize=os.path.getsize(torrentname)
+
         os.rename(new_filepath,filepath)
         t=Torrent()
         t.load(torrentname)
@@ -77,9 +88,20 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC'+os.path.splitext(filepath)[-1])
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
-        order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        order='mktorrent -v -p -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
         #logger.info(order)
-        os.system(order)
+
+        trytime=0
+        filesize=0
+        while filesize==0:
+            trytime=trytime+1
+            logger.info('第'+str(trytime)+'次制作种子:')
+            if trytime>10:
+                logger.error('制作种子失败')
+                break
+            os.system(order)
+            filesize=os.path.getsize(torrentname)
+
         os.rename(new_filepath,filepath)
         t=Torrent()
         t.load(torrentname)
@@ -98,18 +120,36 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
     if os.path.isdir(filepath):
         logger.info('检测到路径制种，将先删除掉路径里面所有种子文件(torrent后缀)以及隐藏文件（.开头的文件）...')
         deletetorrent(filepath) 
+    deletetorrent(os.path.dirname(torrentname))
     logger.info('即将开始制作种子...')
-    if os.path.exists(torrentname):
+    trytime=0
+    while os.path.exists(torrentname):
+        trytime=trytime+1
+        if trytime>5:
+            logger.error('删除种子失败，制作种子失败')
+            break
         logger.info('已存在种子文件，正在删除'+torrentname)
         try:
             os.rename(torrentname,torrentname+'temp')
             os.remove(torrentname+'temp')
         except Exception as r:
             logger.warning('删除种子发生错误: %s' %(r))
-    logger.info('正在制作种子:'+filepath)
-    order='mktorrent -v -p -f -l 24 -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
+
+    logger.info('正在对下面路径制作种子:'+filepath)
+    order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
+        
     #logger.info(order)
-    os.system(order)
+    trytime=0
+    filesize=0
+    while filesize==0:
+        trytime=trytime+1
+        logger.info('第'+str(trytime)+'次制作种子:')
+        if trytime>10:
+            logger.error('制作种子失败')
+            break
+        os.system(order)
+        filesize=os.path.getsize(torrentname)
+
     logger.info('已完成制作种子'+torrentname)
 
 
@@ -164,10 +204,12 @@ def takescreenshot(file,screenshotaddress,screenshotnum):
 class mediafile(object):
     def __init__(self,mediapath,pathinfo,basic,imgdata):
         self.mediapath         =mediapath
+        self.downloadpath      =pathinfo.downloadpath
         #如果mediapath是文件夹，就选里面最大的视频文件
         if os.path.isdir(self.mediapath):
             self.isdir=True
             ls = os.listdir(self.mediapath)
+            self.downloadpath=os.path.dirname(self.downloadpath)
             maxsize=0
             for i in ls:
                 c_path=os.path.join(self.mediapath, i)
