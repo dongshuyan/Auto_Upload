@@ -15,12 +15,13 @@ image hosting: #配置图床站点信息
   seq: #这个有先后顺，如果不指定图床则优先使用编号靠前的图床上传图片
     1: ptpimg
     2: picgo
-    3: chd
-    4: femp
-    5: imgbox
-    6: pter
-    7: emp
-    8: smms
+    3: freeimage
+    4: chd
+    5: femp
+    6: imgbox
+    7: pter
+    8: emp
+    9: smms
   ptpimg:
     apikey: apikey
   smms:
@@ -37,6 +38,9 @@ image hosting: #配置图床站点信息
   chd:
     cookie: cookie #F12 nerwork中提取的cookie
     url: https://shewang.net/
+  freeimage:
+    cookie: cookie #F12 nerwork中提取的cookie
+    url: https://freeimage.host/
 site info: #配置站点信息
   pter: #配置站点，目前支持的关键词有[pter,lemonhd,audience,carpt,hdsky,piggo,ssd,hdpt,ptnap,wintersakura,hdfans]
     enable: 1 #是否开启此站点自动发种 1为开启，0为关闭
