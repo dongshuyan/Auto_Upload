@@ -125,9 +125,8 @@ class web(object):
             logger.warning('寻找页面组件发生错误，错误信息: %s' %(r))
             return 0
 
-        if 'File not found.' in self.driver.page_source:
+        if 'not found' in self.driver.page_source.lower():
             return -2
-
         trynum=0
         while len(useritem)+len(fileitem)<=0:
             trynum=trynum+1
