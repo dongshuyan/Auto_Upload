@@ -173,4 +173,22 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=No
             tor_num_new=len(client.torrents_info())
 
     logger.info('已经成功添加种子')
+
+    if 'lemonhd' in url:
+        logger.info('发现lemonhd的种子,正在更改tracker...')
+        addtime=0
+        torrentlist=client.torrents.info()
+        for item in torrentlist:
+            if item.added_on>addtime:
+                addtime=item.added_on
+                to=item
+        for item in to.trackers:
+            if 'url' in item and 'leaguehd' in item['url']:
+                tracker=item['url']
+                if 'http:' in tracker:
+                    try:
+                        to.edit_tracker(orig_url=tracker,new_url=tracker.replace('http:','https:'))
+                    except Exception as r:
+                        logger.error('更改tracker失败，原因: %s' %(r))
+
     return True

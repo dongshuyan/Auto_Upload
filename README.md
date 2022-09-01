@@ -6,6 +6,11 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200902 修正了柠檬tracker无法选择https的问题
+- 20200902 增加了大量自定义信息，当然这些信息大部分并不需要自己设置，只有当程序无法自动识别时候需要手动设置。设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
+- 20200902 增加了自定义文件夹的功能，外层文件夹随便命名。
+- 20200902 修复了发布电视剧需要bgm的bug
+- 20200902 目前所有资源发种时候会自动在外层套一个0day名字的文件夹
 - 20200825 已支持新图床freeimage，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`image hosting模块`
 - 20200825 添加了有cookie的情况绕过静态模式登录的功能  
 - 20200825 在github里面增加了一个install文件夹，里面存放了win下需要下载安装的几个安装包
@@ -85,6 +90,10 @@ Upload local resources to PT trackers automatically.
 - mt
 - pthome
 - hare
+
+Todolist:
+- 使用post发种
+- 所有发种套一个0day名字文件夹
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
   
