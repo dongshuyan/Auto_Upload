@@ -8,6 +8,7 @@ import json
 import sys
 from auto_upload.utils.img_upload.imgupload import img_upload
 from auto_upload.utils.edittorrent.edittorrent import *
+from shutil import move
 
 def deletetorrent(delpath=''):
     if delpath=='':
@@ -205,11 +206,11 @@ class mediafile(object):
     def __init__(self,mediapath,pathinfo,basic,imgdata):
         self.mediapath         =mediapath
         self.downloadpath      =pathinfo.downloadpath
-        #如果mediapath是文件夹，就选里面最大的视频文件
+        #self.address就是要被抓去info的资源文件路径
+        #如果mediapath是文件夹，self.address就选里面最大的视频文件
         if os.path.isdir(self.mediapath):
             self.isdir=True
             ls = os.listdir(self.mediapath)
-            self.downloadpath=os.path.dirname(self.downloadpath)
             maxsize=0
             for i in ls:
                 c_path=os.path.join(self.mediapath, i)
@@ -225,7 +226,8 @@ class mediafile(object):
             
  
         self.pathinfo          = pathinfo
-
+        #种子目录
+        self.topath            = ''
         self.screenshotaddress = basic['screenshot_path']
         self.screenshotnum     = int(basic['picture_num'])
         self.imgdata           = imgdata
@@ -246,6 +248,14 @@ class mediafile(object):
         self.sub               = self.pathinfo.sub
         self.englishname       = self.pathinfo.englishname
         self.chinesename       = self.pathinfo.chinesename
+
+        self.audio_ch=0
+        self.audio_jp=0
+        self.audio_en=0
+        self.text_jp=0
+        self.text_sc=0
+        self.text_tc=0
+        self.text_en=0
  
         if ('anime' in self.mediatype.lower() or 'tv' in self.mediatype.lower() ):
             self.season            = self.pathinfo.season
@@ -352,6 +362,7 @@ class mediafile(object):
         jp=0
         sc=0
         tc=0
+        en=0
         a=res.split('\n\n')
         for item in a:
             if item.startswith('Text'):
@@ -362,23 +373,47 @@ class mediafile(object):
                             sc=1
                         if 'TC' in subitem.upper() or 'CHT' in subitem.upper() or 'BIG5' in subitem.upper() or '繁' in subitem.upper():
                             tc=1
-                        if 'JP' in subitem.upper() or 'JAPANESE' in subitem.upper() or '日' in subitem.upper():
+                        if 'JP' in subitem.upper() or 'JA' in subitem.upper() or'JAPANESE' in subitem.upper() or '日' in subitem.upper():
                             jp=1
-        if jp==0 and sc==0 and tc==1:
+                        elif 'EN' in subitem.upper() or 'ENGLISH' in subitem.upper() or '英' in subitem.upper():
+                            en=1
+        if en==0 and jp==0 and sc==0 and tc==1:
             self.sublan='[繁体中字]'
-        elif jp==0 and sc==1 and tc==0:
+        elif en==0 and jp==0 and sc==1 and tc==0:
             self.sublan='[简体中字]'
-        elif jp==0 and sc==1 and tc==1:
+        elif en==0 and jp==0 and sc==1 and tc==1:
             self.sublan='[简繁中字]'
-        elif jp==1 and sc==0 and tc==0:
+        elif en==0 and jp==1 and sc==0 and tc==0:
             self.sublan='[日文字幕]'
-        elif jp==1 and sc==0 and tc==1:
+        elif en==0 and jp==1 and sc==0 and tc==1:
             self.sublan='[繁日双语]'
-        elif jp==1 and sc==1 and tc==0:
+        elif en==0 and jp==1 and sc==1 and tc==0:
             self.sublan='[简日双语]'
-        elif jp==1 and sc==1 and tc==1:
+        elif en==0 and jp==1 and sc==1 and tc==1:
             self.sublan='[简繁日双语]'
-        if jp+sc+tc>0:
+        elif en==1 and jp==0 and sc==0 and tc==0:
+            self.sublan='[英文字幕]'
+        elif en==1 and jp==0 and sc==0 and tc==1:
+            self.sublan='[繁英双语]'
+        elif en==1 and jp==0 and sc==1 and tc==0:
+            self.sublan='[简英双语]'
+        elif en==1 and jp==0 and sc==1 and tc==1:
+            self.sublan='[简繁英双语]'
+        elif en==1 and jp==1 and sc==0 and tc==0:
+            self.sublan='[日英双语]'
+        elif en==1 and jp==1 and sc==0 and tc==1:
+            self.sublan='[繁日英三语]'
+        elif en==1 and jp==1 and sc==1 and tc==0:
+            self.sublan='[简日英三语]'
+        elif en==0 and jp==1 and sc==1 and tc==1:
+            self.sublan='[简繁日英三语]'
+
+        self.text_jp=jp
+        self.text_sc=sc
+        self.text_tc=tc
+        self.text_en=en
+
+        if jp+sc+tc+en>0:
             logger.info('根据mediainfo分析，字幕语言为'+self.sublan)
         else:
             logger.warning('无法根据mediainfo分析出字幕语言信息')
@@ -422,10 +457,135 @@ class mediafile(object):
         else:
             self.language=''
 
+        self.audio_ch=ch
+        self.audio_jp=jp
+        self.audio_en=en
+
         if jp+ch+en>0:
             logger.info('根据mediainfo音轨分析，语言为'+self.language)
         else:
             logger.warning('无法根据mediainfo分析出音轨语言信息')
+
+    def getaudio(self):
+        ch=0
+        jp=0
+        en=0
+        infolist=self.mediainfo_json['media']['track']
+        for item in infolist:
+            if not '@type' in item:
+                continue
+            if item['@type'].lower()=='audio':
+                if 'Title' in item :
+                    if 'CHINESE' in item['Title'].upper() or '中' in item['Title'].upper() or 'CH' in item['Title'].upper() or 'ZH' in item['Title'].upper() or '国' in item['Title'].upper():
+                        ch=1
+                    if  'JA' in item['Title'].upper() or 'JP' in item['Title'].upper() or '日' in item['Title'].upper():
+                        jp=1
+                    if 'EN' in item['Title'].upper() or '英' in item['Title'].upper():
+                        en=1
+                elif 'Language' in item :
+                    if 'CHINESE' in item['Language'].upper() or '中' in item['Language'].upper() or 'CH' in item['Language'].upper() or 'ZH' in item['Language'].upper() or '国' in item['Language'].upper():
+                        ch=1
+                    if  'JA' in item['Language'].upper() or 'JP' in item['Language'].upper() or '日' in item['Language'].upper():
+                        jp=1
+                    if 'EN' in item['Language'].upper() or '英' in item['Language'].upper():
+                        en=1
+
+        if jp==0 and ch==0 and en==1:
+            self.language='英语'
+        elif jp==0 and ch==1 and en==0:
+            self.language='国语'
+        elif jp==0 and ch==1 and en==1:
+            self.language='中英双语'
+        elif jp==1 and ch==0 and en==0:
+            self.language='日语'
+        elif jp==1 and ch==0 and en==1:
+            self.language='日英双语'
+        elif jp==1 and ch==1 and en==0:
+            self.language='中日双语'
+        elif jp==1 and ch==1 and en==1:
+            self.language='中英日三语'
+        else:
+            self.language=''
+
+        self.audio_ch=ch
+        self.audio_jp=jp
+        self.audio_en=en
+
+        if jp+ch+en>0:
+            logger.info('根据mediainfo音轨分析，语言为'+self.language)
+        else:
+            logger.warning('无法根据mediainfo分析出音轨语言信息')
+
+
+    def getsubtext(self):
+        jp=0
+        sc=0
+        tc=0
+        en=0
+        infolist=self.mediainfo_json['media']['track']
+        for item in infolist:
+            if not '@type' in item:
+                continue
+            if item['@type'].lower()=='text':
+                if 'Title' in item :
+                    if 'TC' in item['Title'].upper() or 'CHT' in item['Title'].upper() or 'BIG5' in item['Title'].upper() or '繁' in item['Title'].upper():
+                        tc=1
+                    elif 'SC' in item['Title'].upper() or 'CHS' in item['Title'].upper() or 'GB' in item['Title'].upper() or '简' in item['Title'].upper() or '簡' in item['Title'].upper() or '中' in item['Title'].upper():
+                        sc=1
+                    elif 'JP' in item['Title'].upper() or 'JAPANESE' in item['Title'].upper() or '日' in item['Title'].upper():
+                        jp=1
+                    elif 'EN' in item['Title'].upper() or 'ENGLISH' in item['Title'].upper() or '英' in item['Title'].upper():
+                        en=1
+                elif 'Language' in item:
+                    if 'TC' in item['Language'].upper() or 'CHT' in item['Language'].upper() or 'BIG5' in item['Language'].upper() or '繁' in item['Language'].upper():
+                        tc=1
+                    elif 'SC' in item['Language'].upper() or 'CHS' in item['Language'].upper() or 'GB' in item['Language'].upper() or '简' in item['Language'].upper() or '簡' in item['Language'].upper() or 'ZH' in item['Language'].upper():
+                        sc=1
+                    elif 'JP' in item['Language'].upper() or 'JA' in item['Language'].upper() or 'JAPANESE' in item['Language'].upper() or '日' in item['Language'].upper():
+                        jp=1
+                    elif 'EN' in item['Language'].upper() or 'ENGLISH' in item['Language'].upper() or '英' in item['Language'].upper():
+                        en=1
+        if en==0 and jp==0 and sc==0 and tc==1:
+            self.sublan='[繁体中字]'
+        elif en==0 and jp==0 and sc==1 and tc==0:
+            self.sublan='[简体中字]'
+        elif en==0 and jp==0 and sc==1 and tc==1:
+            self.sublan='[简繁中字]'
+        elif en==0 and jp==1 and sc==0 and tc==0:
+            self.sublan='[日文字幕]'
+        elif en==0 and jp==1 and sc==0 and tc==1:
+            self.sublan='[繁日双语]'
+        elif en==0 and jp==1 and sc==1 and tc==0:
+            self.sublan='[简日双语]'
+        elif en==0 and jp==1 and sc==1 and tc==1:
+            self.sublan='[简繁日双语]'
+        elif en==1 and jp==0 and sc==0 and tc==0:
+            self.sublan='[英文字幕]'
+        elif en==1 and jp==0 and sc==0 and tc==1:
+            self.sublan='[繁英双语]'
+        elif en==1 and jp==0 and sc==1 and tc==0:
+            self.sublan='[简英双语]'
+        elif en==1 and jp==0 and sc==1 and tc==1:
+            self.sublan='[简繁英双语]'
+        elif en==1 and jp==1 and sc==0 and tc==0:
+            self.sublan='[日英双语]'
+        elif en==1 and jp==1 and sc==0 and tc==1:
+            self.sublan='[繁日英三语]'
+        elif en==1 and jp==1 and sc==1 and tc==0:
+            self.sublan='[简日英三语]'
+        elif en==0 and jp==1 and sc==1 and tc==1:
+            self.sublan='[简繁日英三语]'
+
+        self.text_jp=jp
+        self.text_sc=sc
+        self.text_tc=tc
+        self.text_en=en
+
+        if jp+sc+tc+en>0:
+            logger.info('根据mediainfo分析，字幕语言为'+self.sublan)
+        else:
+            logger.warning('无法根据mediainfo分析出字幕语言信息')
+
 
     def getmediainfo(self):
         if self.getmediainfo_done==1:
@@ -433,8 +593,8 @@ class mediafile(object):
         a=os.popen("mediainfo \""+self.address+'"')
         #res=a.read()
         res=a.buffer.read().decode('utf-8')
-        self.dealsubtext(res)
-        self.dealaudio(res)
+        #self.dealsubtext(res)
+        #self.dealaudio(res)
         ss=res.split('\n')
         #ss[1]=':'.join([ss[1].split(':')[0],' '+self.filename])
         for i in range(len(ss)):
@@ -446,7 +606,12 @@ class mediafile(object):
         #res_json=a.read()
         res_json=a.buffer.read().decode('utf-8')
         media_json=json.loads(res_json)
+
         self.mediainfo_json=media_json
+
+        self.getsubtext()
+        self.getaudio()
+
         self.Format            =media_json['media']['track'][0]['Format']
         self.FileSize          =int(media_json['media']['track'][0]['FileSize'].strip())
         self.duration          =float(media_json['media']['track'][0]['Duration'].strip())
@@ -710,15 +875,59 @@ class mediafile(object):
         #    return
         torrentpath=os.path.join(self.screenshotaddress,str(self.episode)+'.torrent')
         self.torrentpath=torrentpath
-        mktorrent(self.mediapath,torrentpath,tracker=tracker)
+        mktorrent(self.topath,torrentpath,tracker=tracker)
         self.mktorrent_done=1
 
-    def movefile(self):
-        path=os.path.dirname(self.address)
-        new_path=os.path.join(os.path.dirname(path),'temp')
-        os.rename(path,new_path)
-        os.mkdir(path)
-        shutil.move(os.path.join(new_path,self.filename), path)
+    def gettorrent(self,tracker='https://announce.leaguehd.com/announce.php'):
+        dirpath=os.path.dirname(self.topath)
+        filelist=[]
+        if not os.path.exists(self.topath):
+            os.makedirs(self.topath)
+        else:
+            ls = os.listdir(self.topath)
+            for i in ls:
+                c_path=os.path.join(self.topath, i)
+                if (os.path.isdir(c_path)):
+                    if not os.path.exists(   os.path.join(dirpath,i)    ):
+                        newpath=move(c_path,dirpath)
+                        filelist.append(newpath)
+                    else:
+                        logger.warnning('由于文件'+c_path+'在里外文件夹均已存在,已改名为_temp')
+                        os.rename(c_path,c_path+'_temp')
+                        newpath=move(c_path+'_temp',dirpath)
+                        filelist.append(newpath)
+                else:
+                    if not os.path.exists(   os.path.join(dirpath,i)    ):
+                        newpath=move(c_path,dirpath)
+                        filelist.append(newpath)
+                    else:
+                        logger.warnning('由于文件'+c_path+'在里外文件夹均已存在,已改名为_temp')
+                        stem, suffix = os.path.splitext(c_path)
+                        os.rename(c_path,stem+'_temp'+suffix)
+                        newpath=move(stem+'_temp'+suffix,dirpath)
+                        filelist.append(newpath)
+
+        logger.info('检测到路径制种，将先删除掉路径里面所有种子文件(torrent后缀)以及隐藏文件（.开头的文件）...')
+        deletetorrent(self.topath) 
+        if os.path.isdir(self.mediapath):
+            ls = os.listdir(self.mediapath)
+            for i in ls:
+                c_path=os.path.join(self.mediapath, i)
+                if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
+                    continue
+                move (c_path,self.topath)
+        else:
+            move (self.mediapath,self.topath)
+
+        self.mktorrent(tracker)
+
+        for item in filelist:
+            if os.path.exists(item):
+                newpath=move(item,self.topath)
+                if '_temp' in newpath and os.path.exists(newpath):
+                    rename(newpath,newpath.replace('_temp',''))
+
+
 
     def getfullinfo(self,tracker='https://announce.leaguehd.com/announce.php'):
         if self.getinfo_done==1:
@@ -733,12 +942,30 @@ class mediafile(object):
 
 
         self.getmediainfo()
+
+        if self.pathinfo.year!='':
+            self.year=self.pathinfo.year
+        if self.pathinfo.video_type!='':
+            self.type=self.pathinfo.video_type
+        if self.pathinfo.video_format!='':
+            self.Video_Format=self.pathinfo.video_format
+        if self.pathinfo.audio_format!='':
+            self.Audio_Format=self.pathinfo.audio_format
+        if self.pathinfo.txt_info!='':
+            self.sublan=self.pathinfo.txt_info
+        if self.pathinfo.audio_info!='':
+            self.language=self.pathinfo.audio_info
+
+
         self.uploadname=self.englishname+' '+str(self.year)
         self.small_descr=self.chinesename
 
+        
+        medianame=self.uploadname
         if self.pathinfo.type=='anime' or self.pathinfo.type=='tv':
             self.uploadname=self.uploadname+' '+self.season
             self.small_descr=self.small_descr+' ('+self.season_ch+') '
+            medianame=self.uploadname
             if not self.isdir:
                 self.uploadname=self.uploadname+'E'+self.episodename
                 self.small_descr=self.small_descr+'(第'+self.episodename+'集) '
@@ -749,8 +976,14 @@ class mediafile(object):
                 self.uploadname=self.uploadname+'E'+str(self.pathinfo.min).zfill(2)+'-E'+str(self.pathinfo.max).zfill(2)
                 self.small_descr=self.small_descr+'(第'+str(self.pathinfo.min).zfill(2)+'-'+str(self.pathinfo.max).zfill(2)+'集)'
 
+        medianame = medianame+' '+self.standard_sel+' '+self.type+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
+        while '  'in medianame:
+            medianame=medianame.replace('  ',' ')
+        medianame=medianame.replace(' ','.')
+        self.topath=os.path.join(os.path.dirname(self.address),medianame)
 
-
+        if self.pathinfo.zeroday_name!='':
+            self.topath=self.pathinfo.zeroday_name
 
         self.uploadname_ssd=self.uploadname+' '+self.type+' '+self.standard_sel+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
         self.uploadname    =self.uploadname+' '+self.standard_sel+' '+self.type+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
@@ -769,7 +1002,7 @@ class mediafile(object):
 
         self.getimgurl()
         self.content=self.douban_info+"\n[quote=Mediainfo]\n"+self.mediainfo+"[/quote]\n"+self.screenshoturl
-        self.mktorrent(tracker)
+        self.gettorrent(tracker)
         self.getinfo_done=1
 
     def print(self):

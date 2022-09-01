@@ -137,20 +137,10 @@ class pathinfo(object):
             else:
                 exec('self.'+item+'=infodict[item]')
 
-        pathstr=os.path.basename(self.path)
-        if not(len(pathstr.split('-'))==4):
-            logger.error(pathid+' 中文件夹命名有误,错误信息: - 数量异常')
-            raise ValueError (pathid+' 中文件夹命名有误,错误信息: - 数量异常')
-        pathitem=(pathstr.split('-'))[1].strip()
+        
 
-        self.exinfo=re.findall('\[.*\]',pathstr.split('-')[0].strip())
-        if len(self.exinfo)>0:
-            self.exinfo=self.exinfo[0]
-        else:
-            self.exinfo=''
-
-        #可有可无的属性
-        attr_disp=['type','collection','complete','enable','doubanurl','imdb_url','bgm_url','anidb_url','from_url','transfer']
+        #可有可无的属性,后面写入配置文件
+        attr_disp=['type','collection','complete','enable','doubanurl','imdb_url','bgm_url','anidb_url','from_url','transfer','chinesename','englishname','sub']
         for item in attr_disp:
             if not item in infodict or infodict[item]==None:
                 exec('self.'+item+'=""')
@@ -159,6 +149,84 @@ class pathinfo(object):
             else:
                 exec('self.'+item+'=infodict[item]')
                 exec('self.exist_'+item+'=True')
+
+        #可有可无的属性,后面不写入配置文件
+        attr_disp=['video_type','video_format','audio_format','year','zeroday_name','exinfo','seasonnum','txt_info','audio_info']
+        for item in attr_disp:
+            if not item in infodict or infodict[item]==None:
+                exec('self.'+item+'=""')
+                exec('self.exist_'+item+'=False')
+            else:
+                exec('self.'+item+'=infodict[item]')
+                exec('self.exist_'+item+'=True')
+
+        pathstr=os.path.basename(self.path)
+        if (self.exist_chinesename and self.exist_englishname and self.exist_sub):
+            if self.exinfo!='':
+                self.exinfo='['+self.exinfo+']'
+            if self.seasonnum=='':
+                self.seasonnum=1
+                self.season='S01'
+            else:
+                try:
+                    self.seasonnum=int(self.seasonnum)
+                    self.season='S'+str(self.seasonnum).zfill(2)
+                except:
+                    logger.error('季度输入错误')
+                    raise ValueError (pathid+'季度输入错误')
+
+        elif   (len(pathstr.split('-'))==4)  :
+
+            path1=os.path.basename(self.path)
+            if self.seasonnum!='':
+                try:
+                    self.seasonnum=int(self.seasonnum)
+                    self.season='S'+str(self.seasonnum).zfill(2)
+                except:
+                    logger.error('季度输入错误')
+                    raise ValueError (pathid+'季度输入错误')
+            if self.sub=='':
+                self.sub               = path1.split('-')[-1].strip()
+                infodict['sub']=self.sub
+            if self.englishname=='': 
+                self.englishname       = path1.split('-')[-2].strip()
+                seasons=re.findall("S[0-9]{1,2}",self.englishname) 
+                if len(seasons)==0 and self.seasonnum=='':
+                    self.season='S01'
+                    self.seasonnum=1
+
+                else:
+                    if self.seasonnum=='':
+                        self.seasonnum=int(seasons[0][1:])
+                        self.season='S'+str(self.seasonnum).zfill(2)
+                        infodict['seasonnum']=self.seasonnum
+                    self.englishname=self.englishname.replace(self.season,'').strip()
+                infodict['englishname']=self.englishname
+            if self.chinesename=='':
+                self.chinesename       =path1.split('-')[-3].strip()
+                if len(re.findall("第.*季",self.chinesename))>0:
+                    self.chinesename=self.chinesename.replace(re.findall("第.*季",self.chinesename)[0],'')
+                    self.chinesename=self.chinesename.strip()
+                infodict['chinesename']=self.chinesename
+            if self.exinfo=='':
+                self.exinfo            =re.findall('\[.*\]',pathstr.split('-')[0].strip())
+                if len(self.exinfo)>0:
+                    self.exinfo=self.exinfo[0]
+                    infodict['exinfo']=self.exinfo
+                else:
+                    self.exinfo=''
+            else:
+                self.exinfo='['+self.exinfo+']'
+
+            
+
+        else:
+            logger.error(pathid+' 中文件夹命名有误,错误信息: - 数量异常')
+            raise ValueError (pathid+' 中文件夹命名有误,错误信息: - 数量异常')
+        
+        pathitem=(pathstr.split('-'))[1].strip()
+
+        
 
         self.downloadpath=''
         if not 'downloadpath' in infodict or infodict['downloadpath']==None:
@@ -291,10 +359,7 @@ class pathinfo(object):
             self.complete =0
             infodict['complete']=0
             
-        path1=os.path.basename(self.path)
-        self.sub               = path1.split('-')[-1].strip()
-        self.englishname       = path1.split('-')[-2].strip()
-        self.chinesename       =path1.split('-')[-3].strip()
+
 
         
         for siteitem in sites:
@@ -326,21 +391,7 @@ class pathinfo(object):
 
 
         if (self.type=='anime' or self.type=='tv'):
-            seasons=re.findall("S[0-9]{1,2}",self.englishname)
-            if len(seasons)==0:
-                self.season='S01'
-                self.seasonnum=1
-            else:
-                self.seasonnum=int(seasons[0][1:])
-                self.season=seasons[0]
-                self.englishname=self.englishname.replace(self.season,'').strip()
-                self.season='S'+str(self.seasonnum).zfill(2)
-
-            if len(re.findall("第.*季",self.chinesename))>0:
-                self.chinesename=self.chinesename.replace(re.findall("第.*季",self.chinesename)[0],'')
-                self.chinesename=self.chinesename.strip()
-
-
+            
             season_ch=''
             season_ch=season_ch+'第'
             if self.seasonnum==1:
@@ -372,7 +423,7 @@ class pathinfo(object):
             self.min=self.eps[0]
             self.max=self.eps[-1]
 
-            if (not self.exist_bgm_url):
+            if (not self.exist_bgm_url) and self.type=='anime':
                 if self.seasonnum>1:
                     self.bgm_url=findbgmurl(self.chinesename.strip()+' '+self.season_ch.strip())
                 else:
@@ -458,7 +509,8 @@ def findpathinfo(yamlinfo,sites):
     pathlist=[]
     for item in paths:
         pathlist.append(pathinfo(item,paths[item],sites))
-    write_yaml(yamlinfo)
+        write_yaml(yamlinfo)
+        #a=input('checkpath')
     return pathlist
 
 
