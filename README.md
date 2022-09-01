@@ -6,6 +6,7 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200902 修正了柠檬tracker无法选择https的问题
 - 20200902 增加了大量自定义信息，当然这些信息大部分并不需要自己设置，只有当程序无法自动识别时候需要手动设置。设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20200902 增加了自定义文件夹的功能，外层文件夹随便命名。
 - 20200902 修复了发布电视剧需要bgm的bug

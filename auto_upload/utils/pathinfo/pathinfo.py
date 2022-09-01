@@ -509,8 +509,8 @@ def findpathinfo(yamlinfo,sites):
     pathlist=[]
     for item in paths:
         pathlist.append(pathinfo(item,paths[item],sites))
-        write_yaml(yamlinfo)
-        #a=input('checkpath')
+    write_yaml(yamlinfo)
+    #a=input('checkpath')
     return pathlist
 
 
