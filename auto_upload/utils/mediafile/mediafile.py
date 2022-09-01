@@ -952,7 +952,7 @@ class mediafile(object):
         if self.pathinfo.audio_format!='':
             self.Audio_Format=self.pathinfo.audio_format
         if self.pathinfo.txt_info!='':
-            self.sublan=self.pathinfo.txt_info
+            self.sublan='['+self.pathinfo.txt_info+']'
         if self.pathinfo.audio_info!='':
             self.language=self.pathinfo.audio_info
 
@@ -983,7 +983,8 @@ class mediafile(object):
         self.topath=os.path.join(os.path.dirname(self.address),medianame)
 
         if self.pathinfo.zeroday_name!='':
-            self.topath=self.pathinfo.zeroday_name
+            self.topath=os.path.join(os.path.dirname(self.address),self.pathinfo.zeroday_name)
+        self.pathinfo.infodict['zeroday_path']=self.topath
 
         self.uploadname_ssd=self.uploadname+' '+self.type+' '+self.standard_sel+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub
         self.uploadname    =self.uploadname+' '+self.standard_sel+' '+self.type+' '+self.Video_Format+' '+self.Audio_Format+'-'+self.sub

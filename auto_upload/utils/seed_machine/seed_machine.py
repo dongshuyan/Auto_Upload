@@ -5,6 +5,7 @@ from auto_upload.utils.pathinfo.pathinfo import findnum
 from auto_upload.utils.mediafile.mediafile import mediafile
 from auto_upload.utils.web.web import web
 from auto_upload.utils.uploader.auto_upload import auto_upload
+from shutil import move
 
 
 def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
@@ -44,6 +45,16 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             if int(findnum(i)[0])==pathep:
                 filepath=c_path
                 break
+        if filepath=='' and pathinfo.zeroday_path!='':
+            ls = os.listdir(pathinfo.zeroday_path)
+            filepath=''
+            for i in ls:
+                c_path=os.path.join(pathinfo.zeroday_path, i)
+                if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
+                    continue
+                if int(findnum(i)[0])==pathep:
+                    filepath=move(c_path,pathinfo.path)
+                    break
 
         if filepath=='':
             logger.error('未找到文件夹'+pathinfo.path+'下第'+str(pathep)+'集资源')
