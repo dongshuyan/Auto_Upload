@@ -5,6 +5,7 @@ from auto_upload.utils.pathinfo.pathinfo import findnum
 from auto_upload.utils.mediafile.mediafile import mediafile
 from auto_upload.utils.web.web import web
 from auto_upload.utils.uploader.auto_upload import auto_upload
+from shutil import move
 
 
 def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
@@ -52,7 +53,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
                     continue
                 if int(findnum(i)[0])==pathep:
-                    filepath=c_path
+                    filepath=move(c_path,pathinfo.path)
                     break
 
         if filepath=='':
