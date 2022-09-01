@@ -105,17 +105,18 @@ def findbgmurl(name):
             return res
     return ''
 
-def findeps(path):
+def findeps(pathlist):
     eps=[]
-    ls = os.listdir(path)
-    ls.sort()
-    for i in ls:
-        c_path = os.path.join(path, i)
-        if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
-            continue
-        epnum=int(findnum(i)[0])
-        if not epnum in eps:
-            eps.append(epnum)
+    for path in pathlist:
+        ls = os.listdir(path)
+        ls.sort()
+        for i in ls:
+            c_path = os.path.join(path, i)
+            if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
+                continue
+            epnum=int(findnum(i)[0])
+            if not epnum in eps:
+                eps.append(epnum)
     eps.sort()
     return eps
 
@@ -128,6 +129,7 @@ class pathinfo(object):
         self.pathid=pathid
         self.sites=[]
         self.exclusive=[]
+        self.infodict=infodict
         #必须有的属性
         attr_must=['path']
         for item in attr_must:
@@ -151,7 +153,7 @@ class pathinfo(object):
                 exec('self.exist_'+item+'=True')
 
         #可有可无的属性,后面不写入配置文件
-        attr_disp=['video_type','video_format','audio_format','year','zeroday_name','exinfo','seasonnum','txt_info','audio_info']
+        attr_disp=['video_type','video_format','audio_format','year','zeroday_name','exinfo','seasonnum','txt_info','audio_info','zeroday_path']
         for item in attr_disp:
             if not item in infodict or infodict[item]==None:
                 exec('self.'+item+'=""')
@@ -419,7 +421,12 @@ class pathinfo(object):
             season_ch=season_ch+'季'
             self.season_ch=season_ch
 
-            self.eps=findeps(self.path)
+            if self.zeroday_path=='':
+                self.eps=findeps([self.path])
+            else:
+                self.eps=findeps([self.path,self.zeroday_path])
+
+
             self.min=self.eps[0]
             self.max=self.eps[-1]
 
