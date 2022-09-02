@@ -5,6 +5,7 @@ from urllib.parse import unquote
 import re
 import requests
 from auto_upload.utils.para_ctrl.readyaml import write_yaml
+from shutil import move
 
 def findnum(name):
     num=re.findall(r" ([0-9]{1,2}) ",name)
@@ -125,7 +126,7 @@ def findeps(pathlist):
 
 
 class pathinfo(object):
-    def __init__(self,pathid,infodict,sites):
+    def __init__(self,pathid,infodict,sites,basic):
         self.pathid=pathid
         self.sites=[]
         self.exclusive=[]
@@ -161,7 +162,15 @@ class pathinfo(object):
             else:
                 exec('self.'+item+'=infodict[item]')
                 exec('self.exist_'+item+'=True')
-
+        '''
+        if self.zeroday_path!='':
+            ls = os.listdir(self.zeroday_path)
+            for i in ls:
+                c_path=os.path.join(self.zeroday_path, i)
+                if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
+                    continue
+                filepath=move(c_path,self.path)
+        '''
         pathstr=os.path.basename(self.path)
         if (self.exist_chinesename and self.exist_englishname and self.exist_sub):
             if self.exinfo!='':
@@ -232,7 +241,10 @@ class pathinfo(object):
 
         self.downloadpath=''
         if not 'downloadpath' in infodict or infodict['downloadpath']==None:
-            self.downloadpath=self.path
+            if self.collection == 1 and ('new_folder' in basic and basic['new_folder']==0):
+                self.downloadpath=os.path.dirname( self.path)
+            else:
+                self.downloadpath=self.path
         else:
             self.downloadpath=infodict['downloadpath']
 
@@ -515,7 +527,7 @@ def findpathinfo(yamlinfo,sites):
     paths=yamlinfo['path info']
     pathlist=[]
     for item in paths:
-        pathlist.append(pathinfo(item,paths[item],sites))
+        pathlist.append(pathinfo(item,paths[item],sites,yamlinfo['basic']))
     write_yaml(yamlinfo)
     #a=input('checkpath')
     return pathlist

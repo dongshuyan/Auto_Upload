@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 import re
 from selenium.webdriver.common.by import By
 
-def hdsky_upload(web,file1,record_path,qbinfo):
+def hdsky_upload(web,file1,record_path,qbinfo,basic):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'

@@ -12,7 +12,7 @@ def check(web):
     return True
     
 
-def wintersakura_upload(web,file1,record_path,qbinfo):
+def wintersakura_upload(web,file1,record_path,qbinfo,basic):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'
@@ -367,6 +367,9 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
 
 
     #a=input('check')
+    if 'check' in basic and str(basic['check']).strip()=='1':
+        a=input('是否确实发布，如果确认请回车，不发布请手动结束程序或者关闭终端')
+        
     String_url = web.driver.current_url;
     try:
         web.driver.find_elements(By.ID,'qr')[0].click()
@@ -384,6 +387,7 @@ def wintersakura_upload(web,file1,record_path,qbinfo):
 
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
+
     if not downloadurl =='':
         res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
         if res:

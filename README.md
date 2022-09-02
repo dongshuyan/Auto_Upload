@@ -6,6 +6,8 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200902 增加了发布前手动检查的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`check参数`
+- 20200902 增加了自定义是否在资源文件外部套0day文件夹的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`new_folder参数`
 - 20200902 修复了文件在0day文件夹里找不到的问题
 - 20200902 修正了柠檬tracker无法选择https的问题
 - 20200902 增加了大量自定义信息，当然这些信息大部分并不需要自己设置，只有当程序无法自动识别时候需要手动设置。设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
@@ -49,9 +51,11 @@ Upload local resources to PT trackers automatically.
 ### 2.命令行实现抓取豆瓣信息  
 ### 3.命令行实现获取本地视频截图链接  
 ### 4.自动检测本地未发布的资源并发布到各个站点，并下载到Qbittorrent进行辅种  
-包括了以下功能:  
+全平台支持了以下功能:  
 - 根据配置文件分析待发布资源的中英文名
 - 根据配置文件分析已经发布的资源并自动找到未发布的资源
+- 可选是否在资源外层套一个0day名字的文件夹
+- 大量参数可以自动抓取也可以自己配置，包括且不限于 视频格式，音频格式，字幕信息，音轨信息等
 - 将未发布的资源有序发布
 - 自动获取待发布资源的豆瓣链接/动漫资源的bgm链接
 - 自动获取待发布资源的豆瓣简介
@@ -59,7 +63,7 @@ Upload local resources to PT trackers automatically.
 - 自动获取待发布资源的mediainfo信息
 - 自动制作种子
 - 根据上述信息自动发布到各个站点（分集发布/打包发布）
-- 自动获取下载链接并传递给Qbittorrent做种
+- 自动获取下载链接并传递给Qbittorrent自动做种
 - 自动记录发布资源信息生成excel表格(csv文件)
 - 自动统计目前已发布的总量(可以用来统计每月发种数量)
   
@@ -93,8 +97,8 @@ Upload local resources to PT trackers automatically.
 - hare
 
 Todolist:
-- 使用post发种
-- 所有发种套一个0day名字文件夹
+- 使用request发种,开发ing
+
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
   

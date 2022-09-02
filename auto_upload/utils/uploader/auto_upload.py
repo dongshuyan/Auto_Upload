@@ -15,5 +15,5 @@ from auto_upload.utils.uploader.hdfans_upload import hdfans_upload
 
 
 
-def auto_upload(driver,file,record_path,qbinfo):
-    return eval(driver.site.sitename+'_upload(driver,file,record_path,qbinfo)')
+def auto_upload(driver,file,record_path,qbinfo,basic):
+    return eval(driver.site.sitename+'_upload(driver,file,record_path,qbinfo,basic)')

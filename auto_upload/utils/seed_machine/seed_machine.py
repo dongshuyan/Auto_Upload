@@ -45,6 +45,9 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             if int(findnum(i)[0])==pathep:
                 filepath=c_path
                 break
+        move_suc=0
+        move_newpath=''
+        move_oldpath=''
         if filepath=='' and pathinfo.zeroday_path!='':
             ls = os.listdir(pathinfo.zeroday_path)
             filepath=''
@@ -53,9 +56,12 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                 if (os.path.isdir(c_path)) or (i.startswith('.')) or (not(  os.path.splitext(i)[1].lower()== ('.mp4') or os.path.splitext(i)[1].lower()== ('.mkv')  or os.path.splitext(i)[1].lower()== ('.avi') or os.path.splitext(i)[1].lower()== ('.ts')    )):
                     continue
                 if int(findnum(i)[0])==pathep:
+                    move_oldpath=os.path.dirname(c_path)
                     filepath=move(c_path,pathinfo.path)
+                    move_newpath=filepath
+                    move_suc=1
                     break
-
+        
         if filepath=='':
             logger.error('未找到文件夹'+pathinfo.path+'下第'+str(pathep)+'集资源')
             raise ValueError ('未找到文件夹'+pathinfo.path+'下第'+str(pathep)+'集资源')
@@ -97,7 +103,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                     continue
 
                 try:
-                    upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo)
+                    upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic)
                 except Exception as r:
                     logger.warning('发布资源发生错误，错误信息: %s' %(r))
                     upload_success=False
@@ -134,6 +140,11 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             #a=input('check')
             
         del(file1)
+        if move_suc==1 and 'new_folder' in basic and basic['new_folder']==0 and os.path.exists(move_newpath) and os.path.exists(move_oldpath):
+            try:
+                move_newpath=move(move_newpath,move_oldpath)
+            except Exception as r:
+                logger.warning('移动文件'+move_newpath+'到'+move_oldpath+'链接失败，原因: %s' %(r))
     logger.info('路径'+pathinfo.path+'下资源已全部发布完毕')
     return log_error,log_succ
 
@@ -200,7 +211,7 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             if suc==False:
                 continue
 
-            upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo)
+            upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic)
             del(web1)
             if not upload_success:
                 logger.warning(siteitem.sitename+'第'+str(uploadtime)+'次发布任务失败')

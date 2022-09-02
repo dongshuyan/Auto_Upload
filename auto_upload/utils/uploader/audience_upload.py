@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 import re
 from selenium.webdriver.common.by import By
 
-def audience_upload(web,file1,record_path,qbinfo):
+def audience_upload(web,file1,record_path,qbinfo,basic):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'
@@ -288,7 +288,8 @@ def audience_upload(web,file1,record_path,qbinfo):
     except Exception as r:
         logger.warning('选择匿名发布发生错误，错误信息: %s' %(r))
 
-
+    if 'check' in basic and str(basic['check']).strip()=='1':
+        a=input('是否确实发布，如果确认请回车，不发布请手动结束程序或者关闭终端')
     #a=input('check')
     String_url = web.driver.current_url;
     try:
