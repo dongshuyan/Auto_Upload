@@ -103,7 +103,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                     continue
 
                 try:
-                    upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo)
+                    upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic)
                 except Exception as r:
                     logger.warning('发布资源发生错误，错误信息: %s' %(r))
                     upload_success=False
@@ -211,7 +211,7 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             if suc==False:
                 continue
 
-            upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo)
+            upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic)
             del(web1)
             if not upload_success:
                 logger.warning(siteitem.sitename+'第'+str(uploadtime)+'次发布任务失败')

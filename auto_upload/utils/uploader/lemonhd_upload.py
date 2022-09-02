@@ -7,13 +7,13 @@ from selenium.webdriver.support.select import Select
 import re
 from selenium.webdriver.common.by import By
 
-def lemonhd_upload(web,file1,record_path,qbinfo):
+def lemonhd_upload(web,file1,record_path,qbinfo,basic):
     if 'anime' in file1.pathinfo.type.lower():
-        return lemonhd_upload_anime(web,file1,record_path,qbinfo)
+        return lemonhd_upload_anime(web,file1,record_path,qbinfo,basic)
     elif 'tv' in file1.pathinfo.type.lower():
-        return lemonhd_upload_tv(web,file1,record_path,qbinfo)
+        return lemonhd_upload_tv(web,file1,record_path,qbinfo,basic)
     elif 'movie' in file1.pathinfo.type.lower():
-        return lemonhd_upload_tv(web,file1,record_path,qbinfo)
+        return lemonhd_upload_tv(web,file1,record_path,qbinfo,basic)
 
 def lemon_check(web):
     logger.info('正在自动审核')
@@ -31,7 +31,7 @@ def lemon_check(web):
         logger.info('审核失败')
         return False
 
-def lemonhd_upload_anime(web,file1,record_path,qbinfo):
+def lemonhd_upload_anime(web,file1,record_path,qbinfo,basic):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'
@@ -471,7 +471,7 @@ def lemonhd_upload_anime(web,file1,record_path,qbinfo):
     
 
 
-def lemonhd_upload_tv(web,file1,record_path,qbinfo):
+def lemonhd_upload_tv(web,file1,record_path,qbinfo,basic):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'

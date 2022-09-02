@@ -6,6 +6,7 @@ Upload local resources to PT trackers automatically.
 最适合发布更追资源，可以自动识别资源集数。
 
 ## 更新说明 
+- 20200902 增加了发布前手动检查的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`check参数`
 - 20200902 增加了自定义是否在资源文件外部套0day文件夹的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`new_folder参数`
 - 20200902 修复了文件在0day文件夹里找不到的问题
 - 20200902 修正了柠檬tracker无法选择https的问题
