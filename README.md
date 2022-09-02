@@ -50,9 +50,11 @@ Upload local resources to PT trackers automatically.
 ### 2.命令行实现抓取豆瓣信息  
 ### 3.命令行实现获取本地视频截图链接  
 ### 4.自动检测本地未发布的资源并发布到各个站点，并下载到Qbittorrent进行辅种  
-包括了以下功能:  
+全平台支持了以下功能:  
 - 根据配置文件分析待发布资源的中英文名
 - 根据配置文件分析已经发布的资源并自动找到未发布的资源
+- 可选是否在资源外层套一个0day名字的文件夹
+- 大量参数可以自动抓取也可以自己配置，包括且不限于 视频格式，音频格式，字幕信息，音轨信息等
 - 将未发布的资源有序发布
 - 自动获取待发布资源的豆瓣链接/动漫资源的bgm链接
 - 自动获取待发布资源的豆瓣简介
@@ -60,7 +62,7 @@ Upload local resources to PT trackers automatically.
 - 自动获取待发布资源的mediainfo信息
 - 自动制作种子
 - 根据上述信息自动发布到各个站点（分集发布/打包发布）
-- 自动获取下载链接并传递给Qbittorrent做种
+- 自动获取下载链接并传递给Qbittorrent自动做种
 - 自动记录发布资源信息生成excel表格(csv文件)
 - 自动统计目前已发布的总量(可以用来统计每月发种数量)
   
@@ -94,8 +96,8 @@ Upload local resources to PT trackers automatically.
 - hare
 
 Todolist:
-- 使用post发种
-- 所有发种套一个0day名字文件夹
+- 使用request发种,开发ing
+
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
   
