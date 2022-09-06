@@ -487,7 +487,7 @@ class pathinfo(object):
                 logger.warning('识别到路径'+pathid+' 中资源存在部分集数缺失,缺失集数:'+str(self.lackeps))
                 res=100
                 while not(res==0 or res==1):
-                    res=input('识别到路径'+pathid+' 中资源存在部分集数缺失,缺失集数为:'+str(self.lackeps)+'。是否仍然继续发布合集？请回复选项对应的数字\n0:先不发布，退出程序 1:无视警告,仍然发布\n')
+                    res=input('识别到路径'+pathid+' 中资源存在部分集数缺失,缺失集数为:'+str(self.lackeps)+'。是否仍然继续发布？请回复选项对应的数字\n0:先不发布，退出程序 1:无视警告,仍然发布\n')
                     try:
                         res=int(res)
                     except:
