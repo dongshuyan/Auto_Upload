@@ -3,9 +3,12 @@
 Upload local resources to PT trackers automatically.  
 
 ## 特色
-最适合发布更追资源，可以自动识别资源集数。
+- 最适合发布追更资源，可以自动识别资源集数
+- 支持Windows，Linux，Macos系统
+- 自由度高，智能识别能力强
 
 ## 更新说明 
+- 20200907 尝试修复check参数设置为1但是不停止的bug
 - 20200902 增加了发布前手动检查的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`check参数`
 - 20200902 增加了自定义是否在资源文件外部套0day文件夹的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`new_folder参数`
 - 20200902 修复了文件在0day文件夹里找不到的问题
@@ -98,6 +101,8 @@ Upload local resources to PT trackers automatically.
 
 Todolist:
 - 使用request发种,开发ing
+- GUI（有考虑，需要学）
+- 自定义站点（需要考虑做不做和怎么做）
 
   
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)

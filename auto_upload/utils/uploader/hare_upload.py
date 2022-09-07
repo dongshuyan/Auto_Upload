@@ -356,6 +356,20 @@ def hare_upload(web,file1,record_path,qbinfo,basic):
 
 
     #a=input('check')
+    if 'check' in basic:
+        logger.info('检测到check参数,其参数为:'+str(basic['check']).strip())
+        checknum=0
+        try:
+            checknum=int(basic['check'])
+        except:
+            logger.warning('check参数设置错误')
+        if checknum==1:
+            a=input('是否确认发布，如果确认请回车，不发布请手动结束程序或者关闭终端')
+        else:
+            logger.info('check参数不为1,正常发布')
+    else:
+        logger.info('未检测到check参数，正常发布')
+        
     String_url = web.driver.current_url;
     try:
         web.driver.find_elements(By.ID,'qr')[0].click()
