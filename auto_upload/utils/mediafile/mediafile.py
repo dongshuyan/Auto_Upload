@@ -66,7 +66,7 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC')
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
-        order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        order='mktorrent -v -p -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
         #logger.info(order)
         
         trytime=0
@@ -96,8 +96,8 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         new_filepath=os.path.join(os.path.dirname(filepath),'AAABBBCCC'+os.path.splitext(filepath)[-1])
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
-        order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
-        
+        order='mktorrent -v -p -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+
         #logger.info(order)
 
         trytime=0
@@ -153,7 +153,7 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
 
     logger.info('正在对下面路径制作种子:'+filepath)
     #order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
-    order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'
+    order='mktorrent -v -p -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'
         
     #logger.info(order)
     trytime=0
