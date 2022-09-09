@@ -71,13 +71,20 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         
         trytime=0
         filesize=0
+        res=''
         while filesize==0:
             trytime=trytime+1
-            logger.info('第'+str(trytime)+'次制作种子:')
             if trytime>10:
                 logger.error('制作种子失败')
                 break
-            os.system(order)
+            if trytime>1:
+                res=res.buffer.read().decode('utf-8')
+                logger.warning('制作种子失败,失败原因:'+str(res))
+                logger.info(order)
+            logger.info('第'+str(trytime)+'次制作种子:')
+
+            #os.system(order)
+            res=os.popen(order)
             filesize=os.path.getsize(torrentname)
 
         os.rename(new_filepath,filepath)
@@ -90,17 +97,25 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         os.rename(filepath,new_filepath)
         logger.info('正在制作种子:'+filepath)
         order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+changename(torrentname)+ '\" \"'+os.path.basename(new_filepath)+'\"'+''
+        
         #logger.info(order)
 
         trytime=0
         filesize=0
+        res=''
         while filesize==0:
             trytime=trytime+1
-            logger.info('第'+str(trytime)+'次制作种子:')
             if trytime>10:
                 logger.error('制作种子失败')
                 break
-            os.system(order)
+            if trytime>1:
+                res=res.buffer.read().decode('utf-8')
+                logger.warning('制作种子失败,失败原因:'+str(res))
+                logger.info(order)
+            logger.info('第'+str(trytime)+'次制作种子:')
+
+            #os.system(order)
+            res=os.popen(order)
             filesize=os.path.getsize(torrentname)
 
         os.rename(new_filepath,filepath)
@@ -137,18 +152,24 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
             logger.warning('删除种子发生错误: %s' %(r))
 
     logger.info('正在对下面路径制作种子:'+filepath)
-    order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
+    #order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'+' > /dev/null'
+    order='mktorrent -v -p -f -l 24 -c "Made by Auto_Upload" -a '+tracker+' -o \"'+torrentname+ '\" \"'+filepath+'\"'
         
     #logger.info(order)
     trytime=0
     filesize=0
     while filesize==0:
         trytime=trytime+1
-        logger.info('第'+str(trytime)+'次制作种子:')
         if trytime>10:
             logger.error('制作种子失败')
             break
-        os.system(order)
+        if trytime>1:
+                res=res.buffer.read().decode('utf-8')
+                logger.warning('制作种子失败,失败原因:'+str(res))
+                logger.info(order)
+        logger.info('第'+str(trytime)+'次制作种子:')
+        #os.system(order)
+        res=os.popen(order)
         if os.path.exists(torrentname):
             filesize=os.path.getsize(torrentname)
 
