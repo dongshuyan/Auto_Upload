@@ -7,6 +7,7 @@ def readyaml(file):
     audata = yaml.load(f, Loader=yaml.FullLoader)
     f.close()
     logger.info('读取yaml完毕')
+    #au_data['yaml_path']=file
     newfile=file+'.bak'
     write_yaml(audata,newfile)
     return audata

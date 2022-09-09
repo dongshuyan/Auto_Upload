@@ -7,7 +7,7 @@ basic:
   cookies_path: /Users/Desktop/cookies_path #用来存放站点cookie文件，文件名需要命名为cookie_站点.js。(例如:cookie_lemonhd.json,cookie_pter.json等)
   screenshot_path: /Users/Desktop/screenshot_path #用来存放视频截图，种子等临时文件 
   new_folder: 0 #发布的资源是否在外层套一层0day名字文件夹 1表示是，0表示否。不填默认是
-  check: 1 #是否在发布前需要人工确认再发布。0表示否1表示是。此处如果选择1 记得把headless参数这是为0来前台运行
+  check: 1 #是否在发布前需要人工确认再发布。0表示否1表示是。此处如果选择1 记得把headless参数设置为0来前台运行
 qbinfo:
   qburl: 127.0.0.1:8080
   qbwebuiusername: username #你qbittorrent的WEBUI的用户名密码
