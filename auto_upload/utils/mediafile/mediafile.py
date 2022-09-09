@@ -73,19 +73,29 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
         filesize=0
         res=''
         while filesize==0:
+            
             trytime=trytime+1
             if trytime>10:
                 logger.error('制作种子失败')
                 break
             if trytime>1:
-                res=res.buffer.read().decode('utf-8')
                 logger.warning('制作种子失败,失败原因:'+str(res))
                 logger.info(order)
             logger.info('第'+str(trytime)+'次制作种子:')
 
             #os.system(order)
+            if os.path.exists(torrentname):
+                logger.info('已存在种子文件，正在删除'+torrentname)
+                try:
+                    os.remove(torrentname)
+                except Exception as r:
+                    logger.error('删除种子发生错误: %s' %(r))
             res=os.popen(order)
-            filesize=os.path.getsize(torrentname)
+            res=res.buffer.read().decode('utf-8')
+            if os.path.exists(torrentname):
+                filesize=os.path.getsize(torrentname)
+            else:
+                filesize=0
 
         os.rename(new_filepath,filepath)
         t=Torrent()
@@ -109,14 +119,23 @@ def mktorrent_win(filepath,torrentname,tracker="https://announce.leaguehd.com/an
                 logger.error('制作种子失败')
                 break
             if trytime>1:
-                res=res.buffer.read().decode('utf-8')
                 logger.warning('制作种子失败,失败原因:'+str(res))
+                if os.path.exists(torrentname):
+                    logger.info('已存在种子文件，正在删除'+torrentname)
+                    try:
+                        os.remove(torrentname)
+                    except Exception as r:
+                        logger.error('删除种子发生错误: %s' %(r))
                 logger.info(order)
             logger.info('第'+str(trytime)+'次制作种子:')
 
             #os.system(order)
             res=os.popen(order)
-            filesize=os.path.getsize(torrentname)
+            res=res.buffer.read().decode('utf-8')
+            if os.path.exists(torrentname):
+                filesize=os.path.getsize(torrentname)
+            else:
+                filesize=0
 
         os.rename(new_filepath,filepath)
         t=Torrent()
@@ -164,14 +183,22 @@ def mktorrent(filepath,torrentname,tracker="https://announce.leaguehd.com/announ
             logger.error('制作种子失败')
             break
         if trytime>1:
-                res=res.buffer.read().decode('utf-8')
                 logger.warning('制作种子失败,失败原因:'+str(res))
                 logger.info(order)
         logger.info('第'+str(trytime)+'次制作种子:')
         #os.system(order)
+        if os.path.exists(torrentname):
+            logger.info('已存在种子文件，正在删除'+torrentname)
+            try:
+                os.remove(torrentname)
+            except Exception as r:
+                logger.error('删除种子发生错误: %s' %(r))
         res=os.popen(order)
+        res=res.buffer.read().decode('utf-8')
         if os.path.exists(torrentname):
             filesize=os.path.getsize(torrentname)
+        else:
+            filesize=0
 
     logger.info('已完成制作种子'+torrentname)
 
