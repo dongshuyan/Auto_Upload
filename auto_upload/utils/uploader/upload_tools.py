@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import sys
 import re
 from selenium.webdriver.common.by import By
+import qbittorrentapi
 
 def recordupload(torrent_file,file1,String_url,downloadurl):
     logger.info('正在记录发布的资源到'+torrent_file)
@@ -125,14 +126,10 @@ def finddownloadurl(driver,elementstr=""):
     return ''
 
 
-def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=None):
+def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=None,hashlist=[]):
     logger.info('正在添加资源到Qbittorrent,请稍等...')
 
-    if int(qbinfo['start'])==1:
-        is_paused=False
-    else:
-        is_paused=True
-
+    is_paused=True
     try:
         client = Client(host=qbinfo['qburl'],username=qbinfo['qbwebuiusername'],password=qbinfo['qbwebuipassword'])
     except:
@@ -165,23 +162,33 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=No
         if 'Ok' in res:
             logger.info('返回值显示成功添加种子')
         else:
-            logger.warning('添加种子失败，返回值为:',res)
+            logger.warning('添加种子失败，返回值为:'+str(res))
         time.sleep(1)
-        tor_num_new=len(client.torrents_info())
+        try:
+            tor_num_new=len(client.torrents_info())
+        except Exception as r:
+            tor_num_new=tor_num
+            logger.warning('计算种子数量出错，错误信息: %s' %(r))
         if tor_num_new==tor_num:
             time.sleep(5)
             tor_num_new=len(client.torrents_info())
 
     logger.info('已经成功添加种子')
+    addtime=0
+    to=None
+    torrentlist=client.torrents.info()
+    for item in torrentlist:
+        if item.added_on>addtime:
+            addtime=item.added_on
+            to=item
+    if type(to)!=qbittorrentapi.torrents.TorrentDictionary:
+        logger.warning('未找到最新的种子')
+        return True
+    if not to._torrent_hash in hashlist:
+        hashlist.append(to._torrent_hash)
 
     if 'lemonhd' in url:
         logger.info('发现lemonhd的种子,正在更改tracker...')
-        addtime=0
-        torrentlist=client.torrents.info()
-        for item in torrentlist:
-            if item.added_on>addtime:
-                addtime=item.added_on
-                to=item
         for item in to.trackers:
             if 'url' in item and 'leaguehd' in item['url']:
                 tracker=item['url']

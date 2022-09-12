@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 import re
 from selenium.webdriver.common.by import By
 
-def hare_upload(web,file1,record_path,qbinfo,basic):
+def hare_upload(web,file1,record_path,qbinfo,basic,hashlist):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'
@@ -388,7 +388,7 @@ def hare_upload(web,file1,record_path,qbinfo,basic):
     
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
+        res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category,hashlist=hashlist)
         if res:
             return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:

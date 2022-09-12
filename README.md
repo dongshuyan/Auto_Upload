@@ -8,6 +8,7 @@ Upload local resources to PT trackers automatically.
 - 自由度高，智能识别能力强
 
 ## 更新说明 
+- 20200912 开始种子变成全部发布完成后统一开始。
 - 20200908 取消使用mktorrent的-f参数，添加制作种子失败原因的提示
 - 20200907 尝试修复check参数设置为1但是不停止的bug
 - 20200902 增加了发布前手动检查的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`check参数`

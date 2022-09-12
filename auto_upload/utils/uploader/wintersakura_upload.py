@@ -12,7 +12,7 @@ def check(web):
     return True
     
 
-def wintersakura_upload(web,file1,record_path,qbinfo,basic):
+def wintersakura_upload(web,file1,record_path,qbinfo,basic,hashlist):
 
     if (file1.pathinfo.type=='anime' or file1.pathinfo.type=='tv') and file1.pathinfo.collection==0:
         fileinfo=file1.chinesename+'在'+web.site.sitename+'第'+file1.episodename+'集'
@@ -400,28 +400,30 @@ def wintersakura_upload(web,file1,record_path,qbinfo,basic):
     recordupload(os.path.join(record_path,web.site.sitename+'_torrent.csv'),file1,String_url,downloadurl)
 
     if not downloadurl =='':
-        res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category)
+        res=qbseed(url=downloadurl,filepath=file1.downloadpath,qbinfo=qbinfo,category=file1.pathinfo.category,hashlist=hashlist)
         if res:
             logger.info(fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
+            fileinfo=fileinfo+'种子发布成功,'
             #return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
         else:
             logger.info(fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url)
+            fileinfo=fileinfo+'种子发布成功,但是添加种子失败,请手动添加种,'
             #return True,fileinfo+'种子发布成功,但是添加种子失败,请手动添加种子，种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
     else:
         return False,fileinfo+'未找到下载链接,当前网址:'+web.driver.current_url
     
     if 'check' in dir(web.site) and web.site.check==False:
-        return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
+        return True,fileinfo+'种子链接:'+downloadurl+',当前网址:'+web.driver.current_url
 
     res=check(web)
     if res:
         logger.info('成功审核第'+file1.episodename+'集的资源')
-        infostr=fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'且成功审核第'+file1.episodename+'集的资源'
+        infostr=fileinfo+'审核成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'且成功审核第'+file1.episodename+'集的资源'
         logger.info(infostr)
         return True,infostr
     else:
         logger.info('未成功审核第'+file1.episodename+'集的资源')
-        return True,fileinfo+'种子发布成功,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'但未成功审核第'+file1.episodename+'集的资源'
+        return True,fileinfo+'审核失败,种子链接:'+downloadurl+',当前网址:'+web.driver.current_url+'但未成功审核第'+file1.episodename+'集的资源'
     
 
 

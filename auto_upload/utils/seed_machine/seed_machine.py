@@ -6,9 +6,65 @@ from auto_upload.utils.mediafile.mediafile import mediafile
 from auto_upload.utils.web.web import web
 from auto_upload.utils.uploader.auto_upload import auto_upload
 from shutil import move
+from qbittorrentapi import Client
+import time
+import datetime
 
 
-def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
+def get_newhash(qbinfo):
+    logger.info('正在查找最新发布的种子的hash...')
+    logger.info('正在登录Qbittorrent WEBUI页面...')
+    try:
+        client = Client(host=qbinfo['qburl'],username=qbinfo['qbwebuiusername'],password=qbinfo['qbwebuipassword'])
+    except Exception as r:
+        logger.warning('Qbittorrent WEBUI登录失败，错误信息: %s' %(r))
+        logger.warning('获取最新种子hash失败')
+        return ''
+    logger.info('正在登录Qbittorrent WEBUI账号..')
+    try:
+        client.auth_log_in()
+    except Exception as r:
+        logger.warning('Qbittorrent WEBUI信息错误，登录失败，请检查au.yaml文件里的url、用户名、密码，错误信息: %s' %(r))
+        logger.warning('获取最新种子hash失败')
+        return ''
+    addtime=0
+    torrentlist=client.torrents.info()
+    for item in torrentlist:
+        if item.added_on>addtime:
+            addtime=item.added_on
+            to=item
+    return to._torrent_hash
+
+def start_hash(qbinfo,hashlist):
+    if hash=='':
+        logger.warning('hash为空，并没有开始任何种子')
+        return 
+    logger.info('正在查找最新发布的种子的hash...')
+    logger.info('正在登录Qbittorrent WEBUI页面...')
+    try:
+        client = Client(host=qbinfo['qburl'],username=qbinfo['qbwebuiusername'],password=qbinfo['qbwebuipassword'])
+    except Exception as r:
+        logger.warning('Qbittorrent WEBUI登录失败,错误信息: %s' %(r))
+        return 
+    logger.info('正在登录Qbittorrent WEBUI账号..')
+    try:
+        client.auth_log_in()
+    except Exception as r:
+        logger.warning('Qbittorrent WEBUI信息错误，登录失败，请检查au.yaml文件里的url、用户名、密码，错误信息: %s' %(r))
+        return 
+    for tohash in hashlist:
+        try:
+            client.torrents_resume(torrent_hashes=tohash)
+        except Exception as r:
+            logger.warning('开始种子发生错误,错误信息: %s' %(r))
+    
+
+
+
+
+
+
+def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata,hashlist):
     '''
     para:
         pathinfo
@@ -103,7 +159,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
                     continue
 
                 try:
-                    upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic)
+                    upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic,hashlist)
                 except Exception as r:
                     logger.warning('发布资源发生错误，错误信息: %s' %(r))
                     upload_success=False
@@ -148,7 +204,7 @@ def seedmachine_single(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
     logger.info('路径'+pathinfo.path+'下资源已全部发布完毕')
     return log_error,log_succ
 
-def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
+def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata,hashlist):
     '''
     para:
         pathinfo
@@ -211,7 +267,7 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
             if suc==False:
                 continue
 
-            upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic)
+            upload_success,logstr=auto_upload(web1,file1,basic['record_path'],qbinfo,basic,hashlist)
             del(web1)
             if not upload_success:
                 logger.warning(siteitem.sitename+'第'+str(uploadtime)+'次发布任务失败')
@@ -252,14 +308,15 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata):
 def start_machine(pathlist,sites,yamlinfo):
     log_allsucc=''
     log_allerror=''
+    hashlist=[]
     for path in pathlist:
         if path.enable==0:
             logger.info('路径'+path.path+'的enable被设置为0，已忽略')
             continue
         if (path.type=='anime' or path.type=='tv') and path.collection==0:
-            log_error,log_succ=seedmachine_single(path,sites,yamlinfo['path info'][path.pathid],yamlinfo['basic'],yamlinfo['qbinfo'],yamlinfo['image hosting'])
+            log_error,log_succ=seedmachine_single(path,sites,yamlinfo['path info'][path.pathid],yamlinfo['basic'],yamlinfo['qbinfo'],yamlinfo['image hosting'],hashlist)
         else:
-            log_error,log_succ=seedmachine(path,sites,yamlinfo['path info'][path.pathid],yamlinfo['basic'],yamlinfo['qbinfo'],yamlinfo['image hosting'])
+            log_error,log_succ=seedmachine(path,sites,yamlinfo['path info'][path.pathid],yamlinfo['basic'],yamlinfo['qbinfo'],yamlinfo['image hosting'],hashlist)
         write_yaml(yamlinfo)
         if not log_succ=='':
             log_allsucc=log_allsucc+log_succ+'\n'
@@ -268,6 +325,16 @@ def start_machine(pathlist,sites,yamlinfo):
         if not log_error=='':
             log_allerror=log_allerror+log_error+'\n'
             logger.error(log_error)
+
+    if 'start' in yamlinfo['qbinfo'] and  yamlinfo['qbinfo']['start']==1:
+        logger.info('检测到需要开始种子，正在开始种子...')
+        try:
+            start_hash(yamlinfo['qbinfo'],hashlist)
+        except Exception as r:
+            logger.warning('开始种子发生错误,错误信息: %s' %(r))
+
+
+
 
     print('\n\n以下种子已成功发布:')
     print('*'*100)

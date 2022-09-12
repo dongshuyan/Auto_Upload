@@ -55,6 +55,5 @@ def main():
         else:
             print('成功获得图片链接：\n'+res)
 
-
 if __name__ == '__main__':
     main()
