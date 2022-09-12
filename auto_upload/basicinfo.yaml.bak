@@ -54,3 +54,7 @@ site info:
     loginurl: https://hdfans.org/login.php
     uploadurl: https://hdfans.org/upload.php
     tracker: https://hdfans.org/announce.php
+  hhclub:
+    loginurl: https://hhanclub.top/login.php
+    uploadurl: https://hhanclub.top/upload.php
+    tracker: https://hhanclub.top/announce.php
