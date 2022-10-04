@@ -8,6 +8,7 @@ from auto_upload.utils.img_upload.imgupload import img_upload
 from auto_upload.utils.mediafile.doubaninfo import *
 from auto_upload.utils.mediafile.mediafile import *
 
+
 @logger.catch
 def main():
     os.system('clear')
@@ -40,7 +41,11 @@ def main():
         write_yaml(yamlinfo)
 
     if yamlinfo['mod']=='douban_info':
-        doubaninfo(yamlinfo['douban_url'])
+        #doubaninfo(yamlinfo['douban_url'])
+        if 'doubancookie' in yamlinfo['basic'] and yamlinfo['basic']['doubancookie']:
+            getdoubaninfo(url=yamlinfo['douban_url'],cookie=yamlinfo['basic']['doubancookie'])
+        else:
+            getdoubaninfo(url=yamlinfo['douban_url'])
 
     if yamlinfo['mod']=='media_img':
         screenshotnum=int(yamlinfo['basic']['picture_num'])

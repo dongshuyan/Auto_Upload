@@ -235,7 +235,7 @@ class pathinfo(object):
             logger.error(pathid+' 中文件夹命名有误,错误信息: - 数量异常')
             raise ValueError (pathid+' 中文件夹命名有误,错误信息: - 数量异常')
         
-        pathitem=(pathstr.split('-'))[1].strip()
+        pathitem=self.chinesename
 
         
 

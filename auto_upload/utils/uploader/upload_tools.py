@@ -151,7 +151,7 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=No
         trynum=trynum+1
         if trynum>12:
             logger.warning('添加种子失败,种子下载链接为:'+url+'   请自行手动添加')
-            return False
+            return True
         logger.info('正在第'+str(trynum)+'次添加种子')
         try:
             res=client.torrents_add(urls=url,save_path=filepath,is_skip_checking=is_skip_checking,is_paused=is_paused,use_auto_torrent_management=None,category=category)

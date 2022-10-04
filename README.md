@@ -1,63 +1,69 @@
-## Auto_Upload  
-自动将本地资源发布到PT站  
-Upload local resources to PT trackers automatically.  
+## Auto_Upload
+
+自动将本地资源发布到PT站
+Upload local resources to PT trackers automatically.
 
 ## 特色
+
 - 最适合发布追更资源，可以自动识别资源集数
 - 支持Windows，Linux，Macos系统
 - 自由度高，智能识别能力强
 
-## 更新说明 
+## 更新说明
+- 20201004 允许截图0张，重写了豆瓣info的抓取，变为直接从豆瓣网站抓取，允许cookie
 - 20200913 完成HHCLUB的适配
 - 20200912 开始种子变成全部发布完成后统一开始
 - 20200908 取消使用mktorrent的-f参数，添加制作种子失败原因的提示
 - 20200907 尝试修复check参数设置为1但是不停止的bug
-- 20200902 增加了发布前手动检查的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`check参数`
-- 20200902 增加了自定义是否在资源文件外部套0day文件夹的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块`中`new_folder参数`
+- 20200902 增加了发布前手动检查的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中 `basic模块`中 `check参数`
+- 20200902 增加了自定义是否在资源文件外部套0day文件夹的功能，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中 `basic模块`中 `new_folder参数`
 - 20200902 修复了文件在0day文件夹里找不到的问题
 - 20200902 修正了柠檬tracker无法选择https的问题
 - 20200902 增加了大量自定义信息，当然这些信息大部分并不需要自己设置，只有当程序无法自动识别时候需要手动设置。设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20200902 增加了自定义文件夹的功能，外层文件夹随便命名。
 - 20200902 修复了发布电视剧需要bgm的bug
 - 20200902 目前所有资源发种时候会自动在外层套一个0day名字的文件夹
-- 20200825 已支持新图床freeimage，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`image hosting模块`
-- 20200825 添加了有cookie的情况绕过静态模式登录的功能  
+- 20200825 已支持新图床freeimage，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中 `image hosting模块`
+- 20200825 添加了有cookie的情况绕过静态模式登录的功能
 - 20200825 在github里面增加了一个install文件夹，里面存放了win下需要下载安装的几个安装包
 - 20200825 配置文件实例只保留一个[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20200825 修复登录失败反复登录的bug
 - 20200823 优化结果的高亮显示
 - 20200821 修复发布合集路径错误的bug,修复mktorrent制作种子概率失败的问题。
 - 20200821 优化结果的高亮显示
-- 20200821 增加日志写入文件，优化日志显示结果，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中`basic模块log参数`
-- 20200820 修正qb自动管理带来的bug; 增加给资源分类功能，体现在qb的分类里面，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+- 20200821 增加日志写入文件，优化日志显示结果，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml) 中 `basic模块log参数`
+- 20200820 修正qb自动管理带来的bug; 增加给资源分类功能，体现在qb的分类里面，设置方法参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 - 20220820 增加对HDFans的支持
-- 20220819 优化内存使用，增强标签识别性能，柠檬下载链接改用https  
-- 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签  
+- 20220819 优化内存使用，增强标签识别性能，柠檬下载链接改用https
+- 20220818 添加从文件名识别类型的功能，添加自动将mediainfo文件路径修改到只剩文件名，pter的info改用hide标签
 - 20220818 修正download的拼写错误
 - 20220818 增加对wintersakura(冬樱)的支持
 - 20220817 增加副标题附加内容
-- 20220817 修正find_elements_by_path等问题，并添加柠檬官组识别，下载路径配置功能 
+- 20220817 修正find_elements_by_path等问题，并添加柠檬官组识别，下载路径配置功能
 - 20220817 修正au.yaml内容丢失的bug并增加提醒
-- 20220817 增加用户名密码登录，验证码自动识别功能以及cookie自动备份功能  
-- 20220817 增加yaml文件备份功能(生成au.yaml.bak文件)，以防文件损坏  
-- 20220817 增加对于PTNap的支持  
-- 20220815 增加对于SSD,明教以及CarPT的支持，增加禁转识别,参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
-- 20220815 增加对于天空，观众以及柠檬剧集板块的支持  
-- 20220814 增加直接在命令行获取豆瓣链接/获取视频截图链接的功能  
-- 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe  
-- 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项  
-添加考虑通过url下载站点种子失败的情况的判断  
-增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
-- 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug   
-但是需要确保在制作种子期间，该`文件`或者`文件夹`没有被其他应用占用。仅对Windows系统有这个限制  
+- 20220817 增加用户名密码登录，验证码自动识别功能以及cookie自动备份功能
+- 20220817 增加yaml文件备份功能(生成au.yaml.bak文件)，以防文件损坏
+- 20220817 增加对于PTNap的支持
+- 20220815 增加对于SSD,明教以及CarPT的支持，增加禁转识别,参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
+- 20220815 增加对于天空，观众以及柠檬剧集板块的支持
+- 20220814 增加直接在命令行获取豆瓣链接/获取视频截图链接的功能
+- 20220809 修复找不到bgm豆瓣链接的bug，增加识别发种dupe
+- 20220808 增加qb添加种子稳定性、增加qb种子自动开始功能、增加后台运行的选项添加考虑通过url下载站点种子失败的情况的判断增加qb种子自动开始功能、增加后台运行的选项参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
+- 20220808 修复Windows系统上对于最终路径有空格等制作种子出错的bug
+  但是需要确保在制作种子期间，该 `文件`或者 `文件夹`没有被其他应用占用。仅对Windows系统有这个限制
 
-  
-## 功能说明  
-### 1.命令行实现将本地图片上传到图床  
-### 2.命令行实现抓取豆瓣信息  
-### 3.命令行实现获取本地视频截图链接  
-### 4.自动检测本地未发布的资源并发布到各个站点，并下载到Qbittorrent进行辅种  
-全平台支持了以下功能:  
+## 功能说明
+
+### 1.命令行实现将本地图片上传到图床
+
+### 2.命令行实现抓取豆瓣信息
+
+### 3.命令行实现获取本地视频截图链接
+
+### 4.自动检测本地未发布的资源并发布到各个站点，并下载到Qbittorrent进行辅种
+
+全平台支持了以下功能:
+
 - 根据配置文件分析待发布资源的中英文名
 - 根据配置文件分析已经发布的资源并自动找到未发布的资源
 - 可选是否在资源外层套一个0day名字的文件夹
@@ -72,18 +78,21 @@ Upload local resources to PT trackers automatically.
 - 自动获取下载链接并传递给Qbittorrent自动做种
 - 自动记录发布资源信息生成excel表格(csv文件)
 - 自动统计目前已发布的总量(可以用来统计每月发种数量)
-  
-目前支持的平台:  
+
+目前支持的平台:
+
 - MacOS
 - Windows
 - Linux
-  
-目前支持的资源类型:  
+
+目前支持的资源类型:
+
 - 动漫
 - 剧集
 - 电影
-  
-目前支持的站点(排名仅代表支持的时间先后):  
+
+目前支持的站点(排名仅代表支持的时间先后):
+
 - pter
 - lemonhd
 - hdsky
@@ -92,80 +101,90 @@ Upload local resources to PT trackers automatically.
 - ssd
 - hdpt(明教)
 - carpt
-- ptnap 
-- wintersakura 
+- ptnap
+- wintersakura
 - hdfans
 - hhclub(憨憨)
 
-  
-正在适配的站点(排名不分先后):  
+正在适配的站点(排名不分先后):
+
 - mt
 - pthome
 - hare
 
 Todolist:
+
 - 使用request发种,开发ing
 - GUI（有考虑，需要学）
 - 自定义站点（需要考虑做不做和怎么做）
 
-  
 如果有新的站点/资源类型等需求,可以加入QQ群交流(735803201)
-  
-  
+
 ## 安装Auto_Upload自动发种机
 
-`Auto_Upload自动发种机`可以在任何具有`Python`环境的系统上使用，下面讲解下在各个系统上的安装步骤
+`Auto_Upload自动发种机`可以在任何具有 `Python`环境的系统上使用，下面讲解下在各个系统上的安装步骤
 
 ### Windows(已测试成功)
 
-1.需要本地安装Chrome且升级到最新正式版本  
-  
-2.安装python3:  
+1.需要本地安装Chrome且升级到最新正式版本
+
+2.安装python3:
 [安装Python](https://www.python.org/downloads/)，一般选择最新版本的Python3及对应的Windows installer即可。安装时注意将为所有用户安装和将Python添加到PATH勾上
 ![安装python1](https://img.picgo.net/2022/08/07/1.png)
 打开PowerShell，确认Python安装成功
 ![安装python2](https://img.picgo.net/2022/08/07/2.png)
-  
 
-以下几个插件的安装包可以去通过下面官方途径下载，也可以前往[Install文件夹](https://github.com/dongshuyan/Auto_Upload/blob/master/install)获取 或者 前往交流群的群文件获取。    
-3.安装`ffmpeg`，并确认安装正确:  
-- 下载安装`ffmpeg` & `ffprobe`：https://github.com/BtbN/FFmpeg-Builds/releases  
-- 将解压后的`ffmpeg`文件夹移动到一个相对稳定的文件夹,比如`D:\Program Files\`  
-- 将上一步`ffmpeg\bin`文件夹路径添加到系统PATH  
-我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`ffmpeg\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
-- 在PowerShell确认ffmpeg和ffprobe安装成功  
-  
-4.安装`mktorrent`，并确认安装正确:  
-- 根据自己电脑下载[64位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-64bit-build2.7z)或者[32位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-32bit-build2.7z)  
-- 使用[7-zip](http://www.7-zip.org/) or [Winrar](http://www.rarlab.com/)解压文件.  
-- 将`mktorrent`文件夹移动到一个相对稳定的文件夹,比如`D:\Program Files\`  
-- 将上一步`mktorrent\bin`文件夹路径添加到系统PATH  
-我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`mktorrent\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
-  
-5.安装`mediainfo`，并确认安装正确 
-- 下载[mediainfo-cli](https://mediaarea.net/download/binary/mediainfo/22.06/MediaInfo_CLI_22.06_Windows_x64.zip)：https://mediaarea.net/en/MediaInfo/Download/Windows 
-- 解压zip文件并解压后的`Mediainfo_CLIxxx`文件夹移动到一个相对稳定的位置
-- 将上一步`Mediainfo_CLIxxx`文件夹路径添加到系统PATH  
-我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步`Mediainfo_CLIxxx`文件夹路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启。
-- 在PowerShell确认`mediainfo`安装成功 
+以下几个插件的安装包可以去通过下面官方途径下载，也可以前往[Install文件夹](https://github.com/dongshuyan/Auto_Upload/blob/master/install)获取 或者 前往交流群的群文件获取。3.安装 `ffmpeg`，并确认安装正确:
+
+- 下载安装 `ffmpeg` & `ffprobe`：https://github.com/BtbN/FFmpeg-Builds/releases
+- 将解压后的 `ffmpeg`文件夹移动到一个相对稳定的文件夹,比如 `D:\Program Files\`
+- 将上一步 `ffmpeg\bin`文件夹路径添加到系统PATH我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步 `ffmpeg\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
+- 在PowerShell确认ffmpeg和ffprobe安装成功
+
+4.安装 `mktorrent`，并确认安装正确:
+
+- 根据自己电脑下载[64位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-64bit-build2.7z)或者[32位安装包](https://github.com/q3aql/mktorrent-win/releases/download/v1.1-2/mktorrent-1.1-win-32bit-build2.7z)
+- 使用[7-zip](http://www.7-zip.org/) or [Winrar](http://www.rarlab.com/)解压文件.
+- 将 `mktorrent`文件夹移动到一个相对稳定的文件夹,比如 `D:\Program Files\`
+- 将上一步 `mktorrent\bin`文件夹路径添加到系统PATH
+  我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步 `mktorrent\bin`文件夹路径路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启
+
+5.安装 `mediainfo`，并确认安装正确
+
+- 下载[mediainfo-cli](https://mediaarea.net/download/binary/mediainfo/22.06/MediaInfo_CLI_22.06_Windows_x64.zip)：https://mediaarea.net/en/MediaInfo/Download/Windows
+- 解压zip文件并解压后的 `Mediainfo_CLIxxx`文件夹移动到一个相对稳定的位置
+- 将上一步 `Mediainfo_CLIxxx`文件夹路径添加到系统PATH我的电脑【右击】 -> 选择 属性 -> 高级系统设置 -> 高级 -> 环境变量  -> 系统变量里面找到'Path',点击编辑 -> 新建 -> 将上一步 `Mediainfo_CLIxxx`文件夹路径粘贴进去 -> 确定 --> 确定 … 保存即可。一般也是 不需要重启。
+- 在PowerShell确认 `mediainfo`安装成功
+
 ```bash
 mediainfo -h
 ```
-  
-6.安装`Auto_Upload`，在以管理员身份打开`Windows PowerShell`中输入:
+
+6.安装 `Auto_Upload`，在以管理员身份打开 `Windows PowerShell`中输入:
+
 ```bash
 python3 -m pip install auto_upload  -i https://pypi.tuna.tsinghua.edu.cn/simple/
 auto_upload -h
 ```
-  
-7.更新`Auto_Upload`，，在`Terminal.app`中输入:
+
+如果上述命令没反应或者报错可以尝试下面这个：
+
+```bash
+pip install auto_upload  -i https://pypi.tuna.tsinghua.edu.cn/simple/
+auto_upload -h
+```
+
+7.更新 `Auto_Upload`，在 `Windows PowerShell`中输入:
+
 ```bash
 python3 -m pip install --upgrade auto_upload  -i https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
-  
-### Linux  
-0.升级`python`至`3.7.0`版本以上，建议`3.9.0`
-如果有`_ssl`或者`_ctypes`找不到，也可以试试按照下面步骤重新安装python3
+
+### Linux
+
+0.升级 `python`至 `3.7.0`版本以上，建议 `3.9.0`
+如果有 `_ssl`或者 `_ctypes`找不到，也可以试试按照下面步骤重新安装python3
+
 ```bash
 # 我也使用的wget ,我下载到了Download中
 wget https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tgz
@@ -207,183 +226,216 @@ exit
 # 结束
 ```
 
-1.需要本地安装Chrome且升级到最新正式版本  
-手动下载安装并更新即可，如果不方便手动，可以尝试使用如果命令（没有测试过） 
-#### 安装Chrome  
-``` bash
+1.需要本地安装Chrome且升级到最新正式版本
+手动下载安装并更新即可，如果不方便手动，可以尝试使用如果命令（没有测试过）
+
+#### 安装Chrome
+
+```bash
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 sudo apt-get update
 sudo apt-get install google-chrome-stable
 ```
+
 #### 更新Chrome
+
 ```bash
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
-   
-2.安装`mktorrent`,`ffmpeg`和`mediainfo`，并确认安装正确
+
+2.安装 `mktorrent`,`ffmpeg`和 `mediainfo`，并确认安装正确
+
 ```bash
 sudo apt update 
 sudo python3 -m pip install --upgrade pip
 sudo apt-get install python3-pip ffmpeg mediainfo mktorrent
 ```
-  
-3.安装`Auto_Upload`
+
+3.安装 `Auto_Upload`
+
 ```bash
 python3 -m pip install auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 auto_upload -h
 ```
-  
-4.更新`Auto_Upload`，，在`Terminal.app`中输入:
+
+4.更新 `Auto_Upload`，，在 `Terminal.app`中输入:
+
 ```bash
 python3 -m pip install --upgrade auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
 
 ### MacOS(已测试成功)
-1.需要本地安装Chrome且升级到最新正式版本    
-以Mac为例，2020.08.06最新正式版为104.0.5112.79  
-  
-2.安装`Homebrew`，在Termial.app中输入:
-``` bash
+
+1.需要本地安装Chrome且升级到最新正式版本
+以Mac为例，2020.08.06最新正式版为104.0.5112.79
+
+2.安装 `Homebrew`，在Termial.app中输入:
+
+```bash
 bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
-  
-3.安装`mktorrent`,`ffmpeg`和`mediainfo`，并确认安装正确:  
+
+3.安装 `mktorrent`,`ffmpeg`和 `mediainfo`，并确认安装正确:
+
 ```bash
 brew install ffmpeg mediainfo mktorrent
 ffmpeg -version
 mediainfo --version
 ```
-  
-4.安装`Auto_Upload`，在`Terminal.app`中输入:  
+
+4.安装 `Auto_Upload`，在 `Terminal.app`中输入:
+
 ```bash
 python3 -m pip install auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 auto_upload -h
 ```
-  
-5.更新`Auto_Upload`，，在`Terminal.app`中输入:
+
+5.更新 `Auto_Upload`，，在 `Terminal.app`中输入:
+
 ```bash
 python3 -m pip install --upgrade auto_upload -i https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
 
+## 配置环境&文件
 
-## 配置环境&文件  
+### 1.本地新建一个工作目录
 
-### 1.本地新建一个工作目录  
-例如路径为:/Users/Desktop/auto_upload  
+例如路径为:/Users/Desktop/auto_upload
 
-### 2.在1中工作路径文件夹下，再新建三个文件夹  
-"cookies_path","screenshot_path","record_path"  
+### 2.在1中工作路径文件夹下，再新建三个文件夹
 
-- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.json。  
-(例如:cookie_lemonhd.json,cookie_pter.json等)  
-- screenshot_path将用来存放视频截图，种子等临时文件  
-- record_path将用来存放发种记录 
+"cookies_path","screenshot_path","record_path"
 
-### 3.获取cookie并存入文件 工作目录`/cookies_path/cookie_站点.json` 中  
-js格式的cookie推荐使用插件"EditThisCookie"获取  
+- cookies_path将用来存放站点cookie文件，文件名需要命名为cookie_站点.json。(例如:cookie_lemonhd.json,cookie_pter.json等)
+- screenshot_path将用来存放视频截图，种子等临时文件
+- record_path将用来存放发种记录
 
-#### EditThisCookie插件官网  
-http://www.editthiscookie.com/  
+### 3.获取cookie并存入文件 工作目录 `/cookies_path/cookie_站点.json` 中
 
-#### `Chrome`下`EditThisCookie`安装网址  
-https://chrome.google.com/webstore/detail/fngmhnnpilhplaeedifhccceomclgfbg  
+on格式的cookie推荐使用插件"EditThisCookie"获取
 
-#### `Edge`下`EditThisCookie`安装网址  
-https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhkbeljdbfdbkfkmolbh?hl=zh-CN  
+#### EditThisCookie插件官网
 
-- 安装好`EditThisCookie`之后
-- 使用浏览器`成功登录`PT站点
-- 点击右上角`饼干🍪`图案的图标
-- 点击向右的按钮就把js格式的cookie复制的剪贴板了
-- 粘贴进本文并保存到`工作目录/cookies_path/cookie_站点.js`文件即可
+http://www.editthiscookie.com/
+
+#### `Chrome`下 `EditThisCookie`安装网址
+
+https://chrome.google.com/webstore/detail/fngmhnnpilhplaeedifhccceomclgfbg
+
+#### `Edge`下 `EditThisCookie`安装网址
+
+https://microsoftedge.microsoft.com/addons/detail/editthiscookie/jhampopgcdhehhkbeljdbfdbkfkmolbh?hl=zh-CN
+
+- 安装好 `EditThisCookie`之后
+- 使用浏览器 `成功登录`PT站点
+- 点击右上角 `饼干🍪`图案的图标
+- 点击向右的按钮就把json格式的cookie复制的剪贴板了
+- 粘贴进本文并保存到 `工作目录/cookies_path/cookie_站点.json`文件即可
 
 ### 4.在文件夹中新建配置文件au.yaml
-详细参数说明参考[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
 
-  
-注意：如果是在windows系统下，要发布的`资源文件/文件夹名称`如果有`空格`会导致制作种子失败，建议将空格替换为`.`或者下划线`_`。其他系统没有这个问题。  
-  
-建立完成后在工作目录下应该有三个文件夹以及一个au.yaml位置文件，如下图  
-![Img_Demo](https://img.picgo.net/2022/08/06/dir.jpg)  
+详细参数说明参考[au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 
+注意：如果是在windows系统下，要发布的 `资源文件/文件夹名称`如果有 `空格`会导致制作种子失败，建议将空格替换为 `.`或者下划线 `_`。其他系统没有这个问题。
+
+建立完成后在工作目录下应该有三个文件夹以及一个au.yaml位置文件，如下图
+![Img_Demo](https://img.picgo.net/2022/08/06/dir.jpg)
 
 ## 运行脚本
+
 ### 1.自动发种
-``` bash
+
+```bash
 auto_upload -yp '工作目录/au.yaml' -u
 ```
-注意：在Windows系统发种时需要确保在制作种子期间，被发布的`文件`或者`文件夹`没有被其他应用占用。    
-  
+
+注意：在Windows系统发种时需要确保在制作种子期间，被发布的 `文件`或者 `文件夹`没有被其他应用占用。
+
 ### 2.本地图片自动上传图床
-``` bash
+
+```bash
 auto_upload -yp '工作目录/au.yaml' -iu -ih 图床名称  -iform 图片格式 -if  '图片路径1' '图片路径2'
-```  
-图床名称目前仅支持（排名无先后）：  
-- ptpimg  
-- picgo  
-- chd  
-- imgbox  
-- pter  
-- smms 
-  
+```
+
+图床名称目前仅支持（排名无先后）：
+
+- ptpimg
+- picgo
+- chd
+- imgbox
+- pter
+- smms
+
 ### 3.获取豆瓣信息
+
 ```bash
 auto_upload -yp '工作目录/au.yaml' -di -du 豆瓣链接
 ```
-  
-示例:  
+
+示例:
+
 ```bash
 auto_upload -yp '工作目录/au.yaml' -di -du https://movie.douban.com/subject/26353671/
 ```
-  
+
 ### 4.命令行获取本地视频截图链接
+
 ```bash
 auto_upload -yp '工作目录/au.yaml' -mi -mf '视频路径' -ih 图床名称 -iform 图片格式 -in 截图数量
 ```
-图床名称目前仅支持（排名无先后）：  
-- ptpimg  
-- picgo  
-- chd  
-- imgbox  
-- pter  
-- smms 
-  
-图片格式(可以不填，默认'img'):  
-- img 图片原始链接  
-- bbcode BBcode格式链接  
-  
-截图数量(可以不填，默认3张)  
-  
-示例:  
+
+图床名称目前仅支持（排名无先后）：
+
+- ptpimg
+- picgo
+- chd
+- imgbox
+- pter
+- smms
+
+图片格式(可以不填，默认'img'):
+
+- img 图片原始链接
+- bbcode BBcode格式链接
+
+截图数量(可以不填，默认3张)
+
+示例:
+
 ```bash
 auto_upload 'au.yaml' -mi -mf '1.mp4' -ih picgo -iform bbcode -in 6
 ```
 
+## 配置文件au.yaml详细说明
 
+参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)
 
-## 配置文件au.yaml详细说明  
-参考 [au_example.yaml](https://github.com/dongshuyan/Auto_Upload/blob/master/au_example.yaml)  
+## 常见错误及修复方法（更新ing）
 
-## 常见错误及修复方法（更新ing）  
+### 1.Chrome未更新至最新
 
-### 1.Chrome未更新至最新  
-### 2.Windows下 如果资源路径`最后的文件夹名称`有空格会导致制作种子失败（已修复）  
-Windows下的mktorrent支持的不太好，后面我再修复吧  
+### 2.Windows下 如果资源路径 `最后的文件夹名称`有空格会导致制作种子失败（已修复）
+
+Windows下的mktorrent支持的不太好，后面我再修复吧
+
 ### 3.文件夹名称错误
+
 最后一级文件夹名称必须是：任意内容[想要在副标题添加的内容]-资源中文名-资源英文名-发布组
-例如`6[有B站水印]-不死者之王-OVERLOAD-sauterne`  
+例如 `6[有B站水印]-不死者之王-OVERLOAD-sauterne`
 
 ## 交流群
+
 群号:735803201
 
 ## Reference
-[Differential 差速器](https://github.com/LeiShi1313/Differential)  (复制了上传图床部分代码)  
-[Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)  (Auto_Upload安装教程主要参考本文)  
-[mktorrent-win-builds](https://github.com/q3aql/mktorrent-win-builds)  
-[MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)  
-[linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)  
-[windows10 环境变量设置](https://blog.csdn.net/palmer_kai/article/details/80588594)  
-[Linux Ubuntu系统升级Python3版本至Python3.9版本步骤](https://blog.csdn.net/u012080686/article/details/112600252)  
+
+[Differential 差速器](https://github.com/LeiShi1313/Differential)  (复制了上传图床部分代码)
+[Differential差速器使用教程](https://leishi.io/blog/posts/2021-12/Differential/)  (Auto_Upload安装教程主要参考本文)
+[mktorrent-win-builds](https://github.com/q3aql/mktorrent-win-builds)
+[MKTORRENT WIN下命令行制作种子](https://blog.acesheep.com/index.php/archives/551/)
+[linux 安装 Chrome](https://www.cnblogs.com/ivantang/p/6290729.html)
+[windows10 环境变量设置](https://blog.csdn.net/palmer_kai/article/details/80588594)
+[Linux Ubuntu系统升级Python3版本至Python3.9版本步骤](https://blog.csdn.net/u012080686/article/details/112600252)
 [PYTorrent](https://github.com/ndroi/pytorrent)

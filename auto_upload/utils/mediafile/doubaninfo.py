@@ -5,6 +5,23 @@ import requests
 import re
 import json
 import sys
+from auto_upload.utils.mediafile.douban_book import *
+from auto_upload.utils.mediafile.douban_movie import *
+
+def getdoubaninfo(url:str='',cookie:str=''):
+    if 'movie.douban.com' in url:
+        if cookie.strip()=='':
+            page_parse=MoviePageParse(movie_url=url)
+        else:
+            page_parse=MoviePageParse(movie_url=url,cookie=cookie)
+    elif 'book.douban.com' in url:
+        if cookie.strip()=='':
+            page_parse=BookPageParse(book_url=url)
+        else:
+            page_parse=BookPageParse(book_url=url,cookie=cookie)
+    else:
+        raise Exception('豆瓣链接填写错误')
+    print('\n'+page_parse.info())
 
 
 def ptgen_douban_info(doubanurl):

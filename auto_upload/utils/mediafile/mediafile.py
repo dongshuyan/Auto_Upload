@@ -362,6 +362,7 @@ class mediafile(object):
 
         self.language=''
         self.country=''
+        self.year=2022
         #根据文件名判断内嵌字幕信息
         self.sublan=''
         jp=0
@@ -404,6 +405,13 @@ class mediafile(object):
     def getimgurl(self,server=''):
         if self.getimgurl_done==1:
             return self.screenshoturl
+        '''
+        0张图的特判
+        '''
+        if 'picture_num' in self.basic and int(self.basic['picture_num'])==0:
+            self.screenshoturl=''
+            self.getimgurl_done=1
+            return ''
         self.getscreenshot()
         imgpaths=[]
         for i in range (self.screenshotnum):

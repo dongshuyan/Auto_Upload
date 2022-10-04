@@ -8,8 +8,8 @@ def readargs():
     basic_path = os.path.join(mainpath,"basicinfo.yaml")
     parser = argparse.ArgumentParser(description='Weclome AutoUpload')
     parser.add_argument('-u','--upload', action='store_true', default=False, help='Upload local resources automatically')
-    parser.add_argument('-s','--sign', action='store_true', default=False, help='Upload local resources automatically')
-    parser.add_argument('-iu','--img-upload', action='store_true', default=False, help='Upload local resources automatically')
+    parser.add_argument('-s','--sign', action='store_true', default=False, help='SignUp automatically')
+    parser.add_argument('-iu','--img-upload', action='store_true', default=False, help='Upload picture as url')
     parser.add_argument('-di','--douban-info', action='store_true', default=False, help='Get douban info')
     parser.add_argument('-mi','--media-img', action='store_true', default=False, help='Get screenshots of the video and upload the image')
 

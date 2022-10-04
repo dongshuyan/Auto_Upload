@@ -8,6 +8,7 @@ basic:
   screenshot_path: /Users/Desktop/screenshot_path #用来存放视频截图，种子等临时文件 
   new_folder: 0 #发布的资源是否在外层套一层0day名字文件夹 1表示是，0表示否。不填默认是
   check: 1 #是否在发布前需要人工确认再发布。0表示否1表示是。此处如果选择1 记得把headless参数设置为0来前台运行
+  doubancookie: 'cookie' #此处填写豆瓣账号的cookie可以抓到只有登录才能看到的资源的info，不填则按照未登录模式抓取
 qbinfo:
   qburl: 127.0.0.1:8080
   qbwebuiusername: username #你qbittorrent的WEBUI的用户名密码
