@@ -272,7 +272,7 @@ def seedmachine(pathinfo,sites,pathyaml,basic,qbinfo,imgdata,hashlist):
             if not upload_success:
                 logger.warning(siteitem.sitename+'第'+str(uploadtime)+'次发布任务失败')
                 logger.warning(logstr)
-                file1.mktorrent()
+                #file1.mktorrent()
 
         if not upload_success:
             logger.warning(siteitem.sitename+'发布任务失败，本站暂停发种')

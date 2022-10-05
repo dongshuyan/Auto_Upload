@@ -143,8 +143,10 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=No
         logger.warning('Qbittorrent WEBUI信息错误，登录失败，请检查au.yaml文件里的url、用户名、密码')
         return False
     logger.info('成功登录Qbittorrent WEBUI')
-
-    tor_num=len(client.torrents_info())
+    try:
+        tor_num=len(client.torrents_info())
+    except Exception as err:
+        tor_num=0    
     tor_num_new=tor_num
     trynum=0
     while tor_num_new==tor_num:
@@ -171,12 +173,20 @@ def qbseed(url,filepath,qbinfo,is_skip_checking=False,is_paused=True,category=No
             logger.warning('计算种子数量出错，错误信息: %s' %(r))
         if tor_num_new==tor_num:
             time.sleep(5)
-            tor_num_new=len(client.torrents_info())
+            try:
+                tor_num_new=len(client.torrents_info())
+            except Exception as r:
+                tor_num_new=tor_num
+                logger.warning('计算种子数量出错，错误信息: %s' %(r))
 
     logger.info('已经成功添加种子')
     addtime=0
     to=None
-    torrentlist=client.torrents.info()
+    try:
+        torrentlist=client.torrents.info()
+    except Exception as r:
+        torrentlist=[]
+        logger.warning('获取种子信息出错，错误信息: %s' %(r))
     for item in torrentlist:
         if item.added_on>addtime:
             addtime=item.added_on
