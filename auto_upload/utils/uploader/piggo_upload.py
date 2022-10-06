@@ -352,9 +352,6 @@ def piggo_upload(web,file1,record_path,qbinfo,basic,hashlist):
     except Exception as r:
         logger.warning('选择禁转错误，错误信息: %s' %(r))
 
-
-
-
     try:
         if web.site.uplver==1:
             checkbox=web.driver.find_elements(By.NAME,'uplver')

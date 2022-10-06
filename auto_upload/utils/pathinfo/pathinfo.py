@@ -14,18 +14,6 @@ def findnum(name):
         stz=" XX "
         stx=" "+num[0]+" "
         return num[0],sty,stz,stx
-    num=re.findall(r"\[([0-9]{1,2})",name)
-    if len(num)!=0:
-        sty="\["+num[0]+"\]"
-        stz="[XX]"
-        stx="["+num[0]+"]"
-        return num[0],sty,stz,stx
-    num=re.findall(r"-([0-9]{1,2})",name)
-    if len(num)!=0:
-        sty='-'+num[0]
-        stz="-XX"
-        stx="-"+num[0]
-        return num[0],sty,stz,stx
     num=re.findall(r"第([0-9]{1,2})話",name)
     if len(num)!=0:
         sty='第'+num[0]+'話'
@@ -50,13 +38,32 @@ def findnum(name):
         stz="_XX_"
         stx='_'+num[0]+'_'
         return num[0],sty,stz,stx
-    num=re.findall(r"([0-9]{1,2})",name)
+    num=re.findall(r"\[([0-9]{1,2})\D",name)
+    if len(num)!=0:
+        sty="\["+num[0]+"\]"
+        stz="[XX]"
+        stx="["+num[0]+"]"
+        return num[0],sty,stz,stx
+    num=re.findall(r"\D([0-9]{1,2})\]",name)
+    if len(num)!=0:
+        sty="\["+num[0]+"\]"
+        stz="[XX]"
+        stx="["+num[0]+"]"
+        return num[0],sty,stz,stx
+    num=re.findall(r"-([0-9]{1,2})\D",name)
+    if len(num)!=0:
+        sty='-'+num[0]
+        stz="-XX"
+        stx="-"+num[0]
+        return num[0],sty,stz,stx
+    num=re.findall(r"\D([0-9]{1,2})\D",name)
     if len(num)!=0:
         sty=num[0]
         stz="XX"
         stx=num[0]
         return num[0],sty,stz,stx        
     return num[0],sty,stz,stx
+
 
 def finddoubanurl(name):
     logger.info('正在寻找 '+name+' 的豆瓣链接，请稍等...')
