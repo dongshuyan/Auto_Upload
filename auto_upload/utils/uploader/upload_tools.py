@@ -73,7 +73,7 @@ def finduploadurl(driver):
         timenum=timenum+1
         if timenum>10:
             logger.warning(String_url+'未找到发布页面网址')
-            break
+            return ''
         time.sleep(1)
         String_url = driver.current_url
     String_url =String_url.split('&uploaded')[0]

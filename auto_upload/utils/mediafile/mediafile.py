@@ -9,6 +9,7 @@ import sys
 from auto_upload.utils.img_upload.imgupload import img_upload
 from auto_upload.utils.edittorrent.edittorrent import *
 from shutil import move
+from doubaninfo.doubaninfo import getdoubaninfo
 
 def deletetorrent(delpath=''):
     if delpath=='':
@@ -774,6 +775,45 @@ class mediafile(object):
                 self.imdburl=item[7:].strip()
             if '片\u3000\u3000长'in item:
                 self.runtime=item[5:].strip()
+    
+    def get_douban(self):
+        if 'doubancookie' in self.basic and self.basic['doubancookie']!=None:
+            res_douban=getdoubaninfo(url=self.doubanurl,cookie=self.basic['doubancookie'],ret_val=True)
+        else:
+            res_douban=getdoubaninfo(url=self.doubanurl,ret_val=True)
+        douban_dict=res_douban.parse()
+        self.douban_info=res_douban.info()
+
+        if (douban_dict['names']['chinesename']):
+            self.chinesename=douban_dict['names']['chinesename']
+        if (douban_dict['names']['akaTitles']):
+            self.allName='/'.join(douban_dict['names']['akaTitles'])
+        if (douban_dict['year']):
+            try:
+                self.year=int(douban_dict['year'])
+            except:
+                logger.warning("douban_dict['year']转换数字出错,其内容为: "+str(douban_dict['year']))
+                self.year=2022
+        if (douban_dict['countries'] and len(douban_dict['countries']) > 0) :
+            self.country=" / ".join(douban_dict['countries'])
+        if (douban_dict['genres'] and len(douban_dict['genres']) > 0):
+            self.genre=" / ".join(douban_dict['genres'])
+        if (douban_dict['languages'] and len(douban_dict['languages']) > 0) :
+            self.language=" / ".join(douban_dict['languages'])
+        if (douban_dict['pubdates'] and len(douban_dict['pubdates']) > 0) :
+            self.release=" / ".join(douban_dict['pubdates'])
+        if (douban_dict['imdb'].strip()!='') :
+            self.imdburl=douban_dict['imdb']
+            self.pathinfo.imdb_url=douban_dict['imdb']
+            logger.info('根据豆瓣信息分析，imdb链接为'+douban_dict['imdb'])
+        if (douban_dict['episodes']) :
+            self.media_type='TV_series'
+            self.num=int(douban_dict['episodes'])
+            if self.pathinfo.max>=self.num:
+                self.complete=1
+            logger.info('根据豆瓣信息分析，总集数为'+str(self.num))
+        
+        self.getptgen_done=1
 
     def getptgen_douban_info(self):
         if self.getptgen_done==1:
@@ -1006,11 +1046,14 @@ class mediafile(object):
             return
 
         while not self.getptgen_done==1:
-            self.getptgen_douban_info()
+            self.get_douban()
+            if self.getptgen_done<1:
+                self.getptgen_douban_info()
             if self.getptgen_done<1:
                 self.getdoubaninfo()
             if self.getptgen_done<1:
                 time.sleep(3)
+        
 
 
         self.getmediainfo()

@@ -13,3 +13,4 @@ qbittorrentapi
 undetected_chromedriver
 ssl
 function_controler
+doubaninfo

@@ -10,6 +10,7 @@ Upload local resources to PT trackers automatically.
 - 自由度高，智能识别能力强
 
 ## 更新说明
+- 20201005 douban简介改为使用doubaninfo接口抓取，支持cookie。并修改了upload tools里面获取链接的bug。  
 - 20201005 修改了发布种子后做种可能失败的bug。发布合集后，如果发布失败不再重新制种种子。
 - 20201004 允许截图0张，重写了豆瓣info的抓取，变为直接从豆瓣网站抓取，允许cookie
 - 20200913 完成HHCLUB的适配
